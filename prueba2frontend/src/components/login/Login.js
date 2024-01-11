@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from "../../api/Api";
 import Cookies from "js-cookie";
 import "./Login.css";
-import login from "../../assets/img/login.jpeg";
+import userRegular from "../../assets/img/user-regular.svg";
 
 const apiUrl = '/auth/login'
 const Login = () => {
@@ -29,24 +29,23 @@ const Login = () => {
 
     return (
         <div className={"login-page"}>
-            <div className={"container-information-login"}>
-                <div className={"login-container"}>
+            <div className={"login-container"}>
+                <div className={"logo-login"}>
+                    <img src={userRegular} alt={"Logo Usuario"}/>
                     <h2>Login</h2>
-                    <label>
-                        Username:
-                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                    </label>
-                    <button onClick={handleLogin}>Login</button>
-                </div>
-                <div className={"img-login"}>
-                    <img src={login} alt={"Imagen Login"}/>
                 </div>
 
+                <label>
+                    Username:
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                </label>
+                <label>
+                    Password:
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                </label>
+                <button onClick={handleLogin}>Login</button>
             </div>
+
 
         </div>
     );
