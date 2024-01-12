@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Cookies from "js-cookie";
 import React, { useState, useEffect } from 'react';
 
@@ -18,15 +19,13 @@ const GetAll = () => {
           headers.Authorization = `Bearer ${authToken}`;
         }
 
-        const response = await fetch(apiURL, { headers });
+        const response = await axios.get(apiURL, { headers });
 
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
 
-        const responseData = await response.json();
-        setData(responseData);
-        console.log(responseData);
+        setData(response.data);
       } catch (error) {
         console.error('Request failed:', error.message);
         throw error;
@@ -37,14 +36,14 @@ const GetAll = () => {
   }, []); // Ejecuta la función al montar el componente
 
   return (
-    <div>
-      <h1>Mis Datos</h1>
-      <ul>
-        {data.map(item => (
-          <li key={item.idUsuario}>{item.primerNombre} - {item.primerApellido}- {item.id_tipo_docfk.nombreTipoDoc}-{item.username}-</li>
-        ))}
-      </ul>
-    </div>
+      <div>
+        <h1>Mis Datos</h1>
+        <ul>
+          {data.map(item => (
+              <li key={item.idUsuario}>{item.primerNombre} - {item.primerApellido}- {item.id_tipo_docfk.nombreTipoDoc}-{item.username}-</li>
+          ))}
+        </ul>
+      </div>
   );
 }
 
