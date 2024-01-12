@@ -55,7 +55,12 @@ const Login = () => {
             if (role === "Super Administrador"){
                 navigate('/superadmin');
             }
-
+            if(role === "Administrador"){
+                navigate('/admin');
+            }
+            if(role === "Empleado"){
+                navigate('/userregular');
+            }
 
             console.log('Role:', role);
             setErrorMessage('');
