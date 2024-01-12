@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from "js-cookie";
 import React, { useState, useEffect } from 'react';
+import Formulario from '../../components-reutilizables/formulario/formulario';
 
 const apiURL = '/api/user';
 
@@ -37,6 +38,8 @@ const GetAll = () => {
 
   return (
       <div>
+
+        <Formulario title={"Registrar DetalleServicio"}/> 
         <h1>Mis Datos</h1>
         <ul>
           {data.map(item => (
