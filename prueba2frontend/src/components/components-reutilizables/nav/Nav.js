@@ -8,7 +8,7 @@ const Nav = ({ items }) => {
     return (
         <nav>
             <div className={"title"}>
-                <h1>Accesorios de computadores</h1>
+                <h1>Ventas</h1>
             </div>
             <div className={"botones"}>
                 <ul>
