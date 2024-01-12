@@ -11,7 +11,7 @@ function App() {
           <Route path="/" element={<Login />} />
             <Route path="/admin" element={<AdministradorPage />} />
             <Route path="/superadmin" element={<SuperAdministradorPage />} />
-            <Route path="/userregular" element={<UsuarioRegularPage />} />
+            <Route path="/empleado" element={<UsuarioRegularPage />} />
 
         </Routes>
       </Router>

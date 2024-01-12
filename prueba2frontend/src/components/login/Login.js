@@ -59,7 +59,7 @@ const Login = () => {
                 navigate('/admin');
             }
             if(role === "Empleado"){
-                navigate('/userregular');
+                navigate('/empleado');
             }
 
             console.log('Role:', role);
