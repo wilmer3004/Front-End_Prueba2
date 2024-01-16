@@ -17,7 +17,7 @@ const schema = yup.object().shape({
     codigo: yup.string().min(6,'El codigo de verificacion debe de ser al menos de 6 caracteres').required('El codigo de verificacion es requerido')
 });
 
-const Formulario = ({ title }) => {
+const Formulario = ({ title,setTitle  }) => {
 
     const apiURLRol = '/api/rol';
     const apiURLTipoDoc = '/api/tipoDoc';
@@ -34,6 +34,8 @@ const Formulario = ({ title }) => {
     const [clientes, setClientes] = useState([]);
     const [servicios, setServicios] = useState([]);
     const [users, setUsers] = useState([]);
+
+    const [showForm, setShowForm] = useState(true);
 
     const [selectedCompaniaIds, setSelectedCompaniaIds] = useState([]); // Nuevo estado para almacenar IDs de compañías seleccionadas
 
@@ -102,20 +104,22 @@ const Formulario = ({ title }) => {
 
 
     const cancelar= ()=>{
-        document.querySelector(".global").style.display="none";
+        setTitle("");
         Swal.fire({
             title: "Se cancelo la acción",
             text: "Se cerro el formulario de creacion",
             icon: "error"
-          });
+        });
     }
 
+
     return (
+        showForm && (
         <div className="global">
                 <style>
                 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap')
-                </style> 
-                <div className="contenedor">        
+                </style>
+                <div className="contenedor">
                     <section className='contenido'>
                         <div className={"title"}>
                             <h1>{ title }</h1>
@@ -129,23 +133,23 @@ const Formulario = ({ title }) => {
                                     <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Segundo Nombre: 
+                                    Segundo Nombre:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Primer Apellido: 
+                                    Primer Apellido:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Segundo Apellido: 
+                                    Segundo Apellido:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Numero de documento: 
+                                    Numero de documento:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Tipo de documento: 
+                                    Tipo de documento:
                                     <select>
                                         {tipoDoc.map(doc=>(
                                             doc.estadoTipoDoc === true ? (
@@ -155,26 +159,26 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Telefono: 
+                                    Telefono:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Estado: 
+                                    Estado:
                                     <select>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Password: 
+                                    Password:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Username: 
+                                    Username:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Rol: 
+                                    Rol:
                                     <select>
                                         {tipoRol.map(rol=>(
                                             rol.estadoRol === true ? (
@@ -193,14 +197,14 @@ const Formulario = ({ title }) => {
                                     <input type='file' className="document" />
                                 </label>
                                 <label className="2">
-                                    Estado: 
+                                    Estado:
                                     <select>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Compania: 
+                                    Compania:
                                     <select>
                                         {compañia.map(compa=>(
                                             compa.estadoCompania === true ? (
@@ -219,14 +223,14 @@ const Formulario = ({ title }) => {
                                     <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Estado: 
+                                    Estado:
                                     <select>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
                             </>
-                        ): null} 
+                        ): null}
 
                         {title === "Registrar Cliente"? (
                             <>
@@ -235,23 +239,23 @@ const Formulario = ({ title }) => {
                                     <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Segundo Nombre: 
+                                    Segundo Nombre:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Primer Apellido: 
+                                    Primer Apellido:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Segundo Apellido: 
+                                    Segundo Apellido:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Numero de documento: 
+                                    Numero de documento:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Tipo de documento: 
+                                    Tipo de documento:
                                     <select>
                                         {tipoDoc.map(doc=>(
                                             doc.estadoTipoDoc === true ? (
@@ -261,22 +265,22 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Telefono: 
+                                    Telefono:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Estado: 
+                                    Estado:
                                     <select>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Correo: 
+                                    Correo:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
-                                    Ciudad: 
+                                    Ciudad:
                                     <select>
                                         {ciudad.map(ciudad => (
                                             ciudad.estadoCiudad === true ? (
@@ -295,18 +299,18 @@ const Formulario = ({ title }) => {
                                     <input type='date' placeholder='Fecha en la que contrato el servicio'/>
                                 </label>
                                 <label className="2">
-                                    Fecha Fin Servicio: 
+                                    Fecha Fin Servicio:
                                 <input type='date' />
                                 </label>
                                 <label className="2">
-                                    Estado Pago: 
+                                    Estado Pago:
                                     <select>
                                         <option value="1">Pendiente</option>
                                         <option value="1">Pagado</option>
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Cliente: 
+                                    Cliente:
                                     <select>
                                         {clientes.map(cliente=>(
                                             cliente.estadoCliente === true ? (
@@ -316,7 +320,7 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Servicio: 
+                                    Servicio:
                                     <select>
                                         {servicios.map(servicio=>(
                                             servicio.estadoServicio === true ? (
@@ -326,7 +330,7 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Estado: 
+                                    Estado:
                                     <select>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
@@ -342,18 +346,18 @@ const Formulario = ({ title }) => {
                                     <input type='date' placeholder='Fecha en la se le asigno la tarea al empleado'/>
                                 </label>
                                 <label className="2">
-                                    Fecha Fin Servicio: 
+                                    Fecha Fin Servicio:
                                 <input type='date' />
                                 </label>
                                 <label className="2">
-                                    Estado Pago: 
+                                    Estado Pago:
                                     <select>
                                         <option value="1">Pendiente</option>
                                         <option value="1">Pagado</option>
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Cliente: 
+                                    Cliente:
                                     <select>
                                         {clientes.map(cliente=>(
                                             cliente.estadoCliente === true ? (
@@ -363,7 +367,7 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Servicio: 
+                                    Servicio:
                                     <select>
                                         {servicios.map(servicio=>(
                                             servicio.estadoServicio === true ? (
@@ -373,7 +377,7 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Estado detalle: 
+                                    Estado detalle:
                                     <select>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
@@ -389,7 +393,7 @@ const Formulario = ({ title }) => {
                                     <input type='text' placeholder='Escribe el nombre de la compañia'/>
                                 </label>
                                 <label className="2">
-                                    NIT de la compañia: 
+                                    NIT de la compañia:
                                 <input type='number' placeholder='Digita el nit de la compañia'/>
                                 </label>
                                 <label className="1">
@@ -397,13 +401,13 @@ const Formulario = ({ title }) => {
                                     <input type='text' placeholder='Escribe el nombre del representante legal de la empresa'/>
                                 </label>
                                 <label className="2">
-                                    Estado Compañia: 
+                                    Estado Compañia:
                                     <select>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
-                                
+
                             </>
                         ) : null}
 
@@ -414,11 +418,11 @@ const Formulario = ({ title }) => {
                                     <input type='text' placeholder='Escribe una breve descripcion del proceso'/>
                                 </label>
                                 <label className="2">
-                                    Fecha del proceso: 
+                                    Fecha del proceso:
                                 <input type='date' />
                                 </label>
                                 <label className="2">
-                                    Cliente: 
+                                    Cliente:
                                     <select>
                                         {clientes.map(cliente=>(
                                             cliente.estadoCliente === true ? (
@@ -428,7 +432,7 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Empleado: 
+                                    Empleado:
                                     <select>
                                         {users.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol==='Empleado' ? (
@@ -438,13 +442,13 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Estado Proceso: 
+                                    Estado Proceso:
                                     <select>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
-                                
+
                             </>
                         ) : null}
 
@@ -456,11 +460,11 @@ const Formulario = ({ title }) => {
                                     {errors.codigo && <span className={"text-error-label"}>{errors.codigo.message}</span>}
                                 </label>
                                 <label className="2">
-                                    Fecha de envio del codigo: 
+                                    Fecha de envio del codigo:
                                 <input type='date' />
                                 </label>
                                 <label className="2">
-                                    Compañia: 
+                                    Compañia:
                                     <select>
                                         {compañia.map(compa=>(
                                             compa.estadoCompania === true ? (
@@ -470,7 +474,7 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Administrador: 
+                                    Administrador:
                                     <select>
                                         {users.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol!=='Empleado'  ? (
@@ -480,13 +484,13 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Estado Proceso: 
+                                    Estado Proceso:
                                     <select>
                                         <option value="1">Enviado</option>
                                         <option value="1">Pendiente</option>
                                     </select>
                                 </label>
-                                
+
                             </>
                         ) : null}
 
@@ -498,11 +502,11 @@ const Formulario = ({ title }) => {
                                     <input type='text' placeholder='Escribe el nombre del servicio'/>
                                 </label>
                                 <label className="2">
-                                    Valor del servicio: 
+                                    Valor del servicio:
                                 <input type='double' />
                                 </label>
                                 <label className="2">
-                                    Compañia: 
+                                    Compañia:
                                     <select  onChange={handleCompaniaChange}>
                                         {compañia.map(compa=>(
                                             compa.estadoCompania === true ? (
@@ -512,27 +516,27 @@ const Formulario = ({ title }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Estado Servicio: 
+                                    Estado Servicio:
                                     <select>
                                         <option  value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
-                                
+
                             </>
                         ) : null}
-                        
-                        
+
+
                         <div className={"botones"}>
                             <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                            <button type="submit" className="btn btn-registrar" >{title}</button> 
+                            <button type="submit" className="btn btn-registrar" >{title}</button>
                         </div>
                         </form>
-                        
-                    
+
+
                     </section>
-                </div>   
-        </div>
+                </div>
+        </div>)
     );
 };
 

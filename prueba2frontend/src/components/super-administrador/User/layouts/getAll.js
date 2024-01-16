@@ -57,7 +57,6 @@ const GetAll = () => {
       <div>
         <Table title={"Usuarios"} nameColumnsK={nameColumnsKeys} nameColumnsD={nameColumnsDisplay} items={data} />
 
-        <Formulario title={"Registrar DetalleServicio"}/>
 
         <button onClick={() => abrirForm("Registrar Proceso Compañia")}>Registrar Proceso Compañia</button>
         <button onClick={() => abrirForm("Registrar Usuario")}>Registrar Usuario</button>
@@ -65,17 +64,17 @@ const GetAll = () => {
         
         {titlee === "Registrar Proceso Compañia" ? (
           <>
-          <Formulario title={titlee}/> 
+              <Formulario title={titlee} setTitle={settitlee} />
           </>
         ): null}
         {titlee === "Registrar Usuario" ? (
           <>
-          <Formulario title={titlee}/> 
+              <Formulario title={titlee} setTitle={settitlee} />
           </>
         ): null}
         {titlee === "Registrar Documento" ? (
           <>
-          <Formulario title={titlee}/> 
+              <Formulario title={titlee} setTitle={settitlee} />
           </>
         ): null}
         
