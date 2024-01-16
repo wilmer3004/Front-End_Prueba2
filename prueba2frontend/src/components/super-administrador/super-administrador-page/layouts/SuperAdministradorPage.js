@@ -1,3 +1,4 @@
+
 // SuperAdministradorPage.js
 import React, {useState} from "react";
 import AuthData from "../../../../api/Auth";
@@ -60,4 +61,6 @@ const SuperAdministradorPage = () => {
     );
 };
 
+
 export default SuperAdministradorPage;
+
