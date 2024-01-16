@@ -7,7 +7,7 @@ const apiURL = '/api/user';
 const useDataService = () => {
     const [data, setData] = useState([]);
 
-    const fetchData = async () => {
+    const fetchData = async () => { 
         try {
             const authToken = Cookies.get('authToken');
             const headers = {
