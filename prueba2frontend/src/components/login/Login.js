@@ -25,6 +25,11 @@ const Login = () => {
     const navigate = useNavigate();
 
 
+    React.useEffect(()=>{
+            Cookies.remove('authToken')
+    }
+    )
+
     const { register, handleSubmit, formState:{ errors }, trigger } = useForm({
         resolver: yupResolver(schema),
         mode: 'onSubmit' // Esto asegura que la validación se realice solo cuando se envíe el formulario

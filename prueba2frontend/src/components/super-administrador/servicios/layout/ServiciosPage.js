@@ -12,8 +12,7 @@ const ServiciosPage = ()=>{
 
 
 
-    const dataNav = [
-        {item:"Inicio",path:""}];
+
     const nameColumnsDisplay =["ID Servicio","Nombre Servicio","Estado Servicio"];
     const nameColumnsKeys = ["idServicio","nombreServicio","estadoServicio"];
 
@@ -21,7 +20,6 @@ const ServiciosPage = ()=>{
 
 
     return<div>
-        <Nav items={dataNav}/>
         <Table title={"Servicios"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={data}/>
     </div>
 

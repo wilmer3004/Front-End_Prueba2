@@ -12,10 +12,19 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
             <Route path="/admin" element={<AdministradorPage />} />
-            <Route path="/superadmin" element={<SuperAdministradorPage />} />
+            <Route
+                path="/superadmin"
+                element={
+                    <SuperAdministradorPage>
+                        <Routes>
+                            <Route path="/getalluser" element={<GetAll />} />
+                            <Route path="/servicios" element={<ServiciosPage/>}/>
+                        </Routes>
+                    </SuperAdministradorPage>
+                }
+            />
             <Route path="/empleado" element={<UsuarioRegularPage />} />
-            <Route path="/getalluser" element={<GetAll />} />
-            <Route path="/servicios" element={<ServiciosPage/>}/>
+
         </Routes>
       </Router>
   );
