@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import Nav from "../../../components-reutilizables/nav/Nav";
 import Table from "../../../components-reutilizables/table/Table";
 import useDataService from "../DataUSerService";
@@ -6,11 +6,16 @@ import Formulario from '../../../components-reutilizables/formulario/formulario'
 
 const GetAll = () => {
   const { data, fetchData } = useDataService();
+  const [titlee, settitlee] = useState('');
 
   const handleRefreshData = () => {
     // Llama a fetchData para actualizar los datos
     fetchData();
   };
+
+  const abrirForm=(title)=>{
+      settitlee(title);
+  }
 
   console.log(data);
 
@@ -26,7 +31,26 @@ const GetAll = () => {
         <h1>Mis Datos</h1>
         <button onClick={handleRefreshData}>Actualizar Datos</button>
         <Table title={"Usuarios"} nameColumnsK={nameColumnsKeys} nameColumnsD={nameColumnsDisplay} items={data} />
-        <Formulario title={"Registrar DetalleServicio"}/> 
+        <button onClick={() => abrirForm("Registrar Proceso Compañia")}>Registrar Proceso Compañia</button>
+        <button onClick={() => abrirForm("Registrar Usuario")}>Registrar Usuario</button>
+        <button onClick={() => abrirForm("Registrar Documento")}>Registrar Documento</button>
+        
+        {titlee === "Registrar Proceso Compañia" ? (
+          <>
+          <Formulario title={titlee}/> 
+          </>
+        ): null}
+        {titlee === "Registrar Usuario" ? (
+          <>
+          <Formulario title={titlee}/> 
+          </>
+        ): null}
+        {titlee === "Registrar Documento" ? (
+          <>
+          <Formulario title={titlee}/> 
+          </>
+        ): null}
+        
 
       </div>
   );
