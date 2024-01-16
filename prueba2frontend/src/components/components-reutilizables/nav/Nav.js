@@ -1,10 +1,13 @@
 // Nav.js
-
 import React from 'react';
 import "./Nav.css"
 import { Link } from 'react-router-dom';
 
-const Nav = ({ items }) => {
+const Nav = ({items},{path}) => {
+    const handleGoBack = () => {
+        window.history.back();
+    };
+
     return (
         <nav>
             <div className={"title"}>
@@ -14,13 +17,16 @@ const Nav = ({ items }) => {
                 <ul>
                     {items.map((item, index) => (
                         <li key={index}>
-                            <Link to={`/${item.toLowerCase()}`} className={"data-button"}>
+                            <Link to={`/${item.path.toLowerCase()}`} className={"data-button"}>
                                 <button>
-                                    {item}
+                                    {item.item}
                                 </button>
                             </Link>
                         </li>
                     ))}
+                    <li>
+                        <button onClick={handleGoBack}>Atrás</button>
+                    </li>
                 </ul>
             </div>
         </nav>
