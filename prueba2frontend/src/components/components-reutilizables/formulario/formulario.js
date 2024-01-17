@@ -11,10 +11,46 @@ import { useForm } from 'react-hook-form';
 
 
 const schema = yup.object().shape({
-    username: yup.string().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'Debe ser un correo electrónico válido')
-        .required('El correo electrónico es requerido'),
+
+    //Users
+    pNombre: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
+    pApellido: yup.string().min(4, 'El primer apellido debe tener al menos 4 caracteres').required('Este campo es requerido'),
+    numDoc: yup.string().min(7,'El numero de documento debe de tener al menos 7 digitos').required('Este campo es requerido'),
+    telefono: yup.string().min(7,'El numero de telefono debe de tener al menos 7 digitos').required('Este campo es requerido'),
+    username: yup.string().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'Debe ser un correo electrónico válido').required('El correo electrónico es requerido'),
     password: yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('La contraseña es requerida'),
-    codigo: yup.string().min(6,'El codigo de verificacion debe de ser al menos de 6 caracteres').required('El codigo de verificacion es requerido')
+    
+    //Accion
+    nombreAccion: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
+
+    //Cliente
+    pNombreCli: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
+    pApellidoCli: yup.string().min(4, 'El primer apellido debe tener al menos 4 caracteres').required('Este campo es requerido'),
+    numDocCli: yup.string().min(7,'El numero de documento debe de tener al menos 7 digitos').required('Este campo es requerido'),
+    telefonoCli: yup.string().min(7,'El numero de telefono debe de tener al menos 7 digitos').required('Este campo es requerido'),
+    usernameCli: yup.string().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'Debe ser un correo electrónico válido').required('El correo electrónico es requerido'),
+
+    //Detalle Servicio
+
+
+    //Detalle Tarea
+
+
+    //Compañia
+    nombreComp: yup.string().min(2, 'El nombre de la compañia debe tener al menos 2 caracteres').required('Este campo es requerido'),
+    NIT: yup.string().min(9,'El NIT debe de ser al menos de 9 caracteres').required('El NIT es requerido'),
+    nombreRepre: yup.string().min(14, 'El nombre completo debe tener al menos 14 caracteres').required('Este campo es requerido'),
+
+    //Proceso Cliente
+    descripPro:yup.string().min(20, 'La descripcion debe tener al menos 20 caracteres').required('Este campo es requerido'),
+
+    // Registrar Proceso Compañia
+    codVer: yup.string().min(6,'El codigo de verificacion debe de ser al menos de 6 caracteres').required('El codigo de verificacion es requerido'),
+    fechaNacimiento: yup.date().required('La fecha de nacimiento es requerida'),
+
+    //Servicio
+    nombreSer: yup.string().min(2,'El nombre del servicio debe ser al menos de 2 caracteres').required('Este campo es requerido'),
+    precioSer: yup.string().required('Este campo es requerido')
 });
 
 const Formulario = ({ title,setTitle  }) => {
@@ -44,12 +80,42 @@ const Formulario = ({ title,setTitle  }) => {
         mode: 'onSubmit' // Esto asegura que la validación se realice solo cuando se envíe el formulario
     });
 
-    const [errorMessage, setErrorMessage] = useState('');
-
     const onSubmit = async(data)=>{
-        const isValid = await trigger();
-        if(!isValid){
-            return;
+        console.log(data);
+        try{
+            console.log(data);
+            if(title=== "Registrar Usuario"){
+                const authTokenn = Cookies.get('authToken');
+                let headers={
+                    'Authorization': `Bearer ${authTokenn}`
+                };
+
+                switch (title) {
+                    case "Registrar Usuario":
+                      const responseUser = await axios.post(apiURLUser, data, { headers });
+                      if(responseUser.status===200){
+                        setTitle("");
+                        Swal.fire({
+                            title: "Se registro correctamente",
+                            text: "El usuario se registro correctamente en la base de datos ",
+                            icon: "success"
+                        });
+                      }
+                      break;
+                    case "Registrar Documento":
+                      const responseDocument = await axios.post('/api/document', data, { headers });
+                      break;
+                    case "Registrar Accion":
+                      const responseAction = await axios.post('/api/action', data, { headers });
+                      break;
+                    default:
+                        // código para manejar cualquier otro valor de título
+                    break;
+                }
+            }
+        } catch(error) {
+            console.error('Request failed:', error.message);
+            throw error;
         }
     }
 
@@ -125,32 +191,39 @@ const Formulario = ({ title,setTitle  }) => {
                             <h1>{ title }</h1>
                         </div>
 
-                        <form onSubmit={handleSubmit(onSubmit)}>
                         {title === "Registrar Usuario"? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Primer Nombre:
-                                    <input type='text' />
+                                    <input type='text' {...register("pNombre")}/>
+                                    {errors.pNombre && <span className={"text-error-label"}>{errors.pNombre.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Segundo Nombre:
                                 <input type='text' />
+                                
                                 </label>
                                 <label className="2">
                                     Primer Apellido:
-                                <input type='text' />
+                                <input type='text' {...register("pApellido")}/>
+                                {errors.pApellido && <span className={"text-error-label"}>{errors.pApellido.message}</span>}
+
                                 </label>
-                                <label className="2">
+                                <label className="2" >
                                     Segundo Apellido:
                                 <input type='text' />
                                 </label>
                                 <label className="2">
                                     Numero de documento:
-                                <input type='text' />
+                                <input type='text' {...register('numDoc')}/>
+                                {errors.numDoc && <span className={"text-error-label"}>{errors.numDoc.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Tipo de documento:
-                                    <select>
+                                    <select {...register('tipoDocumento')}>
                                         {tipoDoc.map(doc=>(
                                             doc.estadoTipoDoc === true ? (
                                             <option value={doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
@@ -160,7 +233,8 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Telefono:
-                                <input type='text' />
+                                <input type='text' {...register("telefono")}/>
+                                {errors.telefono && <span className={"text-error-label"}>{errors.telefono.message}</span>}
                                 </label>
                                 <label className="2">
                                     Estado:
@@ -171,11 +245,13 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Password:
-                                <input type='text' />
+                                <input type='text' {...register("password")}/>
+                                {errors.password && <span className={"text-error-label"}>{errors.password.message}</span>}
                                 </label>
                                 <label className="2">
                                     Username:
-                                <input type='text' />
+                                <input type='text' {...register("username")}/>
+                                {errors.username && <span className={"text-error-label"}>{errors.username.message}</span>}
                                 </label>
                                 <label className="2">
                                     Rol:
@@ -187,11 +263,18 @@ const Formulario = ({ title,setTitle  }) => {
                                         ))}
                                     </select>
                                 </label>
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
+
                             </>
                         ) : null}
 
                         {title === "Registrar Documento" ? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label>
                                     Documento:
                                     <input type='file' className="document" />
@@ -213,14 +296,22 @@ const Formulario = ({ title,setTitle  }) => {
                                         ))}
                                     </select>
                                 </label>
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ): null}
 
                         {title === "Registrar Accion" ? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Nombre Accion:
-                                    <input type='text' />
+                                    <input type='text' {...register("nombreAccion")}/>
+                                {errors.nombreAccion && <span className={"text-error-label"}>{errors.nombreAccion.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Estado:
@@ -229,30 +320,42 @@ const Formulario = ({ title,setTitle  }) => {
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ): null}
 
                         {title === "Registrar Cliente"? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Primer Nombre:
-                                    <input type='text' />
+                                <input type='text'{...register("pNombreCli")} />
+                                {errors.pNombreCli && <span className={"text-error-label"}>{errors.pNombreCli.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Segundo Nombre:
-                                <input type='text' />
+                                <input type='text'/>
                                 </label>
                                 <label className="2">
                                     Primer Apellido:
-                                <input type='text' />
+                                <input type='text' {...register("pApellidoCli")}/>
+                                {errors.pApellidoCli && <span className={"text-error-label"}>{errors.pApellidoCli.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Segundo Apellido:
-                                <input type='text' />
+                                <input type='text'/>
                                 </label>
                                 <label className="2">
                                     Numero de documento:
-                                <input type='text' />
+                                <input type='text' {...register("numDocCli")}/>
+                                {errors.numDocCli && <span className={"text-error-label"}>{errors.numDocCli.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Tipo de documento:
@@ -266,7 +369,9 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Telefono:
-                                <input type='text' />
+                                <input type='text' {...register("telefonoCli")}/>
+                                {errors.telefonoCli && <span className={"text-error-label"}>{errors.telefonoCli.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Estado:
@@ -277,23 +382,31 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Correo:
-                                <input type='text' />
+                                <input type='text' {...register("usernameCli")}/>
+                                {errors.usernameCli && <span className={"text-error-label"}>{errors.usernameCli.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Ciudad:
                                     <select>
                                         {ciudad.map(ciudad => (
                                             ciudad.estadoCiudad === true ? (
-                                                <option key={ciudad.idCiudad} value={ciudad.idCiudad}>{ciudad.nombreCiudad}</option>
+                                                <option value={ciudad.idCiudad}>{ciudad.nombreCiudad}</option>
                                             ) : null
                                         ))}
                                     </select>
                                 </label>
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ) : null}
 
                         {title === "Registrar DetalleServicio"? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Fecha Inicio Servicio:
                                     <input type='date' placeholder='Fecha en la que contrato el servicio'/>
@@ -336,11 +449,17 @@ const Formulario = ({ title,setTitle  }) => {
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ) : null}
 
                         {title === "Registrar DetalleTarea"? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Fecha Asignacion Tarea:
                                     <input type='date' placeholder='Fecha en la se le asigno la tarea al empleado'/>
@@ -383,22 +502,34 @@ const Formulario = ({ title,setTitle  }) => {
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ) : null}
 
                         {title === "Registrar Compañia"? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Nombre de la compañia:
-                                    <input type='text' placeholder='Escribe el nombre de la compañia'/>
+                                <input type='text' placeholder='Escribe el nombre de la compañia' {...register("nombreComp")}/>
+                                {errors.nombreComp && <span className={"text-error-label"}>{errors.nombreComp.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     NIT de la compañia:
-                                <input type='number' placeholder='Digita el nit de la compañia'/>
+                            <input type='number' placeholder='Digita el nit de la compañia' {...register("NIT")}/>
+                                {errors.NIT && <span className={"text-error-label"}>{errors.NIT.message}</span>}
+
                                 </label>
                                 <label className="1">
                                     Representante legar:
-                                    <input type='text' placeholder='Escribe el nombre del representante legal de la empresa'/>
+                                <input type='text' placeholder='Escribe el nombre completo del representante legal de la empresa' {...register("nombreRepre")}/>
+                                {errors.nombreRepre && <span className={"text-error-label"}>{errors.nombreRepre.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Estado Compañia:
@@ -407,15 +538,22 @@ const Formulario = ({ title,setTitle  }) => {
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
-
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ) : null}
 
                         {title === "Registrar Proceso Cliente"? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Descripcion del proceso:
-                                    <input type='text' placeholder='Escribe una breve descripcion del proceso'/>
+                                <input type='text' placeholder='Escribe una breve descripcion del proceso' {...register("descripPro")}/>
+                                {errors.descripPro && <span className={"text-error-label"}>{errors.descripPro.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Fecha del proceso:
@@ -448,20 +586,27 @@ const Formulario = ({ title,setTitle  }) => {
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
-
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ) : null}
 
                         {title === "Registrar Proceso Compañia"? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Codigo de Aprobacion:
-                                    <input type='number' placeholder='Digita el codigo el cual se enviara' {...register("codigo")}/>
-                                    {errors.codigo && <span className={"text-error-label"}>{errors.codigo.message}</span>}
+                                    <input type='number' placeholder='Digita el codigo el cual se enviara' {...register("codVer")}/>
+                                    {errors.codVer && <span className={"text-error-label"}>{errors.codVer.message}</span>}
                                 </label>
                                 <label className="2">
                                     Fecha de envio del codigo:
-                                <input type='date' />
+                                <input type='date' {...register("fechaPC")}/>
+                                {errors.fechaPC && <span className={"text-error-label"}>{errors.fechaPC.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Compañia:
@@ -490,20 +635,29 @@ const Formulario = ({ title,setTitle  }) => {
                                         <option value="1">Pendiente</option>
                                     </select>
                                 </label>
-
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ) : null}
 
             {/* pendiente */}
                         {title === "Registrar Servicio"? (
                             <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Nombre del Servicio:
-                                    <input type='text' placeholder='Escribe el nombre del servicio'/>
+                                    <input type='text' placeholder='Escribe el nombre del servicio' {...register("nombreSer")}/>
+                                    {errors.nombreSer && <span className={"text-error-label"}>{errors.nombreSer.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Valor del servicio:
-                                <input type='double' />
+                                <input type='double' {...register("precioSer")}/>
+                                {errors.precioSer && <span className={"text-error-label"}>{errors.precioSer.message}</span>}
+
                                 </label>
                                 <label className="2">
                                     Compañia:
@@ -522,17 +676,16 @@ const Formulario = ({ title,setTitle  }) => {
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
-
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
                             </>
                         ) : null}
 
 
-                        <div className={"botones"}>
-                            <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                            <button type="submit" className="btn btn-registrar" >{title}</button>
-                        </div>
-                        </form>
-
+                        
 
                     </section>
                 </div>
