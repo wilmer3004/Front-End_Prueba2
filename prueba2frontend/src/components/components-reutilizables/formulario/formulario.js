@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 // Esquemas o estructura de datos por formulario
 
 // Esquema Usuario
-const schema2= yup.object().shape({
+const schemaUsers= yup.object().shape({
     pNombre: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
     pApellido: yup.string().min(4, 'El primer apellido debe tener al menos 4 caracteres').required('Este campo es requerido'),
     numDoc: yup.string().min(7,'El numero de documento debe de tener al menos 7 digitos').required('Este campo es requerido'),
@@ -25,34 +25,53 @@ const schema2= yup.object().shape({
     rol:yup.number(),
     estadoUsuario:yup.number(),
     tipoDocumento:yup.number()
-})
+});
 
-const schema1 = yup.object().shape({
+const schemaDocument= yup.object().shape({
+    document: yup.mixed(),
+    estadoDocumento: yup.number(),
+    numCompaniaDoc: yup.number(),
+});
 
-    //Users
-    pNombre: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
-    pApellido: yup.string().min(4, 'El primer apellido debe tener al menos 4 caracteres').required('Este campo es requerido'),
-    numDoc: yup.string().min(7,'El numero de documento debe de tener al menos 7 digitos').required('Este campo es requerido'),
-    telefono: yup.string().min(7,'El numero de telefono debe de tener al menos 7 digitos').required('Este campo es requerido'),
-    username: yup.string().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'Debe ser un correo electrónico válido').required('El correo electrónico es requerido'),
-    password: yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('La contraseña es requerida'),
-
-    //Accion
+const schemaAccion= yup.object().shape({
     nombreAccion: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
+    estadoAccion: yup.number(),
+    numCompaniaDoc: yup.number(),
+});
 
-    //Cliente
+const schemaCliente= yup.object().shape({
     pNombreCli: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
+    sNombreCli: yup.string(),
     pApellidoCli: yup.string().min(4, 'El primer apellido debe tener al menos 4 caracteres').required('Este campo es requerido'),
+    sApellidoCli: yup.string(),
+    TipoDocCli: yup.number(),
+    estadoCli: yup.number(),
+    ciudadCli: yup.number(),
     numDocCli: yup.string().min(7,'El numero de documento debe de tener al menos 7 digitos').required('Este campo es requerido'),
     telefonoCli: yup.string().min(7,'El numero de telefono debe de tener al menos 7 digitos').required('Este campo es requerido'),
     usernameCli: yup.string().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'Debe ser un correo electrónico válido').required('El correo electrónico es requerido'),
+});
 
-    //Detalle Servicio
+const schemaDetalleSer= yup.object().shape({
+    fechaIniDetalleSer: yup.date(),
+    fechaFinDetalleSer: yup.date(),
+    estadoPagoDetSer: yup.number(),
+    clienteDetSer: yup.number(),
+    servicioDetSer: yup.number(),
+    estadoDetSer: yup.number(),
+});
+
+const schemaDetalleTar= yup.object().shape({
+    fechaAsigDetTa: yup.date(),
+    fechaFinDetTa: yup.date(),
+    estadoDetTar: yup.number(),
+    clienteDetTar: yup.number(),
+    tareaDetTar: yup.number(),
+    estadoDetaTarea: yup.number(),
+});
 
 
-    //Detalle Tarea
-
-
+const schema1 = yup.object().shape({
     //Compañia
     nombreComp: yup.string().min(2, 'El nombre de la compañia debe tener al menos 2 caracteres').required('Este campo es requerido'),
     NIT: yup.string().min(9,'El NIT debe de ser al menos de 9 caracteres').required('El NIT es requerido'),
@@ -87,6 +106,7 @@ const Formulario = ({ title,setTitle  }) => {
     const apiURLCliente = '/api/cliente';
     const apiURLServicio = '/api/servicio';
     const apiURLUser = '/api/user';
+    const apiURLTareas = '/api/tarea';
 
     // -----------------------------------------------------------------------
     // hooks
@@ -97,6 +117,7 @@ const Formulario = ({ title,setTitle  }) => {
     const [clientes, setClientes] = useState([]);
     const [servicios, setServicios] = useState([]);
     const [users, setUsers] = useState([]);
+    const [tareas, setTareas] = useState([]);
 
     const [showForm, setShowForm] = useState(true);
 
@@ -175,6 +196,7 @@ const Formulario = ({ title,setTitle  }) => {
           const responseClientes = await axios.get(apiURLCliente, { headers });
           const responseServicios = await axios.get(apiURLServicio, { headers });
           const responseUsers = await axios.get(apiURLUser, { headers });
+          const responseTareas = await axios.get(apiURLTareas, { headers });
   
           if (responseRol.status !== 200 && responseTipoDoc.status !== 200 && responseCompañia !== 200 && responseCiudad !== 200 && responseClientes !== 200 && responseServicios !== 200 && responseUsers !== 200) {
             throw new Error(`Request failed with status: ${responseRol.status} ${responseTipoDoc.status} ${responseCompañia.status} ${responseCiudad.status} ${responseClientes.status} ${responseServicios.status} ${responseUsers.status}`);
@@ -188,6 +210,7 @@ const Formulario = ({ title,setTitle  }) => {
           setClientes(responseClientes.data)
           setServicios(responseServicios.data)
           setUsers(responseUsers.data)
+          setTareas(responseTareas.data)
         } catch (error) {
           console.error('Request failed:', error.message);
           throw error;
@@ -222,8 +245,20 @@ const Formulario = ({ title,setTitle  }) => {
     // Validacion para esquemas
     useEffect(() => {
         if (title === "Registrar Usuario") {
-            setSchema(schema2);
+            setSchema(schemaUsers);
+        } else if(title === "Registrar Documento"){
+            setSchema(schemaDocument);
+        } else if(title === "Registrar Accion"){
+            setSchema(schemaAccion);
+        } else if(title === "Registrar Cliente"){
+            setSchema(schemaCliente);
+        } else if(title === "Registrar DetalleServicio"){
+            setSchema(schemaDetalleSer);
+        } else if(title === "Registrar DetalleTarea"){
+            setSchema(schemaDetalleTar);
         }
+
+
 
     }, [title]);
 
@@ -332,18 +367,18 @@ const Formulario = ({ title,setTitle  }) => {
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <label>
                                     Documento:
-                                    <input type='file' className="document" />
+                                    <input type='file' className="document" {...register("document")}/>
                                 </label>
                                 <label className="2">
                                     Estado:
-                                    <select>
+                                    <select {...register("estadoDocumento")}>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
                                 </label>
                                 <label className="2">
                                     Compania:
-                                    <select>
+                                    <select {...register("numCompaniaDoc")}>
                                         {compañia.map(compa=>(
                                             compa.estadoCompania === true ? (
                                             <option value={compa.idCompania}>{compa.nombreCompania}</option>
@@ -370,7 +405,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Estado:
-                                    <select>
+                                    <select {...register("estadoAccion")}>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
@@ -394,7 +429,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Segundo Nombre:
-                                <input type='text'/>
+                                <input type='text' {...register("sNombreCli")}/>
                                 </label>
                                 <label className="2">
                                     Primer Apellido:
@@ -404,7 +439,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Segundo Apellido:
-                                <input type='text'/>
+                                <input type='text' {...register("sApellidoCli")}/>
                                 </label>
                                 <label className="2">
                                     Numero de documento:
@@ -414,7 +449,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Tipo de documento:
-                                    <select>
+                                    <select {...register("TipoDocCli")}>
                                         {tipoDoc.map(doc=>(
                                             doc.estadoTipoDoc === true ? (
                                             <option value={doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
@@ -430,7 +465,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Estado:
-                                    <select>
+                                    <select {...register("estadoCli")}>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
@@ -443,7 +478,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Ciudad:
-                                    <select>
+                                    <select {...register("ciudadCli")}>
                                         {ciudad.map(ciudad => (
                                             ciudad.estadoCiudad === true ? (
                                                 <option value={ciudad.idCiudad}>{ciudad.nombreCiudad}</option>
@@ -464,22 +499,22 @@ const Formulario = ({ title,setTitle  }) => {
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Fecha Inicio Servicio:
-                                    <input type='date' placeholder='Fecha en la que contrato el servicio'/>
+                                    <input type='date' placeholder='Fecha en la que contrato el servicio' {...register("fechaIniDetalleSer")}/>
                                 </label>
                                 <label className="2">
                                     Fecha Fin Servicio:
-                                <input type='date' />
+                                <input type='date' {...register("fechaFinDetalleSer")}/>
                                 </label>
                                 <label className="2">
                                     Estado Pago:
-                                    <select>
+                                    <select {...register("estadoPagoDetSer")}>
                                         <option value="1">Pendiente</option>
                                         <option value="1">Pagado</option>
                                     </select>
                                 </label>
                                 <label className="2">
                                     Cliente:
-                                    <select>
+                                    <select {...register("clienteDetSer")}>
                                         {clientes.map(cliente=>(
                                             cliente.estadoCliente === true ? (
                                             <option value={cliente.idCliente}>{cliente.pnombreCliente} {cliente.papellidoCliente} -- {cliente.numIdentCliente}</option>
@@ -489,7 +524,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Servicio:
-                                    <select>
+                                    <select {...register("servicioDetSer")}>
                                         {servicios.map(servicio=>(
                                             servicio.estadoServicio === true ? (
                                             <option value={servicio.idServicio}>{servicio.nombreServicio} -- {servicio.valorServicio}</option>
@@ -499,7 +534,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Estado:
-                                    <select>
+                                    <select {...register("estadoDetSer")}>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
@@ -517,22 +552,22 @@ const Formulario = ({ title,setTitle  }) => {
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Fecha Asignacion Tarea:
-                                    <input type='date' placeholder='Fecha en la se le asigno la tarea al empleado'/>
+                                    <input type='date' placeholder='Fecha en la se le asigno la tarea al empleado' {...register("fechaAsigDetTa")}/>
                                 </label>
                                 <label className="2">
-                                    Fecha Fin Servicio:
-                                <input type='date' />
+                                    Fecha Fin Tarea:
+                                <input type='date' {...register("fechaFinDetTa")}/>
                                 </label>
                                 <label className="2">
-                                    Estado Pago:
-                                    <select>
+                                    Estado Tarea:
+                                    <select {...register("estadoDetTar")}>
                                         <option value="1">Pendiente</option>
-                                        <option value="1">Pagado</option>
+                                        <option value="2">Finalizada</option>
                                     </select>
                                 </label>
                                 <label className="2">
                                     Cliente:
-                                    <select>
+                                    <select {...register("clienteDetTar")}>
                                         {clientes.map(cliente=>(
                                             cliente.estadoCliente === true ? (
                                             <option value={cliente.idCliente}>{cliente.pnombreCliente} {cliente.papellidoCliente} -- {cliente.numIdentCliente}</option>
@@ -541,18 +576,18 @@ const Formulario = ({ title,setTitle  }) => {
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Servicio:
-                                    <select>
-                                        {servicios.map(servicio=>(
-                                            servicio.estadoServicio === true ? (
-                                            <option value={servicio.idServicio}>{servicio.nombreServicio} -- {servicio.valorServicio}</option>
+                                    Tarea:
+                                    <select {...register("tareaDetTar")}>
+                                        {tareas.map(tarea=>(
+                                            tarea.estadoServicio === true ? (
+                                            <option value={tarea.idTarea}>{tarea.nombreTarea}</option>
                                             ) : null
                                         ))}
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Estado detalle:
-                                    <select>
+                                    Estado detalle Tarea:
+                                    <select {...register("estadoDetTar")}>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
