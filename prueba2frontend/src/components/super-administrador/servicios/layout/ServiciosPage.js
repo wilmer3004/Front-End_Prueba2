@@ -8,8 +8,11 @@ const apiURL = "/api/servicio"
 
 
 const ServiciosPage = ()=>{
-    const { data, fetchData } = useServicioDataService();
+    const { data, fetchData,updateState } = useServicioDataService();
 
+    const handleState= (id)=>{
+        updateState(id)
+    }
 
 
 
@@ -20,7 +23,7 @@ const ServiciosPage = ()=>{
 
 
     return<div>
-        <Table title={"Servicios"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={data}/>
+        <Table title={"Servicios"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={data} handleState={handleState}/>
     </div>
 
 

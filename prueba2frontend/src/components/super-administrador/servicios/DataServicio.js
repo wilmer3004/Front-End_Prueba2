@@ -26,13 +26,31 @@ const useServicioDataService = () => {
             throw error;
         }
     };
+    const updateState = async (id) => {
+        try {
+            const authToken = Cookies.get('authToken');
+            const headers = {
+                'Authorization': `Bearer ${authToken}`
+            };
+
+            const response = await axios.delete(`${apiURL}/${id}`, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+            fetchData();
+        } catch (error) {
+            console.error('Request failed:', error.message);
+            throw error;
+        }
+    };
 
 
     useEffect(() => {
         fetchData();
     }, []);
 
-    return { data, fetchData };
+    return { data, fetchData,updateState };
 };
 
 export default useServicioDataService;

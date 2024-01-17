@@ -10,7 +10,7 @@ import Formulario from '../../../components-reutilizables/formulario/formulario'
 
 
 const GetAll = () => {
-  const { data, fetchData } = useDataService();
+  const { data, fetchData,updateState } = useDataService();
   const [titlee, settitlee] = useState('');
 
 
@@ -40,7 +40,9 @@ const GetAll = () => {
         }
 
     }, []);
-
+    const handleState=(id)=>{
+        updateState(id)
+    }
 
 
 
@@ -48,19 +50,19 @@ const GetAll = () => {
       settitlee(title);
   }
 
-  console.log(data);
+
 
   const nameColumnsDisplay = ['ID Usuario', 'Correo Electrónico', 'Primer Nombre', 'Segundo Nombre', 'Primer Apellido', 'Segundo Apellido', 'Número de Documento', 'Teléfono', 'Estado Usuario', 'Rol', 'Tipo de Documento'];
   const nameColumnsKeys = ["idUsuario", "username", "primerNombre", "segundoNombre", "primerApellido", "segundoApellido", "numDocUsu", "telefono", "estadoUsu", "id_rolfk", "id_tipo_docfk"];
 
   return (
       <div>
-        <Table title={"Usuarios"} nameColumnsK={nameColumnsKeys} nameColumnsD={nameColumnsDisplay} items={data} />
+        <Table title={"Usuarios"} nameColumnsK={nameColumnsKeys} nameColumnsD={nameColumnsDisplay} items={data} handleState={handleState}/>
 
 
-        <button onClick={() => abrirForm("Registrar Proceso Compañia")}>Registrar Proceso Compañia</button>
+        {/*<button onClick={() => abrirForm("Registrar Proceso Compañia")}>Registrar Proceso Compañia</button>*/}
         <button onClick={() => abrirForm("Registrar Usuario")}>Registrar Usuario</button>
-        <button onClick={() => abrirForm("Registrar Documento")}>Registrar Documento</button>
+        {/*<button onClick={() => abrirForm("Registrar Documento")}>Registrar Documento</button>*/}
         
         {titlee === "Registrar Proceso Compañia" ? (
           <>
@@ -72,11 +74,11 @@ const GetAll = () => {
               <Formulario title={titlee} setTitle={settitlee} />
           </>
         ): null}
-        {titlee === "Registrar Documento" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
+        {/*{titlee === "Registrar Documento" ? (*/}
+        {/*  <>*/}
+        {/*      <Formulario title={titlee} setTitle={settitlee} />*/}
+        {/*  </>*/}
+        {/*): null}*/}
         
 
 
