@@ -6,6 +6,7 @@ import SuperAdministradorPage from "./components/super-administrador/super-admin
 import UsuarioRegularPage from "./components/usuario-regular/usuario-reular-page/UsuarioRegularPage";
 import GetAll from "./components/super-administrador/User/layouts/getAll";
 import ServiciosPage from "./components/super-administrador/servicios/layout/ServiciosPage";
+import Formulario from "./components/components-reutilizables/formulario/formulario";
 function App() {
   return (
       <Router>
@@ -19,6 +20,7 @@ function App() {
                         <Routes>
                             <Route path="/getalluser" element={<GetAll />} />
                             <Route path="/servicios" element={<ServiciosPage/>}/>
+                            <Route path={"/formulario"} element={<Formulario/>}/>
                         </Routes>
                     </SuperAdministradorPage>
                 }

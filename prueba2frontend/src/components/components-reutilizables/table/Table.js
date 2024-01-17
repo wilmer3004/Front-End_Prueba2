@@ -2,8 +2,10 @@ import React from "react";
 import "./Table.css";
 
 const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
+
+
     if (!Array.isArray(items) || !items.length) {
-        return <div>No hay datos disponibles para mostrar.</div>;
+        return <div className={"data-notfound-messaje"}>No hay datos disponibles para mostrar.</div>;
     }
 
     const deepFind = (obj, path) => {
@@ -54,12 +56,17 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
                             <td key={idx}>{deepFind(item, key)}</td>
                         ))}
                         <td>
-                            <button onClick={()=>handleState(item[nameColumnsK[0]])}>
+                            <button
+                                onClick={() => handleState(item[nameColumnsK[0]])}
+                                className={`button-state-table ${nameColumnsK.some(key => key.includes("estado") && item[key]) ? 'active' : 'inactive'}`}
+                            >
                                 {
-                                    nameColumnsK.some(key => key.includes("estado") && item[key])?"Activar":"Inactivar"
+                                    nameColumnsK.some(key => key.includes("estado") && item[key]) ? "Activar" : "Inactivar"
                                 }
+
                             </button>
                         </td>
+
                     </tr>
 
                 ))}

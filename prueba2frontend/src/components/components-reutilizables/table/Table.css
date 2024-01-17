@@ -33,14 +33,61 @@
 .contenedor-tabla table th{
     background: linear-gradient(#000015, #01012f, #010138, #010154) ;
     color: #ffffff;
-    font-size: 20px;
+    font-size: 22px;
 }
 
 .contenedor-tabla table tr{
     background-color: rgba(245, 245, 245, 0.16);
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .contenedor-tabla table tr:nth-child(even) {
     background-color: rgba(234, 234, 234, 0.63);
 }
+
+.button-state-table{
+    font-size: 18px;
+    width: 95%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Instrument Serif", serif;
+    color: #ffffff;
+    border: none;
+    padding: 18px;
+    cursor: pointer;
+    position: relative;
+}
+
+.button-state-table::before {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #ffffff;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease-in-out;
+
+}
+.button-state-table:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+    cursor: pointer;
+}
+
+.active{
+    background: #4e47ad;
+}
+
+.inactive{
+    background: #131648
+;
+}
+
+
+
+
