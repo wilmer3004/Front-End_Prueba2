@@ -55,7 +55,6 @@ const Login = () => {
             // Obtener el rol del token decodificado
             const role = decodedToken.roles[0];
 
-            console.log('Login successful:', response.data);
 
             if (role === "Super Administrador"){
                 navigate('/superadmin');
@@ -67,7 +66,6 @@ const Login = () => {
                 navigate('/empleado');
             }
 
-            console.log('Role:', role);
             setErrorMessage('');
         } catch (error) {
             if (error.message.includes("net::ERR_CONNECTION_REFUSED")) {

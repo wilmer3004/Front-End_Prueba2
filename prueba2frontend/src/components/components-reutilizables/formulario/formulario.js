@@ -8,6 +8,9 @@ import Swal from "sweetalert2"
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import useDataService from "../../super-administrador/User/DataUSerService";
+import {verifyToken} from "../../../api/TokenDecode";
+import AuthData from "../../../api/Auth";
 
 // -------------------------------------------------------------------------------------------------------
 // Esquemas o estructura de datos por formulario
@@ -72,11 +75,33 @@ const schema1 = yup.object().shape({
 
 
 
-const Formulario = ({ title,setTitle  }) => {
+const Formulario = ({ title,setTitle, handlePost  }) => {
 
+    const { responseState } = AuthData();
+
+
+    // ----------------------------------------------------------
+    // MAEJO DE ROLES Y AUTENTIFICACION
+    React.useEffect(() => {
+        const authToken = Cookies.get('authToken');
+        let rol = verifyToken(authToken).roles[0]
+        if(rol !=="Super Administrador"){
+            Cookies.remove('authToken');
+            window.location.href = '/'
+        }
+        if (!Cookies.get('authToken')) {
+            window.location.href = '/'
+            Cookies.remove('authToken');
+        }
+        if (responseState.status === 403) {
+            Cookies.remove('authToken');
+            window.location.href = '/'
+        }
+
+    }, []);
 
     const [schema ,setSchema]=useState(schema1);
-
+    const {data,postHttp}=useDataService()
 
     // ----------------------------------------------------------------------
     // Url
@@ -118,36 +143,19 @@ const Formulario = ({ title,setTitle  }) => {
     const onSubmit = async(data)=>{
         console.log(data);
         try{
-            console.log(data);
-            if(title=== "Registrar Usuario"){
-                const authTokenn = Cookies.get('authToken');
-                let headers={
-                    'Authorization': `Bearer ${authTokenn}`
-                };
+            handlePost(data)
 
-                switch (title) {
-                    case "Registrar Usuario":
-                      const responseUser = await axios.post(apiURLUser, data, { headers });
-                      if(responseUser.status===200){
-                        setTitle("");
-                        Swal.fire({
-                            title: "Se registro correctamente",
-                            text: "El usuario se registro correctamente en la base de datos ",
-                            icon: "success"
-                        });
-                      }
-                      break;
-                    case "Registrar Documento":
-                      const responseDocument = await axios.post('/api/document', data, { headers });
-                      break;
-                    case "Registrar Accion":
-                      const responseAction = await axios.post('/api/action', data, { headers });
-                      break;
-                    default:
-                        // código para manejar cualquier otro valor de título
-                    break;
-                }
-            }
+
+
+            // if(responseUser.status===200){
+            //     setTitle("");
+            //     Swal.fire({
+            //         title: "Se registro correctamente",
+            //         text: "El usuario se registro correctamente en la base de datos ",
+            //         icon: "success"
+            //     });
+            // }
+
         } catch(error) {
             console.error('Request failed:', error.message);
             throw error;

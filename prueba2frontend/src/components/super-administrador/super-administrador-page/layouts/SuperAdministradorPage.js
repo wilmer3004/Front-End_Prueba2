@@ -41,7 +41,7 @@ const SuperAdministradorPage = () => {
         { item: "LogOut", path: "" },
     ];
     const componentMap = {
-        "getalluser": <GetAll/>,
+        "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage/>,
         "default": <div></div>,
     };
