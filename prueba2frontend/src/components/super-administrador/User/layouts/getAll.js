@@ -47,7 +47,7 @@ const GetAll = ({handleRedirect}) => {
             title: `Se edito el estado`,
             text: `Se edito estado correctamte del usuario con id ${id} en la base de datos :D`,
             icon: "success"
-        })
+        });
     }
     const handlePost=(data)=>{
         postHttp(data)
@@ -56,8 +56,8 @@ const GetAll = ({handleRedirect}) => {
             title: "Se registro correctamente",
             text: "Se registro correctamte el usuario en la base de datos :D",
             icon: "success"
-        })
-        handleRedirect("getalluser")
+        });
+        handleRedirect("getalluser");
     }
 
 
