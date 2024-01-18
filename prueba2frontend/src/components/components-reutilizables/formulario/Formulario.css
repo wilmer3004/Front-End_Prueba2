@@ -44,7 +44,7 @@
 
 .contenido h1{
     height: 25%;
-    font-size: 40px;
+    font-size: 130%;
 }
 
 .global .contenedor .contenido form{
@@ -53,7 +53,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0% 10%;
-    font-size: 25px;
+    font-size: 150%;
 }
 
 .global .contenedor .contenido form label{
@@ -67,22 +67,26 @@
 
 .global .contenedor .contenido form input, select, input[type="date"], input[type="file"]{
     color: #9d8b8b;
-    height: 20px 25px;
-    font-size: 15px;
-    padding: 5px;
+    height: 25%;
+    font-size: 60%;
+    padding: 2%;
     background: transparent;
     border: 2px solid #9d8b8b;
     box-shadow: 2px 3px 18px rgba(255, 255, 255, 0.37);
     border-radius: 7px;
 }
 
+.global .contenedor .contenido form select{
+    height: 38%;
+}
+
 
 .global .contenedor .contenido form input[type="file"]{
     text-align: center;
-    padding: 4px 0px 4px 0px;
+    padding: 1.5% 0px 1% 0px;
 }
 .global .contenedor .contenido form input[type="date"]{
-    padding: 4.5px 4px;
+    padding: 2.5% 4px;
 }
 
 .global .contenedor .contenido .botones{
@@ -102,7 +106,7 @@
     cursor: pointer;
     background: transparent;
     font-weight: bold;
-    font-size: 17px;
+    font-size: 70%;
     border-radius: 7px;
     transition: background-color 0.5s ease;
 }
@@ -113,5 +117,5 @@
 
 .text-error-label{
     letter-spacing: 2px;
-    font-size: 15px;
+    font-size: 55%;
 }

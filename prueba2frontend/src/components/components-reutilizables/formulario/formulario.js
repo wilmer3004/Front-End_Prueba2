@@ -70,23 +70,35 @@ const schemaDetalleTar= yup.object().shape({
     estadoDetaTarea: yup.number(),
 });
 
-
-const schema1 = yup.object().shape({
-    //Compañia
+const schemaCompañia= yup.object().shape({
     nombreComp: yup.string().min(2, 'El nombre de la compañia debe tener al menos 2 caracteres').required('Este campo es requerido'),
     NIT: yup.string().min(9,'El NIT debe de ser al menos de 9 caracteres').required('El NIT es requerido'),
     nombreRepre: yup.string().min(14, 'El nombre completo debe tener al menos 14 caracteres').required('Este campo es requerido'),
+    estadoComp: yup.number(),
+});
 
-    //Proceso Cliente
+const schemaProcCli= yup.object().shape({
     descripPro:yup.string().min(20, 'La descripcion debe tener al menos 20 caracteres').required('Este campo es requerido'),
+    clienteProcCli: yup.number(),
+    empleadoProcCli: yup.number(),
+    estadoProcCli: yup.number()
+});
 
-    // Registrar Proceso Compañia
+const schemaProcComp= yup.object().shape({
     codVer: yup.string().min(6,'El codigo de verificacion debe de ser al menos de 6 caracteres').required('El codigo de verificacion es requerido'),
-    fechaNacimiento: yup.date().required('La fecha de nacimiento es requerida'),
+    fechaPC: yup.date(),
+    compañiaProcComp: yup.number(),
+    administradorProcComp: yup.number(),
+    estadoProcComp: yup.number()
 
-    //Servicio
+});
+
+
+const schemaServicio = yup.object().shape({
     nombreSer: yup.string().min(2,'El nombre del servicio debe ser al menos de 2 caracteres').required('Este campo es requerido'),
-    precioSer: yup.string().required('Este campo es requerido')
+    precioSer: yup.string().required('Este campo es requerido'),
+    compañiaSer: yup.number(),
+    estadoSer: yup.number()
 });
 
 
@@ -94,7 +106,7 @@ const schema1 = yup.object().shape({
 const Formulario = ({ title,setTitle  }) => {
 
 
-    const [schema ,setSchema]=useState(schema1);
+    const [schema ,setSchema]=useState();
 
 
     // ----------------------------------------------------------------------
@@ -256,10 +268,15 @@ const Formulario = ({ title,setTitle  }) => {
             setSchema(schemaDetalleSer);
         } else if(title === "Registrar DetalleTarea"){
             setSchema(schemaDetalleTar);
-        }
-
-
-
+        } else if(title === "Registrar Compañia"){
+            setSchema(schemaCompañia);
+        } else if(title === "Registrar Proceso Cliente"){
+            setSchema(schemaProcCli);
+        } else if(title === "Registrar Proceso Compañia"){
+            setSchema(schemaProcComp);
+        } else if(title === "Registrar Servicio"){
+            setSchema(schemaServicio);
+        } 
     }, [title]);
 
 
@@ -579,7 +596,7 @@ const Formulario = ({ title,setTitle  }) => {
                                     Tarea:
                                     <select {...register("tareaDetTar")}>
                                         {tareas.map(tarea=>(
-                                            tarea.estadoServicio === true ? (
+                                            tarea.estadoTarea === true ? (
                                             <option value={tarea.idTarea}>{tarea.nombreTarea}</option>
                                             ) : null
                                         ))}
@@ -587,7 +604,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Estado detalle Tarea:
-                                    <select {...register("estadoDetTar")}>
+                                    <select {...register("estadoDetaTarea")}>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
@@ -623,7 +640,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Estado Compañia:
-                                    <select>
+                                    <select {...register("estadoComp")}>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
@@ -651,7 +668,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Cliente:
-                                    <select>
+                                    <select {...register("clienteProcCli")}>
                                         {clientes.map(cliente=>(
                                             cliente.estadoCliente === true ? (
                                             <option value={cliente.idCliente}>{cliente.pnombreCliente} {cliente.papellidoCliente} -- {cliente.numIdentCliente}</option>
@@ -661,7 +678,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Empleado:
-                                    <select>
+                                    <select {...register("empleadoProcCli")}>
                                         {users.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol==='Empleado' ? (
                                             <option value={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
@@ -671,7 +688,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Estado Proceso:
-                                    <select>
+                                    <select {...register("estadoProcCli")}>
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
@@ -700,7 +717,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Compañia:
-                                    <select>
+                                    <select {...register("compañiaProcComp")}>
                                         {compañia.map(compa=>(
                                             compa.estadoCompania === true ? (
                                             <option value={compa.idCompania}>{compa.nombreCompania}</option>
@@ -710,7 +727,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Administrador:
-                                    <select>
+                                    <select {...register("administradorProcComp")}>
                                         {users.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol!=='Empleado'  ? (
                                             <option value={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
@@ -720,7 +737,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Estado Proceso:
-                                    <select>
+                                    <select {...register("estadoProcComp")}>
                                         <option value="1">Enviado</option>
                                         <option value="1">Pendiente</option>
                                     </select>
@@ -751,7 +768,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Compañia:
-                                    <select  onChange={handleCompaniaChange}>
+                                    <select  onChange={handleCompaniaChange} {...register("compañiaSer")}>
                                         {compañia.map(compa=>(
                                             compa.estadoCompania === true ? (
                                             <option value={compa.idCompania}>{compa.nombreCompania}</option>
@@ -761,7 +778,7 @@ const Formulario = ({ title,setTitle  }) => {
                                 </label>
                                 <label className="2">
                                     Estado Servicio:
-                                    <select>
+                                    <select {...register("estadoSer")}>
                                         <option  value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                     </select>
