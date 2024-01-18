@@ -4,13 +4,14 @@ import Table from "../../../components-reutilizables/table/Table";
 import useDataService from "../DataUSerService";
 import AuthData from "../../../../api/Auth";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2"
 import {verifyToken} from "../../../../api/TokenDecode";
 
 import Formulario from '../../../components-reutilizables/formulario/formulario';
 
 
-const GetAll = () => {
-  const { data, fetchData,updateState } = useDataService();
+const GetAll = ({handleRedirect}) => {
+  const { data, fetchData,updateState,postHttp } = useDataService();
   const [titlee, settitlee] = useState('');
 
 
@@ -41,7 +42,22 @@ const GetAll = () => {
 
     }, []);
     const handleState=(id)=>{
-        updateState(id)
+        updateState(id);
+        Swal.fire({
+            title: `Se edito el estado`,
+            text: `Se edito estado correctamte del usuario con id ${id} en la base de datos :D`,
+            icon: "success"
+        });
+    }
+    const handlePost=(data)=>{
+        postHttp(data)
+        settitlee('')
+        Swal.fire({
+            title: "Se registro correctamente",
+            text: "Se registro correctamte el usuario en la base de datos :D",
+            icon: "success"
+        });
+        handleRedirect("getalluser");
     }
 
 
@@ -80,7 +96,7 @@ const GetAll = () => {
         ): null}
         {titlee === "Registrar Usuario" ? (
           <>
-              <Formulario title={titlee} setTitle={settitlee} />
+              <Formulario title={titlee} setTitle={settitlee} handlePost={handlePost}/>
           </>
         ): null}
         {titlee === "Registrar Documento" ? (

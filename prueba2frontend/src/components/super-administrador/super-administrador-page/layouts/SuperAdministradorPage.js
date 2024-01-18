@@ -1,12 +1,14 @@
 
 // SuperAdministradorPage.js
 import React, {useState} from "react";
+import './SuperAdministrador.css';
 import AuthData from "../../../../api/Auth";
 import Cookies from "js-cookie";
 import { verifyToken } from "../../../../api/TokenDecode";
 import Nav from "../../../components-reutilizables/nav/Nav";
 import GetAll from "../../User/layouts/getAll";
 import ServiciosPage from "../../servicios/layout/ServiciosPage";
+import Footer from "../../../components-reutilizables/footer/Footer";
 
 const SuperAdministradorPage = () => {
     const { responseState } = AuthData();
@@ -41,14 +43,16 @@ const SuperAdministradorPage = () => {
         { item: "LogOut", path: "" },
     ];
     const componentMap = {
-        "getalluser": <GetAll/>,
+        "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage/>,
         "default": <div></div>,
     };
 
+    const dataFooter = ["Pagina de ventas de srvicios","hola"];
+
 
     return (
-        <div>
+        <div className={"superAdmin"}>
             <Nav
                 items={dataNav}
                 handleLogOut={handleLogOut}
@@ -56,7 +60,7 @@ const SuperAdministradorPage = () => {
                 handleRedirect={handleRedirect}
             />
             {componentMap[componenteData] || componentMap["default"]}
-
+            <Footer/>
         </div>
     );
 };
