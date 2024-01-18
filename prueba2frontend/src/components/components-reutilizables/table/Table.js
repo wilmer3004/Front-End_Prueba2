@@ -1,7 +1,7 @@
 import React from "react";
 import "./Table.css";
 
-const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
+const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm }) => {
 
 
     if (!Array.isArray(items) || !items.length) {
@@ -41,6 +41,9 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
                 <h1>
                     {title}: {items.length}
                 </h1>
+            </div>
+            <div className={"button-registrar-user"}>
+                <button onClick={()=>abrirForm(titleForm)}>{titleForm}</button>
             </div>
             <table>
                 <thead>

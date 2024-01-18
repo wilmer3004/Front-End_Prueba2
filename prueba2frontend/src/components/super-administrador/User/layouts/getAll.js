@@ -3,6 +3,7 @@ import React, {useState}from 'react';
 import Table from "../../../components-reutilizables/table/Table";
 import useDataService from "../DataUSerService";
 import AuthData from "../../../../api/Auth";
+import './GetAll.css';
 import Cookies from "js-cookie";
 import Swal from "sweetalert2"
 import {verifyToken} from "../../../../api/TokenDecode";
@@ -73,77 +74,16 @@ const GetAll = ({handleRedirect}) => {
 
   return (
       <div>
-        <Table title={"Usuarios"} nameColumnsK={nameColumnsKeys} nameColumnsD={nameColumnsDisplay} items={data} handleState={handleState}/>
+
+          <Table title={"Usuarios"} nameColumnsK={nameColumnsKeys} nameColumnsD={nameColumnsDisplay} items={data} handleState={handleState} abrirForm={abrirForm} titleForm={"Registrar Usuario"} />
 
 
-        {/*<button onClick={() => abrirForm("Registrar Proceso Compañia")}>Registrar Proceso Compañia</button>*/}
-        <button onClick={() => abrirForm("Registrar Usuario")}>Registrar Usuario</button>
-        {/*<button onClick={() => abrirForm("Registrar Documento")}>Registrar Documento</button>*/}
-        <button onClick={() => abrirForm("Registrar Documento")}>Registrar Documento</button>
-        <button onClick={() => abrirForm("Registrar Accion")}>Registrar Accion</button>
-        <button onClick={() => abrirForm("Registrar Cliente")}>Registrar Cliente</button>
-        <button onClick={() => abrirForm("Registrar DetalleServicio")}>Registrar DetalleServicio</button>
-        <button onClick={() => abrirForm("Registrar DetalleTarea")}>Registrar DetalleTarea</button>
-        <button onClick={() => abrirForm("Registrar Compañia")}>Registrar Compañia</button>
-        <button onClick={() => abrirForm("Registrar Proceso Cliente")}>Registrar Proceso Cliente</button>
-        <button onClick={() => abrirForm("Registrar Proceso Compañia")}>Registrar Proceso Compañia</button>
-        <button onClick={() => abrirForm("Registrar Servicio")}>Registrar Servicio</button>
-        
-        {titlee === "Registrar Proceso Compañia" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
-        {titlee === "Registrar Usuario" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} handlePost={handlePost}/>
-          </>
-        ): null}
-        {titlee === "Registrar Documento" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
-        {titlee === "Registrar Accion" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
-        {titlee === "Registrar Cliente" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
-        {titlee === "Registrar DetalleServicio" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
-        {titlee === "Registrar DetalleTarea" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
-        {titlee === "Registrar Compañia" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
-        {titlee === "Registrar Servicio" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}{titlee === "Registrar Proceso Cliente" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}{titlee === "Registrar Proceso Compañia" ? (
-          <>
-              <Formulario title={titlee} setTitle={settitlee} />
-          </>
-        ): null}
-        
 
+          {titlee === "Registrar Usuario" ? (
+              <>
+                  <Formulario title={titlee} setTitle={settitlee} handlePost={handlePost}/>
+              </>
+          ): null}
 
       </div>
   );
