@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 const apiURL = '/api/servicio';
 
 const useServicioDataService = () => {
-    const [data, setData] = useState([]);
+    const [servicios, setData] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -50,7 +50,7 @@ const useServicioDataService = () => {
         fetchData();
     }, []);
 
-    return { data, fetchData,updateState };
+    return { servicios, fetchData,updateState };
 };
 
 export default useServicioDataService;

@@ -1,7 +1,6 @@
 // Formulario.js
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Cookies from "js-cookie";
 import "./Formulario.css"
 import Swal from "sweetalert2"
@@ -9,8 +8,15 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import useDataService from "../../super-administrador/User/DataUSerService";
+import useDataServiceTipoDoc from '../../super-administrador/tipoDocumento/DataTipoDocService';
+import useDataServiceTipoRol from '../../super-administrador/rol/DataRolService';
+import useDataServiceTarea from '../../super-administrador/tarea/DataTareaService';
+import useDataServiceCompania from '../../super-administrador/compañia/DataCompService';
 import {verifyToken} from "../../../api/TokenDecode";
 import AuthData from "../../../api/Auth";
+import useDataServiceCliente from '../../super-administrador/cliente/DataClientService';
+import useDataServiceCiudad from '../../super-administrador/ciudad/DataCiudadService';
+import useServicioDataService from '../../super-administrador/servicios/DataServicio';
 
 // -------------------------------------------------------------------------------------------------------
 // Esquemas o estructura de datos por formulario
@@ -68,9 +74,8 @@ const schemaDetalleTar= yup.object().shape({
     fechaAsigDetTa: yup.date(),
     fechaFinDetTa: yup.date(),
     estadoDetTar: yup.number(),
-    clienteDetTar: yup.number(),
+    empleadoDetTarea: yup.number(),
     tareaDetTar: yup.number(),
-    estadoDetaTarea: yup.number(),
 });
 
 const schemaCompañia= yup.object().shape({
@@ -83,8 +88,9 @@ const schemaCompañia= yup.object().shape({
 const schemaProcCli= yup.object().shape({
     descripPro:yup.string().min(20, 'La descripcion debe tener al menos 20 caracteres').required('Este campo es requerido'),
     clienteProcCli: yup.number(),
+    fechaProCli: yup.date(),
+    estadoProcCli: yup.number(),
     empleadoProcCli: yup.number(),
-    estadoProcCli: yup.number()
 });
 
 const schemaProcComp= yup.object().shape({
@@ -134,29 +140,18 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
 
     const [schema ,setSchema]=useState();
 
-
-    // ----------------------------------------------------------------------
-    // Url
-    const apiURLRol = '/api/rol';
-    const apiURLTipoDoc = '/api/tipoDoc';
-    const apiURLCompania = '/api/compania';
-    const apiURLCiudad = '/api/ciudad';
-    const apiURLCliente = '/api/cliente';
-    const apiURLServicio = '/api/servicio';
-    const apiURLUser = '/api/user';
-    const apiURLTareas = '/api/tarea';
-
     // -----------------------------------------------------------------------
     // hooks
-    const [tipoDoc, setTipoDoc] = useState([]);
-    const [tipoRol, setTipoRol] = useState([]);
-    const [compañia, setCompañia] = useState([]);
-    const [ciudad, setCiudad] = useState([]);
-    const [clientes, setClientes] = useState([]);
-    const [servicios, setServicios] = useState([]);
-    const [tareas, setTareas] = useState([]);
 
-    const { data, fetchData,updateState,postHttp } = useDataService();
+    
+    const { data} = useDataService();
+    const { tipoDoc } = useDataServiceTipoDoc();
+    const { tipoRol } = useDataServiceTipoRol();
+    const { tareas } = useDataServiceTarea();
+    const { compañia } = useDataServiceCompania();
+    const { clientes } = useDataServiceCliente();
+    const { ciudad } = useDataServiceCiudad();
+    const { servicios } = useServicioDataService();
 
     const [showForm, setShowForm] = useState(true);
 
@@ -179,67 +174,11 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
         console.log(data);
         try{
             handlePost(data)
-
-
-
-            // if(responseUser.status===200){
-            //     setTitle("");
-            //     Swal.fire({
-            //         title: "Se registro correctamente",
-            //         text: "El usuario se registro correctamente en la base de datos ",
-            //         icon: "success"
-            //     });
-            // }
-
         } catch(error) {
             console.error('Request failed:', error.message);
             throw error;
         }
     }
-
-    // ----------------------------------------------------------------------
-    // Traer datos de consulta para selects
-    useEffect(() => {
-      const handleGetAll = async () => {
-        fetchData();
-        try {
-          const authToken = Cookies.get('authToken');
-          const headers = {
-            'Authorization': `Bearer ${authToken}`
-          };
-  
-          if (authToken) {
-            headers.Authorization = `Bearer ${authToken}`;
-          }
-  
-          const responseRol = await axios.get(apiURLRol, { headers });
-          const responseTipoDoc = await axios.get(apiURLTipoDoc, { headers });
-          const responseCompañia = await axios.get(apiURLCompania, { headers });
-          const responseCiudad = await axios.get(apiURLCiudad, { headers });
-          const responseClientes = await axios.get(apiURLCliente, { headers });
-          const responseServicios = await axios.get(apiURLServicio, { headers });
-          const responseTareas = await axios.get(apiURLTareas, { headers });
-  
-          if (responseRol.status !== 200 && responseTipoDoc.status !== 200 && responseCompañia !== 200 && responseCiudad !== 200 && responseClientes !== 200 && responseServicios !== 200) {
-            throw new Error(`Request failed with status: ${responseRol.status} ${responseTipoDoc.status} ${responseCompañia.status} ${responseCiudad.status} ${responseClientes.status} ${responseServicios.status}`);
-          }
-  
-
-          setTipoDoc(responseTipoDoc.data);
-          setTipoRol(responseRol.data);
-          setCompañia(responseCompañia.data)
-          setCiudad(responseCiudad.data)
-          setClientes(responseClientes.data)
-          setServicios(responseServicios.data)
-          setTareas(responseTareas.data)
-        } catch (error) {
-          console.error('Request failed:', error.message);
-          throw error;
-        }
-      };
-  
-      handleGetAll();
-    }, []); // E
 
     // Manejar cambios en la selección de compañías
     const handleCompaniaChange = (event) => {
@@ -399,7 +338,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado:
                                     <select {...register("estadoDocumento")}>
                                         <option value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </label>
                                 <label className="2">
@@ -433,7 +372,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado:
                                     <select {...register("estadoAccion")}>
                                         <option value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -493,7 +432,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado:
                                     <select {...register("estadoCli")}>
                                         <option value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </label>
                                 <label className="2">
@@ -535,7 +474,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado Pago:
                                     <select {...register("estadoPagoDetSer")}>
                                         <option value="1">Pendiente</option>
-                                        <option value="1">Pagado</option>
+                                        <option value="0">Pagado</option>
                                     </select>
                                 </label>
                                 <label className="2">
@@ -562,7 +501,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado:
                                     <select {...register("estadoDetSer")}>
                                         <option value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option value="2">Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -588,19 +527,19 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado Tarea:
                                     <select {...register("estadoDetTar")}>
                                         <option value="1">Pendiente</option>
-                                        <option value="2">Finalizada</option>
+                                        <option value="0">Finalizada</option>
                                     </select>
                                 </label>
                                 <label className="2">
-                                    Cliente:
-                                    <select {...register("clienteDetTar")}>
-                                        {clientes.map(cliente=>(
-                                            cliente.estadoCliente === true ? (
-                                            <option value={cliente.idCliente}>{cliente.pnombreCliente} {cliente.papellidoCliente} -- {cliente.numIdentCliente}</option>
+                                     Empleado:
+                                    <select {...register("empleadoDetTarea")}>
+                                        {data.map(user=>(
+                                            user.estadoUsu === true && user.id_rolfk.nombreRol==='Empleado' ? (
+                                            <option value={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
                                             ) : null
                                         ))}
                                     </select>
-                                </label>
+                                </label>           
                                 <label className="2">
                                     Tarea:
                                     <select {...register("tareaDetTar")}>
@@ -609,13 +548,6 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                             <option value={tarea.idTarea}>{tarea.nombreTarea}</option>
                                             ) : null
                                         ))}
-                                    </select>
-                                </label>
-                                <label className="2">
-                                    Estado detalle Tarea:
-                                    <select {...register("estadoDetaTarea")}>
-                                        <option value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -651,7 +583,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado Compañia:
                                     <select {...register("estadoComp")}>
                                         <option value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -673,7 +605,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                 </label>
                                 <label className="2">
                                     Fecha del proceso:
-                                <input type='date' />
+                                <input type='date' {...register("fechaProCli")}/>
                                 </label>
                                 <label className="2">
                                     Cliente:
@@ -699,7 +631,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado Proceso:
                                     <select {...register("estadoProcCli")}>
                                         <option value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -748,7 +680,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado Proceso:
                                     <select {...register("estadoProcComp")}>
                                         <option value="1">Enviado</option>
-                                        <option value="1">Pendiente</option>
+                                        <option value="0">Pendiente</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -789,7 +721,7 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                     Estado Servicio:
                                     <select {...register("estadoSer")}>
                                         <option  value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
