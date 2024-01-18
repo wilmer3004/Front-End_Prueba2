@@ -13,7 +13,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
         for (let i = 0; i < parts.length; i++) {
             obj = obj[parts[i]];
             if (parts[i].includes("estado") ) {
-                return obj ? 'Inactivo' : 'Activo';
+                return obj ? 'Activo' : 'Inactivo';
             }
             if (typeof obj === 'object' && obj !== null) {
                 if (parts[i].includes('fk')) {
@@ -61,7 +61,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
                                 className={`button-state-table ${nameColumnsK.some(key => key.includes("estado") && item[key]) ? 'active' : 'inactive'}`}
                             >
                                 {
-                                    nameColumnsK.some(key => key.includes("estado") && item[key]) ? "Activar" : "Inactivar"
+                                    nameColumnsK.some(key => key.includes("estado") && item[key]) ? "Inactivar" : "Activar"
                                 }
 
                             </button>
