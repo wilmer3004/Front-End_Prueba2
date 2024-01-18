@@ -12,12 +12,15 @@ import useDataService from "../../super-administrador/User/DataUSerService";
 import {verifyToken} from "../../../api/TokenDecode";
 import AuthData from "../../../api/Auth";
 
+
 // -------------------------------------------------------------------------------------------------------
+
 // Esquemas o estructura de datos por formulario
+
 
 // Esquema Usuario
 const schemaUsers= yup.object().shape({
-    pNombre: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
+    pNombre: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido').default('hola'),
     pApellido: yup.string().min(4, 'El primer apellido debe tener al menos 4 caracteres').required('Este campo es requerido'),
     numDoc: yup.string().min(7,'El numero de documento debe de tener al menos 7 digitos').required('Este campo es requerido'),
     telefono: yup.string().min(7,'El numero de telefono debe de tener al menos 7 digitos').required('Este campo es requerido'),
@@ -106,7 +109,13 @@ const schemaServicio = yup.object().shape({
 
 
 
-const Formulario = ({ title,setTitle, handlePost  }) => {
+const Formulario = ({ title,setTitle, handlePost }) => {
+
+    const [valuesD,setValuesD]=useState({});
+
+    const handleValues = ( values)=>{
+        setValuesD(values)
+    }
 
     const { responseState } = AuthData();
 
@@ -164,7 +173,8 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
     // Validacion y funcionamiento onsubmit
     const { register, handleSubmit, formState:{ errors }, trigger } = useForm({
         resolver: yupResolver(schema),
-        mode: 'onSubmit' // Esto asegura que la validación se realice solo cuando se envíe el formulario
+        mode: 'onSubmit', // Esto asegura que la validación se realice solo cuando se envíe el formulario
+        defaultValues:valuesD
     });
 
 

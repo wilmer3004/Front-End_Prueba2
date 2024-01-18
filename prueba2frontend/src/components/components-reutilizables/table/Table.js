@@ -1,5 +1,7 @@
 import React from "react";
 import "./Table.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit} from "@fortawesome/free-regular-svg-icons";
 
 const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
 
@@ -48,6 +50,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
                     <th key={index}>{header}</th>
                 ))}
                 <th>Estado</th>
+                <th>Editar</th>
                 </thead>
                 <tbody>
                 {items.map((item, index) => (
@@ -65,6 +68,11 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
                                 }
 
                             </button>
+                        </td>
+                        <td>
+                            <div className={"edit-container"}>
+                                <FontAwesomeIcon icon={faEdit} className={"img-edit"} onClick={()=>alert("Hello world")}/>
+                            </div>
                         </td>
 
                     </tr>
