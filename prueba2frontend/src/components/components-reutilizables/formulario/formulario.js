@@ -134,8 +134,6 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
 
     const [schema ,setSchema]=useState();
 
-    const {data,postHttp}=useDataService()
-
 
     // ----------------------------------------------------------------------
     // Url
