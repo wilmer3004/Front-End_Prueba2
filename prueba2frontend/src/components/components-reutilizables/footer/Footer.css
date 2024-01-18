@@ -1,0 +1,21 @@
+.footer{
+    width: 100%;
+    margin-top: 50%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(#000015, #01012f, #010138, #010154) ;
+    flex-direction: column;
+    font-family: "Instrument Serif", serif;
+
+
+}
+
+.footer p{
+    top: 0;
+    color: #ffffff;
+    font-size: 18px;
+
+
+}

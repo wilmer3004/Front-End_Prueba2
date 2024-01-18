@@ -13,7 +13,7 @@
     color: #ffffff;
     font-size: 28px;
     text-shadow: 2px 3px 18px rgba(255, 255, 255, 0.37);
-    font-family: Cambria, serif;
+    font-family: "Instrument Serif", serif;
     margin-top: 0;
 }
 .botones ul{
@@ -30,7 +30,8 @@
     background: transparent;
     font-size: 22px;
     border: none;
-    font-family: Cambria, serif;
+    font-family: "Instrument Serif", serif;
+
     font-weight: bold;
     display: flex;
     align-items: center;
