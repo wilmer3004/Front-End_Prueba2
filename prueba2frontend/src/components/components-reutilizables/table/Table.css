@@ -145,6 +145,37 @@
     transition: transform 0.5s ease-in-out;
 
 }
+button-registrar-notfound{
+    width: 98%;
+    display: flex;
+    margin-bottom: 0;
+    justify-content: center;
+    align-items: center;
+}
+.button-registrar-notfound button{
+    height: 48px;
+    background: linear-gradient(#000015, #01012f, #010138, #010154) ;
+    color: #ffffff;
+    font-family: "Instrument Serif", serif;
+    font-size: 20px;
+    border-radius: 6px;
+
+}
+
+
+.data-notfound-messaje{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.data-notfound-messaje h1{
+    font-size: 28px;
+    font-family: "Instrument Serif", serif;
+
+}
 
 
 

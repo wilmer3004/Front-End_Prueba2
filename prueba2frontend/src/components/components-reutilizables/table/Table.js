@@ -8,8 +8,13 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
 
     if (!Array.isArray(items) || !items.length) {
         return <div className={"data-notfound-messaje"}>
-            No hay datos disponibles para mostrar.
-            <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+            <h1>
+                No hay datos de la tabla {title} disponibles para mostrar.
+            </h1>
+            <div className={"button-registrar-notfound"}>
+                <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+
+            </div>
 
         </div>;
     }
