@@ -52,15 +52,22 @@ const SuperAdministradorPage = () => {
 
     return (
         <div className={"superAdmin"}>
-            <Nav
-                items={dataNav}
-                handleLogOut={handleLogOut}
-                handleGoBack={handleGoBack}
-                handleRedirect={handleRedirect}
-            />
+            <div>
+                <Nav
+                    items={dataNav}
+                    handleLogOut={handleLogOut}
+                    handleGoBack={handleGoBack}
+                    handleRedirect={handleRedirect}
+                />
+                {componentMap[componenteData] || componentMap["default"]}
 
-            {componentMap[componenteData] || componentMap["default"]}
-            <Footer className="sa"/>
+            </div>
+
+            <div>
+                <Footer className="sa"/>
+            </div>
+
+
         </div>
     );
 };

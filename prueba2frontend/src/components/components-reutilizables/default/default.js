@@ -8,7 +8,6 @@ const Default1 = ({rol}) =>{
     return (
         <div className="contenedorDefault">
 
-
             <div className="informacion">
             {rol === "Administrador" ? (
                 <p className="">                    
