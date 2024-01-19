@@ -9,8 +9,12 @@ import Nav from "../../../components-reutilizables/nav/Nav";
 import GetAll from "../../User/layouts/getAll";
 import ServiciosPage from "../../servicios/layout/ServiciosPage";
 import Footer from "../../../components-reutilizables/footer/Footer";
+import Default1 from '../../../components-reutilizables/default/default';
+const authToken = Cookies.get('authToken');
+
 
 const SuperAdministradorPage = () => {
+    var rol = verifyToken(authToken).roles[0];
     const { responseState } = AuthData();
     const [componenteData, setComponenteData] = useState("");
 
@@ -28,8 +32,6 @@ const SuperAdministradorPage = () => {
     };
 
     React.useEffect(() => {
-        const authToken = Cookies.get('authToken');
-        let rol = verifyToken(authToken).roles[0];
 
         if (rol !== "Super Administrador" || !Cookies.get('authToken') || responseState.status === 403) {
             handleLogOut();
@@ -41,10 +43,11 @@ const SuperAdministradorPage = () => {
         { item: "Servicios", path: "servicios" },
         { item: "LogOut", path: "" },
     ];
+
     const componentMap = {
         "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
-        "default": <div></div>,
+        "default": <Default1 className="default" rol={rol}/>,
     };
 
     return (
@@ -55,8 +58,9 @@ const SuperAdministradorPage = () => {
                 handleGoBack={handleGoBack}
                 handleRedirect={handleRedirect}
             />
+
             {componentMap[componenteData] || componentMap["default"]}
-            <Footer/>
+            <Footer className="sa"/>
         </div>
     );
 };
