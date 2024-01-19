@@ -53,15 +53,16 @@ const schemaAccion= yup.object().shape({
 
 const schemaCliente= yup.object().shape({
     pNombreCli: yup.string().min(2, 'El primer nombre debe tener al menos 2 caracteres').required('Este campo es requerido'),
-    sNombreCli: yup.string(),
+    sNombreCli: yup.string().required(),
     pApellidoCli: yup.string().min(4, 'El primer apellido debe tener al menos 4 caracteres').required('Este campo es requerido'),
-    sApellidoCli: yup.string(),
-    TipoDocCli: yup.number(),
-    estadoCli: yup.number(),
-    ciudadCli: yup.number(),
+    sApellidoCli: yup.string().required(),
+    TipoDocCli: yup.number().required(),
+    estadoCli: yup.number().required(),
+    ciudadCli: yup.number().required(),
     numDocCli: yup.string().min(7,'El numero de documento debe de tener al menos 7 digitos').required('Este campo es requerido'),
     telefonoCli: yup.string().min(7,'El numero de telefono debe de tener al menos 7 digitos').required('Este campo es requerido'),
     usernameCli: yup.string().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'Debe ser un correo electrónico válido').required('El correo electrónico es requerido'),
+    idCliente: yup.number().notRequired().nullable()
 });
 
 const schemaDetalleSer= yup.object().shape({
@@ -501,7 +502,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 </label>
                                 <div className={"botones"}>
                                     <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                    <button type="submit" className="btn btn-registrar" >{null !== watch("idCliente")?"Actualizar Cliente ":title}</button>
                                 </div>
                             </form>
                             </>

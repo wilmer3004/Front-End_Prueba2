@@ -10,6 +10,7 @@ import GetAll from "../../User/layouts/getAll";
 import ServiciosPage from "../../servicios/layout/ServiciosPage";
 import Footer from "../../../components-reutilizables/footer/Footer";
 import Default1 from '../../../components-reutilizables/default/default';
+import GetAllClients from "../../cliente/layout/GetAllClients";
 const authToken = Cookies.get('authToken');
 
 
@@ -41,12 +42,14 @@ const SuperAdministradorPage = () => {
     const dataNav = [
         { item: "Usuario", path: "getalluser" },
         { item: "Servicios", path: "servicios" },
+        { item: "Clientes", path: "getallclientes" },
         { item: "LogOut", path: "" },
     ];
 
     const componentMap = {
         "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
+        "getallclientes": <GetAllClients handleRedirect={handleRedirect}/>,
         "default": <Default1 className="default" rol={rol}/>,
     };
 

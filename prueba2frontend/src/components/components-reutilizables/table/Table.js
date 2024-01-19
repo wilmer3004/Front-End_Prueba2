@@ -41,7 +41,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                 return obj ? 'Activo' : 'Inactivo';
             }
             if (typeof obj === 'object' && obj !== null) {
-                if (parts[i].includes('fk')) {
+                if (parts[i].includes('fk')||parts[i].includes('FK')||parts[i].includes('Fk')||parts[i].includes('fK')) {
                     const keys = Object.keys(obj);
                     const nameKey = keys.find(key => key.includes('nombre'));
                     return obj[nameKey];

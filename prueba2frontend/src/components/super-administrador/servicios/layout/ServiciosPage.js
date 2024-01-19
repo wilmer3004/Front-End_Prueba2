@@ -1,16 +1,15 @@
 
-import Nav from "../../../components-reutilizables/nav/Nav";
 import Table from "../../../components-reutilizables/table/Table";
 import useServicioDataService from "../DataServicio";
 import Swal from "sweetalert2";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Formulario from "../../../components-reutilizables/formulario/formulario";
 
 
 
 
 const ServiciosPage = ({handleRedirect})=>{
-    const { servicios,serviciosByID, fetchData,updateState,postHttp,fetchDataByID } = useServicioDataService();
+    const { servicios,updateState,postHttp,fetchDataByID } = useServicioDataService();
     const [titlee, settitlee] = useState('');
     const [dataEdit,setDataEdit]=useState({});
 
@@ -31,17 +30,6 @@ const ServiciosPage = ({handleRedirect})=>{
     const nameColumnsDisplay =["ID Servicio","Nombre Servicio","Valor Servicio","Estado Servicio"];
     const nameColumnsKeys = ["idServicio","nombreServicio","valorServicio","estadoServicio"];
 
-    const abrirForm=(title)=>{
-        setDataEdit({
-            idSer:null,
-            nombreSer : "",
-            precioSer:"",
-            estadoSer:"",
-            compañiaSer:"",
-        });
-        settitlee(title);
-
-    }
     const handlePost= async (data)=>{
         await postHttp(data);
         settitlee('');
@@ -53,6 +41,17 @@ const ServiciosPage = ({handleRedirect})=>{
 
 
         handleRedirect("servicios");
+    }
+    const abrirForm=(title)=>{
+        setDataEdit({
+            idSer:null,
+            nombreSer : "",
+            precioSer:"",
+            estadoSer:"",
+            compañiaSer:"",
+        });
+        settitlee(title);
+
     }
     const handleFetchDataByID = async (id) => {
 

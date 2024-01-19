@@ -9,6 +9,8 @@ const headers = {
 };
 const useDataServiceCliente = () => {
     const [clientes, setClientes] = useState([]);
+    const [clientesByID,setClientesByID] = useState([]);
+
  
     const fetchDataCliente = async () => { 
         try {
@@ -39,13 +41,31 @@ const useDataServiceCliente = () => {
 
         
     };
+
+    const fetchDataByID = async (id) => {
+        try {
+            const response = await axios.get(`${apiURL}/${id}`, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+
+            setClientesByID(response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Request failed:', error.message);
+            throw error;
+        }
+    };
+
     const postHttp = async (clientes) => {
         try {
             const dataRequest = {
-                "pNombreCliente": clientes.pNombreCli,
-                "sNombreCliente": clientes.sNombreCli,
-                "pApellidoCliente": clientes.pApellidoCli,
-                "sApellidoCliente": clientes.sApellidoCli,
+                "idCliente": clientes.idCliente,
+                "pnombreCliente": clientes.pNombreCli,
+                "snombreCliente": clientes.sNombreCli,
+                "papellidoCliente": clientes.pApellidoCli,
+                "sapellidoCliente": clientes.sApellidoCli,
                 "numIdentCliente": clientes.numDocCli,
                 "telefonoCliente": clientes.telefonoCli,
                 "correoCliente": clientes.usernameCli,
@@ -69,7 +89,7 @@ const useDataServiceCliente = () => {
         fetchDataCliente();
     }, []);
  
-    return { clientes, fetchDataCliente, updateState, postHttp };
+    return { clientes, fetchDataCliente, updateState, postHttp, fetchDataByID, clientesByID  };
  };
  
 
