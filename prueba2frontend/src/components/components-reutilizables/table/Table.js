@@ -1,10 +1,24 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./Table.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-regular-svg-icons";
 
-const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm }) => {
+const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleEdit,handleFetchDataByID }) => {
+    const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+        // Simula la espera de los datos
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000); // Cambia este valor según cuánto tiempo tarda en cargarse tus datos
+    }, []);
 
+    if (isLoading) {
+        return <div className={"data-notfound-messaje"}>
+            <h1>
+                Cargando datos...
+            </h1>
+        </div>;
+    }
 
     if (!Array.isArray(items) || !items.length) {
         return <div className={"data-notfound-messaje"}>
@@ -85,7 +99,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                         </td>
                         <td>
                             <div className={"edit-container"}>
-                                <FontAwesomeIcon icon={faEdit} className={"img-edit"} onClick={()=>alert("Hello world")}/>
+                                <FontAwesomeIcon icon={faEdit} className={"img-edit"} onClick={() => handleFetchDataByID(item[nameColumnsK[0]])}/>
                             </div>
                         </td>
 

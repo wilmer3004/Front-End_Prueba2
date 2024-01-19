@@ -115,19 +115,19 @@ const schemaProcComp= yup.object().shape({
 const schemaServicio = yup.object().shape({
     nombreSer: yup.string().min(2,'El nombre del servicio debe ser al menos de 2 caracteres').required('Este campo es requerido'),
     precioSer: yup.string().required('Este campo es requerido'),
-    compañiaSer: yup.number(),
-    estadoSer: yup.number()
+    compañiaSer: yup.number().required("Este campo es requerido"),
+    estadoSer: yup.number().required("Este campo es requerido"),
+    idSer: yup.number().notRequired().nullable()
 });
+console.log(schemaServicio)
 
 
 
-const Formulario = ({ title,setTitle, handlePost }) => {
+const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
 
-    const [valuesD,setValuesD]=useState({});
+    const [valuesD,setValuesD]=useState(valuesDataR);
 
-    const handleValues = ( values)=>{
-        setValuesD(values)
-    }
+
 
     const { responseState } = AuthData();
 
@@ -173,7 +173,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
     const [selectedCompaniaIds, setSelectedCompaniaIds] = useState([]); // Nuevo estado para almacenar IDs de compañías seleccionadas
 
     // Validacion y funcionamiento onsubmit
-    const { register, handleSubmit, formState:{ errors }, trigger } = useForm({
+    const { register, handleSubmit, formState:{ errors }, trigger,watch } = useForm({
         resolver: yupResolver(schema),
         mode: 'onSubmit', // Esto asegura que la validación se realice solo cuando se envíe el formulario
         defaultValues:valuesD
@@ -188,7 +188,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
 
     const onSubmit = async(data)=>{
         try{
-            handlePost(data)
+            await handlePost(data)
 
         } catch(error) {
             console.error('Request failed:', error.message);
@@ -758,6 +758,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                                 <label className="2">
                                     Compañia:
                                     <select  onChange={handleCompaniaChange} {...register("compañiaSer")}>
+                                        <option value={null}>...</option>
                                         {compañia.map(compa=>(
                                             compa.estadoCompania === true ? (
                                             <option value={compa.idCompania}>{compa.nombreCompania}</option>
@@ -768,20 +769,20 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                                 <label className="2">
                                     Estado Servicio:
                                     <select {...register("estadoSer")}>
-                                        <option  value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        <option  value={"1"}>Activo</option>
+                                        <option value={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
                                     <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                    <button type="submit" className="btn btn-registrar" >{null !== watch("idSer")?"Actualizar Servicio ":title}</button>
                                 </div>
                             </form>
                             </>
                         ) : null}
 
 
-                        
+
 
                     </section>
                 </div>

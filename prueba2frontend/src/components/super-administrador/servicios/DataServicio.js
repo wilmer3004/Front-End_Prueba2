@@ -10,6 +10,9 @@ const headers = {
 
 const useServicioDataService = () => {
     const [servicios, setData] = useState([]);
+    const [serviciosByID,setServiciosByID] = useState([]);
+
+
 
     const fetchData = async () => {
         try {
@@ -26,6 +29,23 @@ const useServicioDataService = () => {
             throw error;
         }
     };
+    const fetchDataByID = async (id) => {
+        try {
+            const response = await axios.get(`${apiURL}/${id}`, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+
+            setServiciosByID(response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Request failed:', error.message);
+            throw error;
+        }
+    };
+
+
     const updateState = async (id) => {
         try {
 
@@ -36,6 +56,7 @@ const useServicioDataService = () => {
                 throw new Error(`Request failed with status: ${response.status}`);
             }
             fetchData();
+            return;
         } catch (error) {
             console.error('Request failed:', error.message);
             throw error;
@@ -45,6 +66,7 @@ const useServicioDataService = () => {
     const postHttp = async (data) => {
         try {
             const dataRequest = {
+                "idServicio":data.idSer,
                 "nombreServicio": data.nombreSer,
                 "valorServicio": data.precioSer,
                 "estadoServicio": data.estadoSer,
@@ -55,7 +77,10 @@ const useServicioDataService = () => {
             if (response.status !== 200) {
                 throw new Error(`Request failed with status: ${response.status}`);
             }
+
             fetchData();
+            return;
+
         } catch (error) {
             console.error('Request failed:', error.message);
             throw error;
@@ -63,11 +88,13 @@ const useServicioDataService = () => {
     };
 
 
+
+
     useEffect(() => {
         fetchData();
     }, []);
 
-    return { servicios, fetchData,updateState,postHttp };
+    return { servicios, fetchData,updateState,postHttp,fetchDataByID,serviciosByID };
 };
 
 export default useServicioDataService;
