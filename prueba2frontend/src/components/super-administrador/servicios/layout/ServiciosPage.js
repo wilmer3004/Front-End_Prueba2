@@ -7,11 +7,10 @@ import React, {useState} from "react";
 import Formulario from "../../../components-reutilizables/formulario/formulario";
 
 
-const apiURL = "/api/servicio"
 
 
 const ServiciosPage = ({handleRedirect})=>{
-    const { data, fetchData,updateState,postHttp } = useServicioDataService();
+    const { servicios, fetchData,updateState,postHttp } = useServicioDataService();
     const [titlee, settitlee] = useState('');
 
     const handleState= (id)=>{
@@ -47,7 +46,7 @@ const ServiciosPage = ({handleRedirect})=>{
 
 
     return<div>
-        <Table title={"Servicios"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={data} handleState={handleState} abrirForm={abrirForm} titleForm={"Registrar Servicio"}/>
+        <Table title={"Servicios"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={servicios} handleState={handleState} abrirForm={abrirForm} titleForm={"Registrar Servicio"}/>
 
         {titlee === "Registrar Servicio" ? (
             <>
