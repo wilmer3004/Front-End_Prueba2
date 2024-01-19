@@ -3,6 +3,7 @@ import React, {useState}from 'react';
 import Table from "../../../components-reutilizables/table/Table";
 import useDataService from "../DataUSerService";
 import AuthData from "../../../../api/Auth";
+import './GetAll.css';
 import Cookies from "js-cookie";
 import Swal from "sweetalert2"
 import {verifyToken} from "../../../../api/TokenDecode";

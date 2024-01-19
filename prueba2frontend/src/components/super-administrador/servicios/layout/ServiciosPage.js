@@ -5,7 +5,6 @@ import useServicioDataService from "../DataServicio";
 import Swal from "sweetalert2";
 import React, {useState} from "react";
 import Formulario from "../../../components-reutilizables/formulario/formulario";
-import dataServicio from "../DataServicio";
 
 
 const apiURL = "/api/servicio"
@@ -29,7 +28,6 @@ const ServiciosPage = ({handleRedirect})=>{
     const nameColumnsDisplay =["ID Servicio","Nombre Servicio","Estado Servicio"];
     const nameColumnsKeys = ["idServicio","nombreServicio","estadoServicio"];
 
-
     const abrirForm=(title)=>{
         settitlee(title);
     }
@@ -50,11 +48,13 @@ const ServiciosPage = ({handleRedirect})=>{
 
     return<div>
         <Table title={"Servicios"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={data} handleState={handleState} abrirForm={abrirForm} titleForm={"Registrar Servicio"}/>
+
         {titlee === "Registrar Servicio" ? (
             <>
                 <Formulario title={titlee} setTitle={settitlee} handlePost={handlePost}/>
             </>
         ): null}
+
     </div>
 
 

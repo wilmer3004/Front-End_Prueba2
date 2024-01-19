@@ -7,6 +7,7 @@ const authToken = Cookies.get('authToken');
 const headers = {
     'Authorization': `Bearer ${authToken}`
 };
+
 const useServicioDataService = () => {
     const [data, setData] = useState([]);
 
@@ -40,12 +41,14 @@ const useServicioDataService = () => {
             throw error;
         }
     };
+
     const postHttp = async (data) => {
         try {
             const dataRequest = {
                 "nombreServicio": data.nombreSer,
                 "valorServicio": data.precioSer,
                 "estadoServicio": data.estadoSer,
+
             };
             const response = await axios.post(apiURL, dataRequest, { headers });
 

@@ -24,7 +24,6 @@ const SuperAdministradorPage = () => {
     };
 
     const handleRedirect = (path) => {
-        console.log(`${path}`);
         setComponenteData(path);
     };
 
@@ -47,9 +46,6 @@ const SuperAdministradorPage = () => {
         "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
         "default": <div></div>,
     };
-
-    const dataFooter = ["Pagina de ventas de srvicios","hola"];
-
 
     return (
         <div className={"superAdmin"}>

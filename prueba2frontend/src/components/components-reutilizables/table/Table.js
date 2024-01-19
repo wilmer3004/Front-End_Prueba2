@@ -48,8 +48,10 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                     {title}: {items.length}
                 </h1>
             </div>
+
             <div className={"button-registrar"}>
                 <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+
             </div>
             <table>
                 <thead>

@@ -163,8 +163,9 @@ const Formulario = ({ title,setTitle, handlePost }) => {
     const [ciudad, setCiudad] = useState([]);
     const [clientes, setClientes] = useState([]);
     const [servicios, setServicios] = useState([]);
-    const [users, setUsers] = useState([]);
     const [tareas, setTareas] = useState([]);
+
+    const { data, fetchData,updateState,postHttp } = useDataService();
 
     const [showForm, setShowForm] = useState(true);
 
@@ -185,7 +186,6 @@ const Formulario = ({ title,setTitle, handlePost }) => {
 
 
     const onSubmit = async(data)=>{
-        console.log(data);
         try{
             handlePost(data)
 
@@ -199,6 +199,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
     // Traer datos de consulta para selects
     useEffect(() => {
       const handleGetAll = async () => {
+        fetchData();
         try {
           const authToken = Cookies.get('authToken');
           const headers = {
@@ -215,11 +216,10 @@ const Formulario = ({ title,setTitle, handlePost }) => {
           const responseCiudad = await axios.get(apiURLCiudad, { headers });
           const responseClientes = await axios.get(apiURLCliente, { headers });
           const responseServicios = await axios.get(apiURLServicio, { headers });
-          const responseUsers = await axios.get(apiURLUser, { headers });
           const responseTareas = await axios.get(apiURLTareas, { headers });
   
-          if (responseRol.status !== 200 && responseTipoDoc.status !== 200 && responseCompañia !== 200 && responseCiudad !== 200 && responseClientes !== 200 && responseServicios !== 200 && responseUsers !== 200) {
-            throw new Error(`Request failed with status: ${responseRol.status} ${responseTipoDoc.status} ${responseCompañia.status} ${responseCiudad.status} ${responseClientes.status} ${responseServicios.status} ${responseUsers.status}`);
+          if (responseRol.status !== 200 && responseTipoDoc.status !== 200 && responseCompañia !== 200 && responseCiudad !== 200 && responseClientes !== 200 && responseServicios !== 200) {
+            throw new Error(`Request failed with status: ${responseRol.status} ${responseTipoDoc.status} ${responseCompañia.status} ${responseCiudad.status} ${responseClientes.status} ${responseServicios.status}`);
           }
   
 
@@ -229,7 +229,6 @@ const Formulario = ({ title,setTitle, handlePost }) => {
           setCiudad(responseCiudad.data)
           setClientes(responseClientes.data)
           setServicios(responseServicios.data)
-          setUsers(responseUsers.data)
           setTareas(responseTareas.data)
         } catch (error) {
           console.error('Request failed:', error.message);
@@ -687,7 +686,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                                 <label className="2">
                                     Empleado:
                                     <select {...register("empleadoProcCli")}>
-                                        {users.map(user=>(
+                                        {data.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol==='Empleado' ? (
                                             <option value={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
                                             ) : null
@@ -736,7 +735,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                                 <label className="2">
                                     Administrador:
                                     <select {...register("administradorProcComp")}>
-                                        {users.map(user=>(
+                                        {data.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol!=='Empleado'  ? (
                                             <option value={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
                                             ) : null
