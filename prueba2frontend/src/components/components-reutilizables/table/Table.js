@@ -1,11 +1,17 @@
 import React from "react";
 import "./Table.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit} from "@fortawesome/free-regular-svg-icons";
 
-const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
+const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm }) => {
 
 
     if (!Array.isArray(items) || !items.length) {
-        return <div className={"data-notfound-messaje"}>No hay datos disponibles para mostrar.</div>;
+        return <div className={"data-notfound-messaje"}>
+            No hay datos disponibles para mostrar.
+            <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+
+        </div>;
     }
 
     const deepFind = (obj, path) => {
@@ -42,12 +48,18 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
                     {title}: {items.length}
                 </h1>
             </div>
+
+            <div className={"button-registrar"}>
+                <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+
+            </div>
             <table>
                 <thead>
                 {nameColumnsD.map((header, index) => (
                     <th key={index}>{header}</th>
                 ))}
                 <th>Estado</th>
+                <th>Editar</th>
                 </thead>
                 <tbody>
                 {items.map((item, index) => (
@@ -65,6 +77,11 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState }) => {
                                 }
 
                             </button>
+                        </td>
+                        <td>
+                            <div className={"edit-container"}>
+                                <FontAwesomeIcon icon={faEdit} className={"img-edit"} onClick={()=>alert("Hello world")}/>
+                            </div>
                         </td>
 
                     </tr>
