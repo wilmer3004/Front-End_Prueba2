@@ -34,9 +34,12 @@ const schemaUsers= yup.object().shape({
     password: yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('La contraseña es requerida'),
     segundoNombre:yup.string(),
     segundoApellido:yup.string(),
-    rol:yup.number(),
-    estadoUsuario:yup.number(),
-    tipoDocumento:yup.number()
+    rol:yup.number().required(),
+    estadoUsuario:yup.number().required(),
+    tipoDocumento:yup.number().required(),
+    idUser: yup.number().notRequired().nullable()
+
+
 });
 
 const schemaDocument= yup.object().shape({
@@ -339,7 +342,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     </label>
                                     <div className={"botones"}>
                                         <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                                        <button type="submit" className="btn btn-registrar" >{title}</button>
+                                        <button type="submit" className="btn btn-registrar" >{null !== watch("idUser")?"Actualizar Usuario ":title}</button>
                                     </div>
                                 </form>
                             </>

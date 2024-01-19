@@ -9,6 +9,7 @@ const headers = {
 };
 const useDataService = () => {
     const [data, setData] = useState([]);
+    const [UserByID,setUserByID] = useState([]);
 
     const fetchData = async () => { 
         try {
@@ -41,6 +42,7 @@ const useDataService = () => {
     const postHttp = async (data) => {
         try {
             const dataRequest = {
+                "idUsuario":data.idUser,
                 "username": data.username,
                 "password": data.password,
                 "primerNombre": data.pNombre,
@@ -53,12 +55,26 @@ const useDataService = () => {
                 "id_rolfk": data.rol,
                 "id_tipo_docfk": data.tipoDocumento
             };
-            const response = await axios.post("auth/register", dataRequest, { headers });
+            const response = await axios.post(apiURL, dataRequest, { headers });
 
             if (response.status !== 200) {
                 throw new Error(`Request failed with status: ${response.status}`);
             }
             fetchData();
+        } catch (error) {
+            console.error('Request failed:', error.message);
+        }
+    };
+    const fetchDataByID = async (id) => {
+        try {
+            const response = await axios.get(`${apiURL}/${id}`, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+
+            setUserByID(response.data);
+            return response.data;
         } catch (error) {
             console.error('Request failed:', error.message);
             throw error;
@@ -70,7 +86,7 @@ const useDataService = () => {
         fetchData();
     }, []);
 
-    return { data, fetchData,updateState,postHttp };
+    return { data, fetchData,updateState,postHttp,fetchDataByID };
 };
 
 export default useDataService;
