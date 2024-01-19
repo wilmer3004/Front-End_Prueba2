@@ -105,7 +105,7 @@ const schemaTarea= yup.object().shape({
 const schemaProcComp= yup.object().shape({
     codVer: yup.string().min(6,'El codigo de verificacion debe de ser al menos de 6 caracteres').required('El codigo de verificacion es requerido'),
     fechaPC: yup.date(),
-    compañiaProcComp: yup.number(),
+    companiaProcComp: yup.number(),
     administradorProcComp: yup.number(),
     estadoProcComp: yup.number()
 
@@ -163,7 +163,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
     const { tipoDoc } = useDataServiceTipoDoc();
     const { tipoRol } = useDataServiceTipoRol();
     const { tareas } = useDataServiceTarea();
-    const { compañia } = useDataServiceCompania();
+    const { compania } = useDataServiceCompania();
     const { clientes } = useDataServiceCliente();
     const { ciudad } = useDataServiceCiudad();
     const { servicios } = useServicioDataService();
@@ -232,11 +232,11 @@ const Formulario = ({ title,setTitle, handlePost }) => {
             setSchema(schemaDetalleSer);
         } else if(title === "Registrar DetalleTarea"){
             setSchema(schemaDetalleTar);
-        } else if(title === "Registrar Compañia"){
+        } else if(title === "Registrar Compania"){
             setSchema(schemaCompañia);
         } else if(title === "Registrar Proceso Cliente"){
             setSchema(schemaProcCli);
-        } else if(title === "Registrar Proceso Compañia"){
+        } else if(title === "Registrar Proceso Compania"){
             setSchema(schemaProcComp);
         } else if(title === "Registrar Servicio"){
             setSchema(schemaServicio);
@@ -362,7 +362,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                                 <label className="2">
                                     Compania:
                                     <select {...register("numCompaniaDoc")}>
-                                        {compañia.map(compa=>(
+                                        {compania.map(compa=>(
                                             compa.estadoCompania === true ? (
                                             <option value={compa.idCompania}>{compa.nombreCompania}</option>
                                             ): null
@@ -606,7 +606,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                             </>
                         ) : null}
 
-                        {title === "Registrar Compañia"? (
+                        {title === "Registrar Compania"? (
                             <>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
@@ -690,7 +690,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                             </>
                         ) : null}
 
-                        {title === "Registrar Proceso Compañia"? (
+                        {title === "Registrar Proceso Compania"? (
                             <>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
@@ -706,8 +706,8 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                                 </label>
                                 <label className="2">
                                     Compañia:
-                                    <select {...register("compañiaProcComp")}>
-                                        {compañia.map(compa=>(
+                                    <select {...register("companiaProcComp")}>
+                                        {compania.map(compa=>(
                                             compa.estadoCompania === true ? (
                                             <option value={compa.idCompania}>{compa.nombreCompania}</option>
                                             ): null
@@ -758,7 +758,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                                 <label className="2">
                                     Compañia:
                                     <select  onChange={handleCompaniaChange} {...register("compañiaSer")}>
-                                        {compañia.map(compa=>(
+                                        {compania.map(compa=>(
                                             compa.estadoCompania === true ? (
                                             <option value={compa.idCompania}>{compa.nombreCompania}</option>
                                             ): null

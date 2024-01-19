@@ -8,7 +8,7 @@ const headers = {
     'Authorization': `Bearer ${authToken}`
 };
 const useDataServiceCompania = () => {
-    const [compañia, setCompania] = useState([]);
+    const [compania, setCompania] = useState([]);
  
     const fetchDataCompania = async () => { 
         try {
@@ -38,13 +38,13 @@ const useDataServiceCompania = () => {
             throw error;
         }
     };
-    const postHttp = async (compañia) => {
+    const postHttp = async (compania) => {
         try {
             const dataRequest = {
-                "nombreCompania": compañia.nombreComp,
-                "nitCompania": compañia.NIT,
-                "representanteLegalCompania": compañia.nombreRepre,
-                "estadoCompania": compañia.estadoComp
+                "nombreCompania": compania.nombreComp,
+                "nitCompania": compania.NIT,
+                "representanteLegalCompania": compania.nombreRepre,
+                "estadoCompania": compania.estadoComp
             };
             const response = await axios.post(apiURL, dataRequest, { headers });
 
@@ -62,7 +62,7 @@ const useDataServiceCompania = () => {
         fetchDataCompania();
     }, []);
  
-    return { compañia, fetchDataCompania, postHttp, updateState };
+    return { compania, fetchDataCompania, postHttp, updateState };
  };
  
 

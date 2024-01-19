@@ -1,0 +1,21 @@
+.contenedorDefault{
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    height: 78vh;
+    width: 100%;
+}
+
+.informacion{
+    width: 34%;
+    background-color: white;
+    margin-left: 50%;
+    font-size: 25px;
+    padding: 6.5% 8% 4.5%;
+}
+
+.carousel{
+    background-color: white;
+    z-index: 1;
+    margin-top: -35%;
+}
