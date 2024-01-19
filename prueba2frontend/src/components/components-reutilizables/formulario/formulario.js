@@ -787,7 +787,7 @@ const Formulario = ({ title,setTitle, handlePost }) => {
                                     Estado Servicio:
                                     <select {...register("estadoSer")}>
                                         <option  value="1">Activo</option>
-                                        <option value="1">Inactivo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
