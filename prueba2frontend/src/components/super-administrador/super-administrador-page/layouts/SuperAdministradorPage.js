@@ -44,7 +44,7 @@ const SuperAdministradorPage = () => {
     ];
     const componentMap = {
         "getalluser": <GetAll handleRedirect={handleRedirect}/>,
-        "servicios": <ServiciosPage/>,
+        "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
         "default": <div></div>,
     };
 

@@ -87,17 +87,14 @@
     background: #131648
 ;
 }
-
-<<<<<<< Updated upstream
-=======
-.button-registrar-user{
+.button-registrar{
     width: 98%;
     display: flex;
     justify-content: end;
     margin-bottom: 0;
 
 }
-.button-registrar-user button{
+.button-registrar button{
     height: 48px;
     background: linear-gradient(#000015, #01012f, #010138, #010154) ;
     color: #ffffff;
@@ -107,7 +104,7 @@
 
 }
 
-.button-registrar-user button:hover{
+.button-registrar button:hover{
     cursor: pointer;
     background: linear-gradient(#00003a, #01015b, #020273, #03038d) ;
     transition: transform 0.5s ease-in-out;
@@ -124,7 +121,6 @@
     justify-content: center;
 }
 
->>>>>>> Stashed changes
 
 
 

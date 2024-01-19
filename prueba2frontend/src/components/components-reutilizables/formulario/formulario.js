@@ -189,17 +189,6 @@ const Formulario = ({ title,setTitle, handlePost }) => {
         try{
             handlePost(data)
 
-
-
-            // if(responseUser.status===200){
-            //     setTitle("");
-            //     Swal.fire({
-            //         title: "Se registro correctamente",
-            //         text: "El usuario se registro correctamente en la base de datos ",
-            //         icon: "success"
-            //     });
-            // }
-
         } catch(error) {
             console.error('Request failed:', error.message);
             throw error;
