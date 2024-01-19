@@ -300,7 +300,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                         <select {...register('tipoDocumento')}>
                                             {tipoDoc.map(doc => (
                                                 doc.estadoTipoDoc === true ? (
-                                                    <option value={doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
+                                                    <option value={doc.idTipoDoc}
+                                                            selected={watch("tipoDocumento") === doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
                                                 ) : null
                                             ))}
                                         </select>
@@ -335,7 +336,9 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                         <select {...register("rol")}>
                                             {tipoRol.map(rol => (
                                                 rol.estadoRol === true ? (
-                                                    <option value={rol.idRol}>{rol.nombreRol}</option>
+                                                    <option value={rol.idRol} selected={watch("rol") === rol.idRol}>
+                                                        {rol.nombreRol}
+                                                    </option>
                                                 ) : null
                                             ))}
                                         </select>

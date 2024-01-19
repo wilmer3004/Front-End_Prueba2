@@ -89,6 +89,7 @@ const GetAll = ({handleRedirect}) => {
     const handleFetchDataByID = async (id) => {
 
         const dataS = await fetchDataByID(id);
+        console.log(dataS);
         await setDataEdit({
             idUser:dataS.idUsuario,
             pNombre:dataS.primerNombre,
@@ -99,9 +100,9 @@ const GetAll = ({handleRedirect}) => {
             password:"",
             segundoNombre:dataS.segundoNombre,
             segundoApellido:dataS.segundoApellido,
-            rol:dataS.id_rolfk,
+            rol:dataS.id_rolfk.idRol,
             estadoUsuario:dataS.estadoUsu? "1" : "0",
-            tipoDocumento:dataS.id_tipo_docfk,
+            tipoDocumento:dataS.id_tipo_docfk.idTipoDoc,
         });
 
         settitlee("Registrar Usuario")
