@@ -93,6 +93,12 @@ const schemaProcCli= yup.object().shape({
     empleadoProcCli: yup.number(),
 });
 
+const schemaTarea= yup.object().shape({
+    descripcionTarea:yup.string().min(20, 'La descripcion debe tener al menos 20 caracteres').required('Este campo es requerido'),
+    nombreTarea: yup.string().required("Este campo es requerido"),
+    estadoTarea: yup.number(),
+});
+
 const schemaProcComp= yup.object().shape({
     codVer: yup.string().min(6,'El codigo de verificacion debe de ser al menos de 6 caracteres').required('El codigo de verificacion es requerido'),
     fechaPC: yup.date(),
@@ -224,6 +230,8 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
             setSchema(schemaProcComp);
         } else if(title === "Registrar Servicio"){
             setSchema(schemaServicio);
+        } else if(title === "Registrar Tarea"){
+            setSchema(schemaTarea);
         } 
     }, [title]);
 
@@ -371,6 +379,36 @@ const Formulario = ({ title,setTitle, handlePost  }) => {
                                 <label className="2">
                                     Estado:
                                     <select {...register("estadoAccion")}>
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
+                                    </select>
+                                </label>
+                                <div className={"botones"}>
+                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                </div>
+                            </form>
+                            </>
+                        ): null}
+
+                        {title === "Registrar Tarea" ? (
+                            <>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <label className="1">
+                                    Nombre Tarea:
+                                    <input type='text' {...register("nombreTarea")}/>
+                                {errors.nombreTarea && <span className={"text-error-label"}>{errors.nombreTarea.message}</span>}
+
+                                </label>
+                                <label className="1">
+                                    Descripcion Tarea:
+                                    <input type='text' {...register("descripcionTarea")}/>
+                                {errors.descripcionTarea && <span className={"text-error-label"}>{errors.descripcionTarea.message}</span>}
+
+                                </label>
+                                <label className="2">
+                                    Estado:
+                                    <select {...register("estadoTarea")}>
                                         <option value="1">Activo</option>
                                         <option value="0">Inactivo</option>
                                     </select>

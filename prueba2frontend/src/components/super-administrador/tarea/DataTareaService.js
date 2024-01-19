@@ -23,12 +23,46 @@ const useDataServiceTarea = () => {
             console.error('Request failed:', error.message);
         }
     };
+
+    const updateState = async (id) => {
+        try {
+
+            const response = await axios.delete(`${apiURL}/${id}`, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+            fetchDataTarea();
+        } catch (error) {
+            console.error('Request failed:', error.message);
+            throw error;
+        }
+    };
+    const postHttp = async (tareas) => {
+        try {
+            const dataRequest = {
+                "nombreTarea": tareas.nombreTarea,
+                "descripcionTarea": tareas.descripcionTarea,
+                "estadoTarea": tareas.estadoTarea,
+            };
+            const response = await axios.post(apiURL, dataRequest, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+            fetchDataTarea();
+        } catch (error) {
+            console.error('Request failed:', error.message);
+            throw error;
+        }
+    };
+ 
  
     useEffect(() => {
         fetchDataTarea();
     }, []);
  
-    return { tareas, fetchDataTarea };
+    return { tareas, fetchDataTarea, postHttp, updateState };
  };
  
 

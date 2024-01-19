@@ -88,6 +88,7 @@ const GetAll = ({handleRedirect}) => {
         <button onClick={() => abrirForm("Registrar Proceso Cliente")}>Registrar Proceso Cliente</button>
         <button onClick={() => abrirForm("Registrar Proceso Compañia")}>Registrar Proceso Compañia</button>
         <button onClick={() => abrirForm("Registrar Servicio")}>Registrar Servicio</button>
+        <button onClick={() => abrirForm("Registrar Tarea")}>Registrar Tarea</button>
         
         {titlee === "Registrar Proceso Compañia" ? (
           <>
@@ -138,6 +139,10 @@ const GetAll = ({handleRedirect}) => {
               <Formulario title={titlee} setTitle={settitlee} />
           </>
         ): null}{titlee === "Registrar Proceso Compañia" ? (
+          <>
+              <Formulario title={titlee} setTitle={settitlee} />
+          </>
+        ): null}{titlee === "Registrar Tarea" ? (
           <>
               <Formulario title={titlee} setTitle={settitlee} />
           </>
