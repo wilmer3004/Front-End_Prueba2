@@ -6,16 +6,16 @@
     width: 100%;
 }
 
-.informacion{
+.contenedorDefault .informacion{
     width: 34%;
     background-color: white;
     margin-left: 50%;
-    font-size: 25px;
+    font-size: 120%;
     padding: 6.5% 8% 4.5%;
 }
 
-.carousel{
+.contenedorDefault .carousel{
     background-color: white;
     z-index: 1;
-    margin-top: -35%;
+    margin-top: -32%;
 }
