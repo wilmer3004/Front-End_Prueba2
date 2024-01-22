@@ -101,8 +101,8 @@ const GetAllClients = ({handleRedirect}) => {
             telefonoCli: dataCli.telefonoCliente,
             usernameCli: dataCli.correoCliente,
             estadoCli: dataCli.estadoCliente ? "1" : "0",
-            ciudadCli: dataCli.idCiudadFK,
-            TipoDocCli: dataCli.idTipoDocFK,
+            ciudadCli: dataCli.idCiudadFK.idCiudad,
+            TipoDocCli: dataCli.idTipoDocFK.idTipoDoc,
         });
 
         console.log(dataCli.idCiudadFK,dataCli.idTipoDocFK);
