@@ -3,13 +3,14 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 const apiURL = '/api/documento';
-const authToken = Cookies.get('authToken');
-const headers = {
-    'Authorization': `Bearer ${authToken}`
-};
+
 const useDataServiceDocument = () => {
     const [documento, setDocumento] = useState([]);
- 
+    const authToken = Cookies.get('authToken');
+    const headers = {
+        'Authorization': `Bearer ${authToken}`
+    };
+
     const fetchDataDocument = async () => { 
         try {
             const response = await axios.get(apiURL, { headers });

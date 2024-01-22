@@ -3,13 +3,14 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 const apiURL = '/api/detalleSerCom';
-const authToken = Cookies.get('authToken');
-const headers = {
-    'Authorization': `Bearer ${authToken}`
-};
+
 const useDataServiceDetSerCom = () => {
     const [detalleSerCom, setDetalleSerCom] = useState([]);
- 
+    const authToken = Cookies.get('authToken');
+    const headers = {
+        'Authorization': `Bearer ${authToken}`
+    };
+
     const fetchDataDetSerCom = async () => { 
         try {
             const response = await axios.get(apiURL, { headers });

@@ -13,7 +13,7 @@ const AuthData = () => {
     });
 
     const fetchData = async () => {
-
+        const t0 = performance.now();
         try {
             const authToken = Cookies.get('authToken');
             const headers = {
@@ -21,7 +21,7 @@ const AuthData = () => {
             };
 
             const response = await axios.get(apiURL, { headers });
-
+            const t1 = performance.now();
             setResponseState({
                 data: response.data,
                 status: response.status,

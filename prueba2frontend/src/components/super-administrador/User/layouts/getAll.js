@@ -1,5 +1,5 @@
 
-import React, {useState}from 'react';
+import React, {useEffect, useState} from 'react';
 import Table from "../../../components-reutilizables/table/Table";
 import useDataService from "../DataUSerService";
 import AuthData from "../../../../api/Auth";
@@ -12,22 +12,30 @@ import Formulario from '../../../components-reutilizables/formulario/formulario'
 
 
 const GetAll = ({handleRedirect}) => {
+    const authToken = Cookies.get('authToken');
+    let rol;
+    if (authToken) {
+        const decodedToken = verifyToken(authToken);
+        if (decodedToken && decodedToken.roles) {
+            rol = decodedToken.roles[0];
+        }
+    }
   const { data, fetchData,updateState,postHttp,fetchDataByID } = useDataService();
   const [titlee, settitlee] = useState('');
   const [dataEdit,setDataEdit]=useState({});
 
 
-  const handleRefreshData = () => {
+  const handleRefreshData = async () => {
     // Llama a fetchData para actualizar los datos
-    fetchData();
+    await fetchData();
   };
     const { responseState } = AuthData();
 
     // ----------------------------------------------------------
     // MAEJO DE ROLES Y AUTENTIFICACION
-    React.useEffect(() => {
-        const authToken = Cookies.get('authToken');
-        let rol = verifyToken(authToken).roles[0]
+
+
+    const checkRoleAndToken = () => {
         if(rol !=="Super Administrador"){
             Cookies.remove('authToken');
             window.location.href = '/'
@@ -40,8 +48,15 @@ const GetAll = ({handleRedirect}) => {
             Cookies.remove('authToken');
             window.location.href = '/'
         }
+    };
 
+    useEffect(() => {
+        checkRoleAndToken();
+        const intervalId = setInterval(checkRoleAndToken, 1000);
+        return () => clearInterval(intervalId);
     }, []);
+
+
     const handleState=(id)=>{
         updateState(id);
         Swal.fire({

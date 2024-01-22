@@ -3,13 +3,13 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 const apiURL = '/api/tipoDoc';
-const authToken = Cookies.get('authToken');
-const headers = {
-    'Authorization': `Bearer ${authToken}`
-};
+
 const useDataServiceTipoDoc = () => {
     const [tipoDoc, setTipoDoc] = useState([]);
- 
+    const authToken = Cookies.get('authToken');
+    const headers = {
+        'Authorization': `Bearer ${authToken}`
+    };
     const fetchDataTipoDoc = async () => { 
         try {
             const response = await axios.get(apiURL, { headers });

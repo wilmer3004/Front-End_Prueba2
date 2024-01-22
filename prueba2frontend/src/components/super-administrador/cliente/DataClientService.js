@@ -3,14 +3,14 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 const apiURL = '/api/cliente';
-const authToken = Cookies.get('authToken');
-const headers = {
-    'Authorization': `Bearer ${authToken}`
-};
+
 const useDataServiceCliente = () => {
     const [clientes, setClientes] = useState([]);
     const [clientesByID,setClientesByID] = useState([]);
-
+    const authToken = Cookies.get('authToken');
+    const headers = {
+        'Authorization': `Bearer ${authToken}`
+    };
  
     const fetchDataCliente = async () => { 
         try {

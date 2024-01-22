@@ -3,13 +3,14 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 const apiURL = '/api/procesoCom';
-const authToken = Cookies.get('authToken');
-const headers = {
-    'Authorization': `Bearer ${authToken}`
-};
+
 const useDataServiceProcComp = () => {
     const [ProcComp, setProcComp] = useState([]);
- 
+    const authToken = Cookies.get('authToken');
+    const headers = {
+        'Authorization': `Bearer ${authToken}`
+    };
+
     const fetchDataProcComp = async () => { 
         try {
             const response = await axios.get(apiURL, { headers });

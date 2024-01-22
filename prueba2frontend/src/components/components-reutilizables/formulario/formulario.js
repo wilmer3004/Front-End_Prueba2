@@ -123,7 +123,6 @@ const schemaServicio = yup.object().shape({
     estadoSer: yup.number().required("Este campo es requerido"),
     idSer: yup.number().notRequired().nullable()
 });
-console.log(schemaServicio)
 
 
 
@@ -204,7 +203,6 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
     const handleCompaniaChange = (event) => {
         const selectedIds = Array.from(event.target.selectedOptions, (option) => option.value);
         setSelectedCompaniaIds(selectedIds);
-        console.log('IDs de compañías seleccionadas:', selectedIds);
     };
 
 
@@ -298,11 +296,11 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     </label>
                                     <label className="2">
                                         Tipo de documento:
-                                        <select {...register('tipoDocumento')}>
+                                        <select {...register('tipoDocumento')} value={watch("tipoDocumento")}>
                                             {tipoDoc.map(doc => (
                                                 doc.estadoTipoDoc === true ? (
                                                     <option value={doc.idTipoDoc}
-                                                            selected={watch("tipoDocumento") === doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
+                                                            key={doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
                                                 ) : null
                                             ))}
                                         </select>
@@ -316,8 +314,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <label className="2">
                                         Estado:
                                         <select {...register("estadoUsuario")}>
-                                            <option value="1">Activo</option>
-                                            <option value="0">Inactivo</option>
+                                            <option value="1" key={"1"}>Activo</option>
+                                            <option value="0" key={"0"}>Inactivo</option>
                                         </select>
                                     </label>
                                     <label className="2">
@@ -334,10 +332,10 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     </label>
                                     <label className="2">
                                         Rol:
-                                        <select {...register("rol")}>
+                                        <select {...register("rol")} value={watch("rol")}>
                                             {tipoRol.map(rol => (
                                                 rol.estadoRol === true ? (
-                                                    <option value={rol.idRol} selected={watch("rol") === rol.idRol}>
+                                                    <option value={rol.idRol} key={rol.idRol}>
                                                         {rol.nombreRol}
                                                     </option>
                                                 ) : null

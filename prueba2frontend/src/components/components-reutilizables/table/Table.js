@@ -74,11 +74,13 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
             </div>
             <table>
                 <thead>
-                {nameColumnsD.map((header, index) => (
-                    <th key={index}>{header}</th>
-                ))}
-                <th>Estado</th>
-                <th>Editar</th>
+                <tr>
+                    {nameColumnsD.map((header, index) => (
+                        <th key={index}>{header}</th>
+                    ))}
+                    <th>Estado</th>
+                    <th>Editar</th>
+                </tr>
                 </thead>
                 <tbody>
                 {items.map((item, index) => (

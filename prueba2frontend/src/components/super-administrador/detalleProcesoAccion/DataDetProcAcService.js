@@ -3,13 +3,13 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 const apiURL = '/api/detalleProcAc';
-const authToken = Cookies.get('authToken');
-const headers = {
-    'Authorization': `Bearer ${authToken}`
-};
+
 const useDataServiceDetProcAcc = () => {
     const [detalleProcAc, setDetalleProcAc] = useState([]);
- 
+    const authToken = Cookies.get('authToken');
+    const headers = {
+        'Authorization': `Bearer ${authToken}`
+    };
     const fetchDataDetProAcc = async () => { 
         try {
             const response = await axios.get(apiURL, { headers });

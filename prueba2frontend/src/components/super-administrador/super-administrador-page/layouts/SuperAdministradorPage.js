@@ -1,6 +1,6 @@
 
 // SuperAdministradorPage.js
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './SuperAdministrador.css';
 import AuthData from "../../../../api/Auth";
 import Cookies from "js-cookie";
@@ -11,12 +11,20 @@ import ServiciosPage from "../../servicios/layout/ServiciosPage";
 import Footer from "../../../components-reutilizables/footer/Footer";
 import Default1 from '../../../components-reutilizables/default/default';
 import GetAllClients from "../../cliente/layout/GetAllClients";
-const authToken = Cookies.get('authToken');
+
 
 
 const SuperAdministradorPage = () => {
-    var rol = verifyToken(authToken).roles[0];
-    const { responseState } = AuthData();
+    const authToken = Cookies.get('authToken');
+    let rol;
+    if (authToken) {
+        const decodedToken = verifyToken(authToken);
+        if (decodedToken && decodedToken.roles) {
+            rol = decodedToken.roles[0];
+        }
+    }
+
+    const {responseState } =  AuthData();
     const [componenteData, setComponenteData] = useState("");
 
     const handleLogOut = () => {
@@ -31,13 +39,18 @@ const SuperAdministradorPage = () => {
     const handleRedirect = (path) => {
         setComponenteData(path);
     };
-
-    React.useEffect(() => {
-
+    const checkRoleAndToken = () => {
         if (rol !== "Super Administrador" || !Cookies.get('authToken') || responseState.status === 403) {
             handleLogOut();
         }
+    };
+
+    useEffect(() => {
+        checkRoleAndToken();
+        const intervalId = setInterval(checkRoleAndToken, 1000);
+        return () => clearInterval(intervalId);
     }, []);
+
 
     const dataNav = [
         { item: "Usuario", path: "getalluser" },

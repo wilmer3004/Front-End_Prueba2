@@ -3,7 +3,6 @@ import Carousel from "../carrusel/carrusel";
 import './default.css';
 
 const Default1 = ({rol}) =>{
-    console.log(rol);
 
     return (
         <div className="contenedorDefault">

@@ -1,5 +1,5 @@
 
-import React, {useState}from 'react';
+import React, {useEffect, useState} from 'react';
 import Table from "../../../components-reutilizables/table/Table";
 import AuthData from "../../../../api/Auth";
 import './GetAllClient.css';
@@ -15,17 +15,21 @@ const GetAllClients = ({handleRedirect}) => {
   const { clientes,updateState, postHttp, fetchDataByID } = useDataServiceCliente();
   const [titlee, settitlee] = useState('');
   const [dataEdit,setDataEdit]=useState({});
-
+    const authToken = Cookies.get('authToken');
+    let rol;
+    if (authToken) {
+        const decodedToken = verifyToken(authToken);
+        if (decodedToken && decodedToken.roles) {
+            rol = decodedToken.roles[0];
+        }
+    }
 
 
 
     const { responseState } = AuthData();
 
     // ----------------------------------------------------------
-    // MAEJO DE ROLES Y AUTENTIFICACION
-    React.useEffect(() => {
-        const authToken = Cookies.get('authToken');
-        let rol = verifyToken(authToken).roles[0]
+    const checkRoleAndToken = () => {
         if(rol !=="Super Administrador"){
             Cookies.remove('authToken');
             window.location.href = '/'
@@ -38,8 +42,14 @@ const GetAllClients = ({handleRedirect}) => {
             Cookies.remove('authToken');
             window.location.href = '/'
         }
+    };
 
+    useEffect(() => {
+        checkRoleAndToken();
+        const intervalId = setInterval(checkRoleAndToken, 1000);
+        return () => clearInterval(intervalId);
     }, []);
+
 
     //Servicios post y update
     const handleState=(id)=>{
