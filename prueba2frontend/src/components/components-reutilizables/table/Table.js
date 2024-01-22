@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./Table.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-regular-svg-icons";
+import Animacion from '../animacionCarga/animation'
 
 const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleEdit,handleFetchDataByID }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -9,7 +10,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
         // Simula la espera de los datos
         setTimeout(() => {
             setIsLoading(false);
-        }, 2000); // Cambia este valor según cuánto tiempo tarda en cargarse tus datos
+        }, 3000); // Cambia este valor según cuánto tiempo tarda en cargarse tus datos
     }, []);
 
     if (isLoading) {
@@ -17,6 +18,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
             <h1>
                 Cargando datos...
             </h1>
+            <Animacion />
         </div>;
     }
 

@@ -250,7 +250,6 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
     }, [title]);
 
 
-
     return (
         showForm && (
         <div className="global">
@@ -301,7 +300,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                         <select {...register('tipoDocumento')}>
                                             {tipoDoc.map(doc => (
                                                 doc.estadoTipoDoc === true ? (
-                                                    <option value={doc.idTipoDoc}
+                                                    <option value={doc.idTipoDoc} key={doc.idTipoDoc}
                                                             selected={watch("tipoDocumento") === doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
                                                 ) : null
                                             ))}
@@ -316,8 +315,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <label className="2">
                                         Estado:
                                         <select {...register("estadoUsuario")}>
-                                            <option value="1">Activo</option>
-                                            <option value="0">Inactivo</option>
+                                            <option value="1" key={"1"}>Activo</option>
+                                            <option value="0" key={"0"}>Inactivo</option>
                                         </select>
                                     </label>
                                     <label className="2">
@@ -337,7 +336,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                         <select {...register("rol")}>
                                             {tipoRol.map(rol => (
                                                 rol.estadoRol === true ? (
-                                                    <option value={rol.idRol} selected={watch("rol") === rol.idRol}>
+                                                    <option value={rol.idRol} key={rol.idRol}
+                                                     selected={watch("rol") === rol.idRol}>
                                                         {rol.nombreRol}
                                                     </option>
                                                 ) : null
@@ -362,8 +362,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado:
                                     <select {...register("estadoDocumento")}>
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        <option value="1" key={"1"}>Activo</option>
+                                        <option value="0" key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <label className="2">
@@ -371,7 +371,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("numCompaniaDoc")}>
                                         {compania.map(compa=>(
                                             compa.estadoCompania === true ? (
-                                            <option value={compa.idCompania}>{compa.nombreCompania}</option>
+                                            <option value={compa.idCompania} key={compa.idCompania}>{compa.nombreCompania}</option>
                                             ): null
                                         ))}
                                     </select>
@@ -396,8 +396,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado:
                                     <select {...register("estadoAccion")}>
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        <option value="1" key={"1"}>Activo</option>
+                                        <option value="0" key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -426,8 +426,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado:
                                     <select {...register("estadoTarea")}>
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        <option value="1" key={"1"}>Activo</option>
+                                        <option value="0" key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -472,7 +472,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("TipoDocCli")}>
                                         {tipoDoc.map(doc=>(
                                             doc.estadoTipoDoc === true ? (
-                                            <option value={doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
+                                            <option value={doc.idTipoDoc} key={doc.idTipoDoc}
+                                                selected={watch("TipoDocCli") === doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -486,8 +487,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado:
                                     <select {...register("estadoCli")}>
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        <option value="1" key={"1"}>Activo</option>
+                                        <option value="0" key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <label className="2">
@@ -501,7 +502,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("ciudadCli")}>
                                         {ciudad.map(ciudad => (
                                             ciudad.estadoCiudad === true ? (
-                                                <option value={ciudad.idCiudad}>{ciudad.nombreCiudad}</option>
+                                                <option value={ciudad.idCiudad} key={ciudad.idCiudad}
+                                                    selected={watch("ciudadCli") === ciudad.idCiudad}>{ciudad.nombreCiudad}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -528,8 +530,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado Pago:
                                     <select {...register("estadoPagoDetSer")}>
-                                        <option value="1">Pendiente</option>
-                                        <option value="0">Pagado</option>
+                                        <option value="1" key={"1"}>Pendiente</option>
+                                        <option value="0" key={"0"}>Pagado</option>
                                     </select>
                                 </label>
                                 <label className="2">
@@ -537,7 +539,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("clienteDetSer")}>
                                         {clientes.map(cliente=>(
                                             cliente.estadoCliente === true ? (
-                                            <option value={cliente.idCliente}>{cliente.pnombreCliente} {cliente.papellidoCliente} -- {cliente.numIdentCliente}</option>
+                                            <option value={cliente.idCliente} key={cliente.idCliente}>{cliente.pnombreCliente} {cliente.papellidoCliente} -- {cliente.numIdentCliente}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -547,7 +549,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("servicioDetSer")}>
                                         {servicios.map(servicio=>(
                                             servicio.estadoServicio === true ? (
-                                            <option value={servicio.idServicio}>{servicio.nombreServicio} -- {servicio.valorServicio}</option>
+                                            <option value={servicio.idServicio} key={servicio.idServicio}>{servicio.nombreServicio} -- {servicio.valorServicio}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -555,8 +557,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado:
                                     <select {...register("estadoDetSer")}>
-                                        <option value="1">Activo</option>
-                                        <option value="2">Inactivo</option>
+                                        <option value="1" key={"1"}>Activo</option>
+                                        <option value="2" key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -581,8 +583,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado Tarea:
                                     <select {...register("estadoDetTar")}>
-                                        <option value="1">Pendiente</option>
-                                        <option value="0">Finalizada</option>
+                                        <option value="1" key={"1"}>Pendiente</option>
+                                        <option value="0" key={"0"}>Finalizada</option>
                                     </select>
                                 </label>
                                 <label className="2">
@@ -590,7 +592,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("empleadoDetTarea")}>
                                         {data.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol==='Empleado' ? (
-                                            <option value={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
+                                            <option value={user.idUsuario} key={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -600,7 +602,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("tareaDetTar")}>
                                         {tareas.map(tarea=>(
                                             tarea.estadoTarea === true ? (
-                                            <option value={tarea.idTarea}>{tarea.nombreTarea}</option>
+                                            <option value={tarea.idTarea} key={tarea.idTarea}>{tarea.nombreTarea}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -637,8 +639,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado Compañia:
                                     <select {...register("estadoComp")}>
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        <option value="1" key={"1"}>Activo</option>
+                                        <option value="0" key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -667,7 +669,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("clienteProcCli")}>
                                         {clientes.map(cliente=>(
                                             cliente.estadoCliente === true ? (
-                                            <option value={cliente.idCliente}>{cliente.pnombreCliente} {cliente.papellidoCliente} -- {cliente.numIdentCliente}</option>
+                                            <option value={cliente.idCliente} key={cliente.idCliente}>{cliente.pnombreCliente} {cliente.papellidoCliente} -- {cliente.numIdentCliente}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -677,7 +679,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("empleadoProcCli")}>
                                         {data.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol==='Empleado' ? (
-                                            <option value={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
+                                            <option value={user.idUsuario} key={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -685,8 +687,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado Proceso:
                                     <select {...register("estadoProcCli")}>
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        <option value="1" key={"1"}>Activo</option>
+                                        <option value="0" key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -716,7 +718,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("companiaProcComp")}>
                                         {compania.map(compa=>(
                                             compa.estadoCompania === true ? (
-                                            <option value={compa.idCompania}>{compa.nombreCompania}</option>
+                                            <option value={compa.idCompania} key={compa.idCompania}>{compa.nombreCompania}</option>
                                             ): null
                                         ))}
                                     </select>
@@ -726,7 +728,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     <select {...register("administradorProcComp")}>
                                         {data.map(user=>(
                                             user.estadoUsu === true && user.id_rolfk.nombreRol!=='Empleado'  ? (
-                                            <option value={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
+                                            <option value={user.idUsuario} key={user.idUsuario}>{user.primerNombre} {user.primerApellido} -- {user.numDocUsu}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -734,8 +736,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado Proceso:
                                     <select {...register("estadoProcComp")}>
-                                        <option value="1">Enviado</option>
-                                        <option value="0">Pendiente</option>
+                                        <option value="1" key={"1"}>Enviado</option>
+                                        <option value="0" key={"0"}>Pendiente</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
@@ -765,11 +767,11 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Compañia:
                                     <select  onChange={handleCompaniaChange} {...register("compañiaSer")}>
-                                    <option value={null}>...</option>
+                                    <option value={null} key={null}>...</option>
                                         {compania.map(compa=>(
 
                                             compa.estadoCompania === true ? (
-                                            <option value={compa.idCompania}>{compa.nombreCompania}</option>
+                                            <option value={compa.idCompania} key={compa.idCompania}>{compa.nombreCompania}</option>
                                             ): null
                                         ))}
                                     </select>
@@ -777,8 +779,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 <label className="2">
                                     Estado Servicio:
                                     <select {...register("estadoSer")}>
-                                        <option  value={"1"}>Activo</option>
-                                        <option value={"0"}>Inactivo</option>
+                                        <option  value={"1"} key={"1"}>Activo</option>
+                                        <option value={"0"} key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
