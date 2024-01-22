@@ -195,7 +195,8 @@ button-registrar-notfound{
     margin: 20px auto;
     justify-content: space-between;
     align-items: center;
-    gap: 3px;
+    gap: 30px;
+
 }
 .contenedor-paginacion-table{
     width: 100%;
@@ -204,8 +205,28 @@ button-registrar-notfound{
     align-items: center;
 }
 
+.contenedor-paginacion-table .paginacion-table button{
+    height: 38px;
+    background: linear-gradient(#000015, #01012f, #010138, #010154) ;
+    color: #ffffff;
+    font-family: "Instrument Serif", serif;
+    font-size: 20px;
+    border-radius: 6px;
 
+}
 
+.contenedor-paginacion-table .paginacion-table button:hover{
+    cursor: pointer;
+    background: linear-gradient(#00003a, #01015b, #020273, #03038d) ;
+    transition: transform 0.5s ease-in-out;
+
+}
+
+.contenedor-paginacion-table .paginacion-table h3{
+    font-size: 20px;
+    color: rgba(75, 75, 75, 0.85);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.69);
+}
 
 
 

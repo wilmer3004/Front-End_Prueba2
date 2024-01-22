@@ -126,7 +126,9 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                 <div className={"paginacion-table"}>
                     <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Anterior
                     </button>
-                    {currentPage}
+                    <h3>
+                        {currentPage}
+                    </h3>
                     <button onClick={() => setCurrentPage(currentPage + 1)}
                             disabled={currentPage === Math.ceil(items.length / itemsPerPage)}>Siguiente
                     </button>
