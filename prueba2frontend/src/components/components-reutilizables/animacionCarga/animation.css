@@ -1,3 +1,9 @@
+/* This template / effect / code has been created by Jamie Coulter.
+You can customize and check it out on its original site on the following link:
+https://codepen.io/jcoulterdesign/pen/BrdPaw
+
+Thank you */
+
 body .scene_titan .eyes .eye, body .scene_saturn__face .face_clip .eye, body .scene, body .scene_titanShadow, body .scene_titan, body .scene_saturn, body .scene_saturn__shadow, body .scene_saturn__shadowRing, body .scene_saturn__face, body .scene_saturn__face .face_clip .mouth, body .scene_saturn__sparks, body .scene_saturn__sparks .spark, body .scene_saturn__ring, body .scene_saturn__ring .small, body .scene_saturn__ring .small_part, body .scene_saturn__ring .layer_part {
     position: absolute;
     left: 0;

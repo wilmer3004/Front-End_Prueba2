@@ -2,13 +2,17 @@ import React from "react";
 import Carousel from "../carrusel/carrusel";
 import './default.css';
 
-const Default1 = ({rol}) =>{
+const Default1 = () =>{
+
+    const currentPath = window.location.pathname;
+    
+    console.log(currentPath);
 
     return (
         <div className="contenedorDefault">
 
             <div className="informacion">
-            {rol === "Administrador" ? (
+            {currentPath === "/admin" ? (
                 <p className="">                    
                     ¡Bienvenido al Panel de <strong>Administración</strong> de Servicios!<br /><br />
 
@@ -21,7 +25,7 @@ const Default1 = ({rol}) =>{
                     ¡Gracias por elegirnos y bienvenido a una experiencia de gestión simplificada y efectiva!<br /><br />
                 </p>
             ): null}
-            {rol === "Empleado" ? (
+            {currentPath === "/empleado" ? (
                 <p className="">                    
                     ¡Te damos la bienvenida al Panel de <strong>Empleados!</strong><br /><br />
 
@@ -32,7 +36,7 @@ const Default1 = ({rol}) =>{
                     Apreciamos tu dedicación y esfuerzo. Si tienes preguntas o necesitas orientación, nuestro equipo está aquí para ayudarte. Gracias por ser parte de nuestro equipo y por contribuir al crecimiento continuo de nuestra empresa. ¡Bienvenido a una experiencia de trabajo colaborativo y enfocado en el éxito!<br /><br />
                 </p>
             ): null}
-            {rol === "Super Administrador" ? (
+            {currentPath === "/superadmin" ? (
                 <p className="">                    
                     ¡Bienvenido al Panel de <strong>Super Administrador!</strong><br /><br />
 

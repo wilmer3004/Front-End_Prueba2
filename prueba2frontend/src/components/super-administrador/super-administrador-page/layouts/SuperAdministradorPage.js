@@ -6,11 +6,11 @@ import AuthData from "../../../../api/Auth";
 import Cookies from "js-cookie";
 import { verifyToken } from "../../../../api/TokenDecode";
 import Nav from "../../../components-reutilizables/nav/Nav";
-import GetAll from "../../User/layouts/getAll";
-import ServiciosPage from "../../servicios/layout/ServiciosPage";
+import GetAll from "../../../components-services/User/layouts/getAll";
+import ServiciosPage from "../../../components-services/servicios/layout/ServiciosPage";
 import Footer from "../../../components-reutilizables/footer/Footer";
 import Default1 from '../../../components-reutilizables/default/default';
-import GetAllClients from "../../cliente/layout/GetAllClients";
+import GetAllClients from "../../../components-services/cliente/layout/GetAllClients";
 
 
 
@@ -63,7 +63,7 @@ const SuperAdministradorPage = () => {
         "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
         "getallclientes": <GetAllClients handleRedirect={handleRedirect}/>,
-        "default": <Default1 className="default" rol={rol}/>,
+        "default": <Default1 className="default" />,
     };
 
     return (

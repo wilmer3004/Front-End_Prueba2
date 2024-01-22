@@ -25,18 +25,18 @@ const useDataServiceDetSerCom = () => {
         }
     };
 
-    const postHttp = async (detalleSerCom) => {
+    const postHttpDetSerCom = async (idCompania, idServicio) => {
         try {
             const dataRequest = {
-                "idCompaniaFK": detalleSerCom.idCompaniaFK,
-                "idServicioFK": detalleSerCom.idServicioFK
+                "idCompaniaFK": idCompania,
+                "idServicioFK": idServicio
             };
             const response = await axios.post(apiURL, dataRequest, { headers });
 
             if (response.status !== 200) {
                 throw new Error(`Request failed with status: ${response.status}`);
             }
-            fetchDataDetSerCom();
+            console.log("Se registro correctamente")
         } catch (error) {
             console.error('Request failed:', error.message);
             throw error;
@@ -47,7 +47,7 @@ const useDataServiceDetSerCom = () => {
         fetchDataDetSerCom();
     }, []);
  
-    return { detalleSerCom, fetchDataDetSerCom, postHttp };
+    return { detalleSerCom, fetchDataDetSerCom, postHttpDetSerCom };
  };
  
 

@@ -6,17 +6,18 @@ import "./Formulario.css"
 import Swal from "sweetalert2"
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import useDataService from "../../super-administrador/User/DataUSerService";
-import useDataServiceTipoDoc from '../../super-administrador/tipoDocumento/DataTipoDocService';
-import useDataServiceTipoRol from '../../super-administrador/rol/DataRolService';
-import useDataServiceTarea from '../../super-administrador/tarea/DataTareaService';
-import useDataServiceCompania from '../../super-administrador/compañia/DataCompService';
+import useDataService from "../../components-services/User/DataUSerService";
+import useDataServiceTipoDoc from '../../components-services/tipoDocumento/DataTipoDocService';
+import useDataServiceTipoRol from '../../components-services/rol/DataRolService';
+import useDataServiceTarea from '../../components-services/tarea/DataTareaService';
+import useDataServiceCompania from '../../components-services/compañia/DataCompService'
 import {verifyToken} from "../../../api/TokenDecode";
 import AuthData from "../../../api/Auth";
-import useDataServiceCliente from '../../super-administrador/cliente/DataClientService';
-import useDataServiceCiudad from '../../super-administrador/ciudad/DataCiudadService';
-import useServicioDataService from '../../super-administrador/servicios/DataServicio';
+import useDataServiceCliente from '../../components-services/cliente/DataClientService';
+import useDataServiceCiudad from '../../components-services/ciudad/DataCiudadService';
+import useServicioDataService from '../../components-services/servicios/DataServicio';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { IoIosAddCircle, IoIosCloseCircle } from "react-icons/io";
 
 
 // -------------------------------------------------------------------------------------------------------
@@ -119,15 +120,15 @@ const schemaProcComp= yup.object().shape({
 const schemaServicio = yup.object().shape({
     nombreSer: yup.string().min(2,'El nombre del servicio debe ser al menos de 2 caracteres').required('Este campo es requerido'),
     precioSer: yup.string().required('Este campo es requerido'),
-    compañiaSer: yup.number().required("Este campo es requerido"),
     estadoSer: yup.number().required("Este campo es requerido"),
-    idSer: yup.number().notRequired().nullable()
+    idSer: yup.number().notRequired().nullable(),
+    companiasSeleccionadas: yup.array()
 });
-
 
 
 const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
 
+    
     const [valuesD,setValuesD]=useState(valuesDataR);
 
 
@@ -173,13 +174,19 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
 
     const [showForm, setShowForm] = useState(true);
 
-    const [selectedCompaniaIds, setSelectedCompaniaIds] = useState([]); // Nuevo estado para almacenar IDs de compañías seleccionadas
 
     // Validacion y funcionamiento onsubmit
-    const { register, handleSubmit, formState:{ errors }, trigger,watch } = useForm({
+    const { register, handleSubmit, formState:{ errors },watch, control } = useForm({
         resolver: yupResolver(schema),
-        mode: 'onSubmit', // Esto asegura que la validación se realice solo cuando se envíe el formulario
+        mode: 'onSubmit', // This ensures that validation is performed only when the form is submitted
         defaultValues:valuesD
+    });
+
+    
+        //array para las compañias al momento de crear los servicios
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'companiasSeleccionadas', // Nombre del campo del array
     });
 
 
@@ -191,20 +198,16 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
 
     const onSubmit = async(data)=>{
         try{
+            const companyIds = data.companiasSeleccionadas.map(id => parseInt(id));
+            console.log(companyIds);
             await handlePost(data)
+
 
         } catch(error) {
             console.error('Request failed:', error.message);
             throw error;
         }
     }
-
-    // Manejar cambios en la selección de compañías
-    const handleCompaniaChange = (event) => {
-        const selectedIds = Array.from(event.target.selectedOptions, (option) => option.value);
-        setSelectedCompaniaIds(selectedIds);
-    };
-
 
 
     // ----------------------------------------------------------------------
@@ -763,17 +766,27 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 {errors.precioSer && <span className={"text-error-label"}>{errors.precioSer.message}</span>}
 
                                 </label>
-                                <label className="2">
-                                    Compañia:
-                                    <select  onChange={handleCompaniaChange} {...register("compañiaSer")}>
-                                    <option value={null} key={null}>...</option>
-                                        {compania.map(compa=>(
-
-                                            compa.estadoCompania === true ? (
-                                            <option value={compa.idCompania} key={compa.idCompania}>{compa.nombreCompania}</option>
-                                            ): null
-                                        ))}
-                                    </select>
+                                <label className="listCompania">
+                                    Compañías:
+                                    {fields.map((field, index) => (
+                                        <div key={field.id} className='companiasCont'>
+                                            <select {...register(`companiasSeleccionadas.${index}`, { required: 'Selecciona una compañía' })}>
+                                            <option value={null} disabled>Selecciona una compañía</option>
+                                                {compania.map((compa) => (
+                                                    compa.estadoCompania === true ? (
+                                                        <option value={compa.idCompania} key={compa.idCompania}>
+                                                            {compa.nombreCompania}
+                                                        </option>
+                                                    ) : null
+                                                ))}
+                                            </select>
+                                            <IoIosCloseCircle type="button" id='eliminarCompania' onClick={() => remove(index)}/>
+                                            {console.log(index)}
+                                        </div>
+                                    ))}
+                                    <button className='botonAgregarCompania'>
+                                        <IoIosAddCircle id='agregarCompania' type="button" onClick={() => append({})}/>
+                                    </button>
                                 </label>
                                 <label className="2">
                                     Estado Servicio:

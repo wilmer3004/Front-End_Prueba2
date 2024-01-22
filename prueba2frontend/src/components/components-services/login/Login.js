@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import axios from "../../api/Api";
+import axios from "../../../api/Api";
 import Cookies from "js-cookie";
 import "./Login.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import {verifyToken} from '../../api/TokenDecode';
+import {verifyToken} from '../../../api/TokenDecode';
 import { useNavigate } from 'react-router-dom';
 
 

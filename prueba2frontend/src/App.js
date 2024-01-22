@@ -1,11 +1,11 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from "./components/login/Login";
+import Login from "./components/components-services/login/Login";
 import AdministradorPage from "./components/administrador/administrador-page/AdministradorPage";
 import SuperAdministradorPage from "./components/super-administrador/super-administrador-page/layouts/SuperAdministradorPage";
 import UsuarioRegularPage from "./components/usuario-regular/usuario-reular-page/UsuarioRegularPage";
-import GetAll from "./components/super-administrador/User/layouts/getAll";
-import ServiciosPage from "./components/super-administrador/servicios/layout/ServiciosPage";
+import GetAll from './components/components-services/User/layouts/getAll';
+import ServiciosPage from "./components/components-services/User/layouts/getAll";
 import Formulario from "./components/components-reutilizables/formulario/formulario";
 function App() {
   return (
