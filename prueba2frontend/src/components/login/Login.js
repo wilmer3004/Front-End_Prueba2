@@ -80,9 +80,9 @@ const Login = () => {
 
     return (
         <div className={"login-page"}>
-            <div className={"login-container"}>
+            <div className={"login-container fadeIn"}>
                 <div className={"logo-login"}>
-                    <FontAwesomeIcon icon={faUser} className={"img-login"}/>
+                    <FontAwesomeIcon icon={faUser} className={"img-login "}/>
                     <h2>Login</h2>
                 </div>
 
