@@ -6,12 +6,20 @@ import Animacion from '../animacionCarga/animation'
 
 const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleEdit,handleFetchDataByID }) => {
     const [isLoading, setIsLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(7);
     useEffect(() => {
         // Simula la espera de los datos
         setTimeout(() => {
             setIsLoading(false);
         }, 3000); // Cambia este valor según cuánto tiempo tarda en cargarse tus datos
     }, []);
+
+    useEffect(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        // Aquí puedes actualizar tus datos para mostrar solo los elementos entre startIndex y endIndex
+    }, [currentPage, itemsPerPage]);
 
     if (isLoading) {
         return <div className={"data-notfound-messaje"}>
@@ -80,17 +88,17 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                     {nameColumnsD.map((header, index) => (
                         <th key={index}>{header}</th>
                     ))}
-                    <th>Estado</th>
+                    <th id={"button-td-state"}>Estado</th>
                     <th>Editar</th>
                 </tr>
                 </thead>
                 <tbody>
-                {items.map((item, index) => (
+                {items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((item, index) => (
                     <tr key={index}>
                         {nameColumnsK.map((key, idx) => (
-                            <td key={idx}>{deepFind(item, key)}</td>
+                            <td key={idx} title={deepFind(item, key)}>{deepFind(item, key)}</td>
                         ))}
-                        <td>
+                        <td id={"button-td-state"}>
                             <button
                                 onClick={() => handleState(item[nameColumnsK[0]])}
                                 className={`button-state-table ${nameColumnsK.some(key => key.includes("estado") && item[key]) ? 'active' : 'inactive'}`}
@@ -103,7 +111,8 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                         </td>
                         <td>
                             <div className={"edit-container"}>
-                                <FontAwesomeIcon icon={faEdit} className={"img-edit"} onClick={() => handleFetchDataByID(item[nameColumnsK[0]])}/>
+                                <FontAwesomeIcon icon={faEdit} className={"img-edit"}
+                                                 onClick={() => handleFetchDataByID(item[nameColumnsK[0]])}/>
                             </div>
                         </td>
 
@@ -113,6 +122,16 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
 
                 </tbody>
             </table>
+            <div className={"contenedor-paginacion-table"}>
+                <div className={"paginacion-table"}>
+                    <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Anterior
+                    </button>
+                    {currentPage}
+                    <button onClick={() => setCurrentPage(currentPage + 1)}
+                            disabled={currentPage === Math.ceil(items.length / itemsPerPage)}>Siguiente
+                    </button>
+                </div>
+            </div>
 
         </div>
     );
