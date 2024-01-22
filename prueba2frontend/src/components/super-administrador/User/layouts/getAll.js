@@ -12,9 +12,9 @@ import Formulario from '../../../components-reutilizables/formulario/formulario'
 
 
 const GetAll = ({handleRedirect}) => {
-  const { data, fetchData,updateState,postHttp } = useDataService();
+  const { data, fetchData,updateState,postHttp,fetchDataByID } = useDataService();
   const [titlee, settitlee] = useState('');
-
+  const [dataEdit,setDataEdit]=useState({});
 
 
   const handleRefreshData = () => {
@@ -58,15 +58,55 @@ const GetAll = ({handleRedirect}) => {
             text: "Se registro correctamte el usuario en la base de datos :D",
             icon: "success"
         });
-        handleRedirect("getalluser");
+        try {
+            handleRedirect("getalluser");
+            fetchData();
+        }catch (error){
+            handleRedirect("getalluser");
+            fetchData();
+        }
     }
 
 
 
   const abrirForm=(title)=>{
+      setDataEdit({
+          idUser:null,
+          pNombre:"",
+          pApellido:"",
+          numDoc:"",
+          telefono:"",
+          username:"",
+          password:"",
+          segundoNombre:"",
+          segundoApellido:"",
+          rol:"",
+          estadoUsuario:"",
+          tipoDocumento:"",
+      });
       settitlee(title);
   }
+    const handleFetchDataByID = async (id) => {
 
+        const dataS = await fetchDataByID(id);
+        console.log(dataS);
+        await setDataEdit({
+            idUser:dataS.idUsuario,
+            pNombre:dataS.primerNombre,
+            pApellido:dataS.primerApellido,
+            numDoc:dataS.numDocUsu,
+            telefono:dataS.telefono,
+            username:dataS.username,
+            password:"",
+            segundoNombre:dataS.segundoNombre,
+            segundoApellido:dataS.segundoApellido,
+            rol:dataS.id_rolfk.idRol,
+            estadoUsuario:dataS.estadoUsu? "1" : "0",
+            tipoDocumento:dataS.id_tipo_docfk.idTipoDoc,
+        });
+
+        settitlee("Registrar Usuario")
+    }
 
 
   const nameColumnsDisplay = ['ID Usuario', 'Correo Electrónico', 'Primer Nombre', 'Segundo Nombre', 'Primer Apellido', 'Segundo Apellido', 'Número de Documento', 'Teléfono', 'Estado Usuario', 'Rol', 'Tipo de Documento'];
@@ -74,12 +114,12 @@ const GetAll = ({handleRedirect}) => {
 
   return (
       <div>
-            <Table title={"Usuarios"} nameColumnsK={nameColumnsKeys} nameColumnsD={nameColumnsDisplay} items={data} handleState={handleState} abrirForm={abrirForm} titleForm={"Registrar Usuario"}/>
+            <Table title={"Usuarios"} nameColumnsK={nameColumnsKeys} nameColumnsD={nameColumnsDisplay} items={data} handleState={handleState} handleFetchDataByID={handleFetchDataByID} abrirForm={abrirForm} titleForm={"Registrar Usuario"}/>
 
 
         {titlee === "Registrar Usuario" ? (
           <>
-              <Formulario title={titlee} setTitle={settitlee} handlePost={handlePost}/>
+              <Formulario title={titlee} setTitle={settitlee} handlePost={handlePost} valuesDataR={dataEdit}/>
           </>
         ): null}
 

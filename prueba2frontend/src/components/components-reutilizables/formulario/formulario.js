@@ -34,9 +34,12 @@ const schemaUsers= yup.object().shape({
     password: yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('La contraseña es requerida'),
     segundoNombre:yup.string(),
     segundoApellido:yup.string(),
-    rol:yup.number(),
-    estadoUsuario:yup.number(),
-    tipoDocumento:yup.number()
+    rol:yup.number().required(),
+    estadoUsuario:yup.number().required(),
+    tipoDocumento:yup.number().required(),
+    idUser: yup.number().notRequired().nullable()
+
+
 });
 
 const schemaDocument= yup.object().shape({
@@ -298,7 +301,8 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                         <select {...register('tipoDocumento')}>
                                             {tipoDoc.map(doc => (
                                                 doc.estadoTipoDoc === true ? (
-                                                    <option value={doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
+                                                    <option value={doc.idTipoDoc}
+                                                            selected={watch("tipoDocumento") === doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
                                                 ) : null
                                             ))}
                                         </select>
@@ -333,14 +337,16 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                         <select {...register("rol")}>
                                             {tipoRol.map(rol => (
                                                 rol.estadoRol === true ? (
-                                                    <option value={rol.idRol}>{rol.nombreRol}</option>
+                                                    <option value={rol.idRol} selected={watch("rol") === rol.idRol}>
+                                                        {rol.nombreRol}
+                                                    </option>
                                                 ) : null
                                             ))}
                                         </select>
                                     </label>
                                     <div className={"botones"}>
                                         <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                                        <button type="submit" className="btn btn-registrar" >{title}</button>
+                                        <button type="submit" className="btn btn-registrar" >{null !== watch("idUser")?"Actualizar Usuario ":title}</button>
                                     </div>
                                 </form>
                             </>
