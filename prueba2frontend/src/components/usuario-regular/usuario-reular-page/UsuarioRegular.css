@@ -1,7 +1,6 @@
 .empleado{
-    background-color: white;
-}
-
-.default{
-    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
 }

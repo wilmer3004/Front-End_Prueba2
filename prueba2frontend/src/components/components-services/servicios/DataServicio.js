@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
+import useDataServiceDetSerCom from "../detalleServicioCompañia/DataDetSerCom";
 
 const apiURL = '/api/servicio';
 
@@ -64,6 +65,7 @@ const useServicioDataService = () => {
         }
     };
 
+    const{ postHttpDetSerCom} = useDataServiceDetSerCom();
     const postHttp = async (data) => {
         try {
             const dataRequest = {
@@ -71,9 +73,21 @@ const useServicioDataService = () => {
                 "nombreServicio": data.nombreSer,
                 "valorServicio": data.precioSer,
                 "estadoServicio": data.estadoSer,
-
             };
             const response = await axios.post(apiURL, dataRequest, { headers });
+
+            fetchData();
+            var datosServicio= servicios;
+            console.log(datosServicio)
+            var servicio= datosServicio[datosServicio.length -1];
+
+            console.log(servicio, datosServicio)
+
+            const companyIds = data.companiasSeleccionadas.map(id => parseInt(id));
+            
+            companyIds.map(detalleSerCom =>(
+                postHttpDetSerCom(detalleSerCom, servicio.idServicio)
+            ) )
 
             if (response.status !== 200) {
                 throw new Error(`Request failed with status: ${response.status}`);

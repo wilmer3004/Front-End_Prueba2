@@ -120,3 +120,36 @@
     font-size: 55%;
 }
 
+.companiasCont{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-height: 20vh;
+}
+
+.companiasCont select{
+    width: 70%;
+    padding: 5%;
+    color: #585252;
+    font-size: 15px;
+}
+
+#eliminarCompania{
+    width: 15%;
+    border: none;
+    cursor: pointer;
+}
+
+.botonAgregarCompania{
+    width: 100%;
+    font-size: 40px;
+    color: aliceblue;
+    background: transparent;
+    border: none;
+}
+
+#agregarCompania{
+    width: 100%;
+    cursor: pointer;
+}
+
