@@ -12,6 +12,8 @@ import Footer from "../../../components-reutilizables/footer/Footer";
 import Default1 from '../../../components-reutilizables/default/default';
 import GetAllClients from "../../../components-services/cliente/layout/GetAllClients";
 import CargaDeDocumentos from "../../../components-services/cargaDeDocumentos/CargaDeDocumentos";
+import CompaniaPage from "../../../components-services/compañia/layout/CompaniaPage";
+import TareasPage from "../../../components-services/tarea/layout/TareaPage";
 
 
 
@@ -57,6 +59,8 @@ const SuperAdministradorPage = () => {
         { item: "Usuario", path: "getalluser" },
         { item: "Servicios", path: "servicios" },
         { item: "Clientes", path: "getallclientes" },
+        { item: "Compañias", path: "companias" },
+        { item: "Tareas", path: "tareas" },
         { item: "LogOut", path: "" },
     ];
 
@@ -64,6 +68,8 @@ const SuperAdministradorPage = () => {
         "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
         "getallclientes": <GetAllClients handleRedirect={handleRedirect}/>,
+        "companias": <CompaniaPage handleRedirect={handleRedirect}/>,
+        "tareas": <TareasPage handleRedirect={handleRedirect}/>,
         "default": <Default1 className="default" />,
     };
 

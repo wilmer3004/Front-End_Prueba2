@@ -2,9 +2,6 @@
 .global{
     padding: 0;
     margin: 0;
-    font-family: "Instrument Serif", serif;
-    font-weight: 500;
-    font-style: normal;
     min-height: 80vh;
     min-width: 100%;
     position: fixed;
@@ -40,6 +37,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: "Instrument Serif", serif;
+    font-weight: 500;
+    font-style: normal;
+    
 }
 
 .contenido h1{

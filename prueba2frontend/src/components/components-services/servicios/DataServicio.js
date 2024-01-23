@@ -31,7 +31,7 @@ const useServicioDataService = () => {
             throw error;
         }
     };
-    const fetchDataByID = async (id) => {
+    const fetchDataByIDSer = async (id) => {
         try {
             const response = await axios.get(`${apiURL}/${id}`, { headers });
 
@@ -85,9 +85,12 @@ const useServicioDataService = () => {
 
             const companyIds = data.companiasSeleccionadas.map(id => parseInt(id));
             
+            console.log(companyIds)
             companyIds.map(detalleSerCom =>(
                 postHttpDetSerCom(detalleSerCom, servicio.idServicio)
             ) )
+
+            
 
             if (response.status !== 200) {
                 throw new Error(`Request failed with status: ${response.status}`);
@@ -109,7 +112,7 @@ const useServicioDataService = () => {
         fetchData();
     }, []);
 
-    return { servicios, fetchData,updateState,postHttp,fetchDataByID,serviciosByID };
+    return { servicios, fetchData,updateState,postHttp,fetchDataByIDSer,serviciosByID };
 };
 
 export default useServicioDataService;

@@ -6,6 +6,7 @@ const apiURL = '/api/detalleUsuTar';
 
 const useDataServiceDetUsuTar = () => {
     const [detalleUsuTar, setDetalleUsuTar] = useState([]);
+    const [ detallesTarById, setDetalleTarById]=useState([])
     const authToken = Cookies.get('authToken');
     const headers = {
         'Authorization': `Bearer ${authToken}`
@@ -39,9 +40,27 @@ const useDataServiceDetUsuTar = () => {
             throw error;
         }
     };
+
+    const fetchDataByID = async (id) => {
+        try {
+            const response = await axios.get(`${apiURL}/${id}`, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+
+            setDetalleTarById(response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Request failed:', error.message);
+            throw error;
+        }
+    };
+
     const postHttp = async (detalleUsuTar) => {
         try {
             const dataRequest = {
+                "idDetalleTar": detalleUsuTar.idDetalleTar,
                 "fechaAsigTarea": detalleUsuTar.fechaAsigDetTa,
                 "fechaFinTarea": detalleUsuTar.fechaFinDetTa,
                 "estadoDetalleUsuTarea": detalleUsuTar.estadoDetTar,
@@ -64,7 +83,7 @@ const useDataServiceDetUsuTar = () => {
         fetchDataDetUsuTar();
     }, []);
  
-    return { detalleUsuTar, fetchDataDetUsuTar, postHttp, updateState };
+    return { detalleUsuTar, fetchDataDetUsuTar, postHttp, updateState, fetchDataByID };
  };
  
 
