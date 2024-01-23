@@ -7,6 +7,7 @@ import UsuarioRegularPage from "./components/usuario-regular/usuario-reular-page
 import GetAll from './components/components-services/User/layouts/getAll';
 import ServiciosPage from "./components/components-services/User/layouts/getAll";
 import Formulario from "./components/components-reutilizables/formulario/formulario";
+
 function App() {
   return (
       <Router>
@@ -20,6 +21,7 @@ function App() {
                         <Routes>
                             <Route path="/getalluser" element={<GetAll />} />
                             <Route path="/servicios" element={<ServiciosPage/>}/>
+                            <Route path="/companias" element={<ServiciosPage/>}/>
                             <Route path={"/formulario"} element={<Formulario/>}/>
                         </Routes>
                     </SuperAdministradorPage>

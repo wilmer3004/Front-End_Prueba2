@@ -9,6 +9,8 @@ import GetAllClients from "../../components-services/cliente/layout/GetAllClient
 import Nav from "../../components-reutilizables/nav/Nav";
 import Footer from "../../components-reutilizables/footer/Footer";
 import './Administrador.css'
+import TareasPage from "../../components-services/tarea/layout/TareaPage";
+import DetalleTarea from "../../components-services/detalleUsuTarea/layout/DetalleTareaPage";
 
 const AdministradorPage = ()=>{
     const authToken = Cookies.get('authToken');
@@ -53,6 +55,8 @@ const AdministradorPage = ()=>{
         { item: "Usuario", path: "getalluser" },
         { item: "Servicios", path: "servicios" },
         { item: "Clientes", path: "getallclientes" },
+        { item: "Tareas", path: "tareas" },
+        { item: "DetallesTareas", path: "detallestareas" },
         { item: "LogOut", path: "" },
     ]
 
@@ -61,6 +65,8 @@ const AdministradorPage = ()=>{
         "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
         "getallclientes": <GetAllClients handleRedirect={handleRedirect}/>,
+        "tareas": <TareasPage handleRedirect={handleRedirect}/>,
+        "detallestareas": <DetalleTarea handleRedirect={handleRedirect}/>,
         "default": <Default1 className="default"/>,
     }
 

@@ -6,6 +6,8 @@ const apiURL = '/api/compania';
 
 const useDataServiceCompania = () => {
     const [compania, setCompania] = useState([]);
+    const [companiasByID,setCompaniasByID] = useState([]);
+
     const authToken = Cookies.get('authToken');
     const headers = {
         'Authorization': `Bearer ${authToken}`
@@ -21,6 +23,21 @@ const useDataServiceCompania = () => {
             setCompania(response.data);
         } catch (error) {
             console.error('Request failed:', error.message);
+        }
+    };
+    const fetchDataByIDComp = async (id) => {
+        try {
+            const response = await axios.get(`${apiURL}/${id}`, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+
+            setCompaniasByID(response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Request failed:', error.message);
+            throw error;
         }
     };
  
@@ -41,6 +58,7 @@ const useDataServiceCompania = () => {
     const postHttp = async (compania) => {
         try {
             const dataRequest = {
+                "idCompania": compania.idCompania,
                 "nombreCompania": compania.nombreComp,
                 "nitCompania": compania.NIT,
                 "representanteLegalCompania": compania.nombreRepre,
@@ -62,7 +80,7 @@ const useDataServiceCompania = () => {
         fetchDataCompania();
     }, []);
  
-    return { compania, fetchDataCompania, postHttp, updateState };
+    return { compania, fetchDataCompania, fetchDataByIDComp, postHttp, updateState,companiasByID  };
  };
  
 

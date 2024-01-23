@@ -9,7 +9,7 @@ import Formulario from "../../../components-reutilizables/formulario/formulario"
 
 
 const ServiciosPage = ({handleRedirect})=>{
-    const { servicios,updateState,postHttp,fetchDataByID } = useServicioDataService();
+    const { servicios,updateState,postHttp, fetchDataByIDSer } = useServicioDataService();
     const [titlee, settitlee] = useState('');
     const [dataEdit,setDataEdit]=useState({});
 
@@ -20,7 +20,7 @@ const ServiciosPage = ({handleRedirect})=>{
         await updateState(id);
         Swal.fire({
             title: `Se edito el estado`,
-            text: `Se edito estado correctamte del servicio con id ${id} en la base de datos :D`,
+            text: `Se edito estado correctamente del servicio con id ${id} en la base de datos :D`,
             icon: "success"
         });
     }
@@ -55,7 +55,7 @@ const ServiciosPage = ({handleRedirect})=>{
     }
     const handleFetchDataByID = async (id) => {
 
-        const dataS = await fetchDataByID(id);
+        const dataS = await fetchDataByIDSer(id);
         await setDataEdit({
             idSer: dataS.idServicio,
             nombreSer: dataS.nombreServicio,
@@ -66,8 +66,6 @@ const ServiciosPage = ({handleRedirect})=>{
 
         settitlee("Registrar Servicio")
     }
-
-
 
 
 

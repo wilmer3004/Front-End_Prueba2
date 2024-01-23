@@ -79,6 +79,7 @@ const schemaDetalleSer= yup.object().shape({
 });
 
 const schemaDetalleTar= yup.object().shape({
+    idDetalleTar: yup.number().notRequired().nullable(),
     fechaAsigDetTa: yup.date(),
     fechaFinDetTa: yup.date(),
     estadoDetTar: yup.number(),
@@ -87,6 +88,7 @@ const schemaDetalleTar= yup.object().shape({
 });
 
 const schemaCompañia= yup.object().shape({
+    idCompania:yup.number().notRequired().nullable(),
     nombreComp: yup.string().min(2, 'El nombre de la compañia debe tener al menos 2 caracteres').required('Este campo es requerido'),
     NIT: yup.string().min(9,'El NIT debe de ser al menos de 9 caracteres').required('El NIT es requerido'),
     nombreRepre: yup.string().min(14, 'El nombre completo debe tener al menos 14 caracteres').required('Este campo es requerido'),
@@ -102,6 +104,7 @@ const schemaProcCli= yup.object().shape({
 });
 
 const schemaTarea= yup.object().shape({
+    idTarea: yup.number().notRequired().nullable(),
     descripcionTarea:yup.string().min(20, 'La descripcion debe tener al menos 20 caracteres').required('Este campo es requerido'),
     nombreTarea: yup.string().required("Este campo es requerido"),
     estadoTarea: yup.number(),
@@ -141,10 +144,6 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
     React.useEffect(() => {
         const authToken = Cookies.get('authToken');
         let rol = verifyToken(authToken).roles[0]
-        if(rol !=="Super Administrador"){
-            Cookies.remove('authToken');
-            window.location.href = '/'
-        }
         if (!Cookies.get('authToken')) {
             window.location.href = '/'
             Cookies.remove('authToken');
@@ -316,7 +315,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     </label>
                                     <label className="2">
                                         Estado:
-                                        <select {...register("estadoUsuario")}>
+                                        <select {...register("estadoUsuario")} value={watch("estadoUsuario")}>
                                             <option value="1" key={"1"}>Activo</option>
                                             <option value="0" key={"0"}>Inactivo</option>
                                         </select>
@@ -471,11 +470,10 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 </label>
                                 <label className="2">
                                     Tipo de documento:
-                                    <select {...register("TipoDocCli")}>
+                                    <select {...register("TipoDocCli")} value={watch("roTipoDocClil")}>
                                         {tipoDoc.map(doc=>(
                                             doc.estadoTipoDoc === true ? (
-                                            <option value={doc.idTipoDoc} key={doc.idTipoDoc}
-                                                selected={watch("TipoDocCli") === doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
+                                            <option value={doc.idTipoDoc} key={doc.idTipoDoc}>{doc.nombreTipoDoc}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -488,7 +486,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 </label>
                                 <label className="2">
                                     Estado:
-                                    <select {...register("estadoCli")}>
+                                    <select {...register("estadoCli")} value={watch("estadoCli")}>
                                         <option value="1" key={"1"}>Activo</option>
                                         <option value="0" key={"0"}>Inactivo</option>
                                     </select>
@@ -501,11 +499,10 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 </label>
                                 <label className="2">
                                     Ciudad:
-                                    <select {...register("ciudadCli")}>
+                                    <select {...register("ciudadCli")} value={watch("ciudadCli")}>
                                         {ciudad.map(ciudad => (
                                             ciudad.estadoCiudad === true ? (
-                                                <option value={ciudad.idCiudad} key={ciudad.idCiudad}
-                                                    selected={watch("ciudadCli") === ciudad.idCiudad}>{ciudad.nombreCiudad}</option>
+                                                <option value={ciudad.idCiudad} key={ciudad.idCiudad}>{ciudad.nombreCiudad}</option>
                                             ) : null
                                         ))}
                                     </select>
@@ -640,14 +637,14 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                 </label>
                                 <label className="2">
                                     Estado Compañia:
-                                    <select {...register("estadoComp")}>
+                                    <select {...register("estadoComp")} value={watch("estadoComp")}>
                                         <option value="1" key={"1"}>Activo</option>
                                         <option value="0" key={"0"}>Inactivo</option>
                                     </select>
                                 </label>
                                 <div className={"botones"}>
                                     <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                                    <button type="submit" className="btn btn-registrar" >{title}</button>
+                                    <button type="submit" className="btn btn-registrar" >{null !== watch("idCompania")?"Actualizar Compañia ":title}</button>
                                 </div>
                             </form>
                             </>

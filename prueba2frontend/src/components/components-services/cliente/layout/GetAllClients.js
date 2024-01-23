@@ -30,7 +30,7 @@ const GetAllClients = ({handleRedirect}) => {
 
     // ----------------------------------------------------------
     const checkRoleAndToken = () => {
-        if(rol !=="Super Administrador"){
+        if(rol ==="Empleado"){
             Cookies.remove('authToken');
             window.location.href = '/'
         }
