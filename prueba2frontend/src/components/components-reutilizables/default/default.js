@@ -6,7 +6,6 @@ const Default1 = () =>{
 
     const currentPath = window.location.pathname;
     
-    console.log(currentPath);
 
     return (
         <div className="contenedorDefault">
