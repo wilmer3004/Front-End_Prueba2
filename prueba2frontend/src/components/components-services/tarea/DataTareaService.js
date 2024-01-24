@@ -11,7 +11,7 @@ const useDataServiceTarea = () => {
     };
 
     const [tareas, setTareas] = useState([]);
-    const [ setTareasByID] = useState([]);
+    const [ tareasByID ,setTareasByID] = useState([]);
 
 
     const fetchDataTarea = async () => { 
