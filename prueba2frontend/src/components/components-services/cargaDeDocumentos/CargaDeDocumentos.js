@@ -1,9 +1,14 @@
 import React, {useState} from "react";
-import useDataServiceDocument from "../documento/DataDocumenService";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const CargaDeDocumentos = (idCompania)=>{
+const CargaDeDocumentos = ()=>{
 
-    const {documento,postHttp}=useDataServiceDocument();
+    const apiUrl = "api/documento";
+    const authToken = Cookies.get('authToken');
+    const headers = {
+        'Authorization': `Bearer ${authToken}`
+    };
 
     const [estadoDocumento, setEstadoDocumento] = useState(true);
     const [archivoDocumento, setArchivoDocumento] = useState(null);
@@ -11,21 +16,32 @@ const CargaDeDocumentos = (idCompania)=>{
     const [dataBaseEncode, setDataBaseEncode] = useState("");
 
     const handleFileChange = (e) => {
-        if (e.target.files) {
-            setArchivoDocumento(e.target.files[0]);
-        }
+        setArchivoDocumento(e.target.files[0]);
     };
 
-    const handleSubmit = async () => {
-        const response = await postHttp(archivoDocumento,idCompaniaFK);
-        console.log(response);
-        setDataBaseEncode(response.data.archivoDocumento);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append("estadoDocumento", estadoDocumento);
+        formData.append("archivoDocumento", archivoDocumento);
+        formData.append("idCompaniaFK", idCompaniaFK);
+
+        const response = await axios.post(apiUrl, formData, {headers});
+        console.log(response.data);
+        setDataBaseEncode(response.data.archivoDocumento)
     };
 
     return(
-        <div className={"contenedor-cargadocumentos"}>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input type={"checkbox"} checked={estadoDocumento}
+                       onChange={(e) => setEstadoDocumento(e.target.checked)}/>
                 <input type={"file"} name={"file"} onChange={handleFileChange}/>
-                <button type="submit" onClick={()=>handleSubmit()}>Cargar</button>
+                <input type={"number"} value={idCompaniaFK} onChange={(e) => setIdCompaniaFK(e.target.value)}/>
+                <button type="submit">Cargar</button>
+
+            </form>
             {dataBaseEncode? (
                 <iframe src={`data:application/pdf;base64,${dataBaseEncode}`} width="100%" height="500px"/>
             ):null}

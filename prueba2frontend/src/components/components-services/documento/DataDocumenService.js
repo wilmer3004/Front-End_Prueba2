@@ -39,20 +39,19 @@ const useDataServiceDocument = () => {
             throw error;
         }
     };
-    const postHttpDocumento = async (archivoDocumento,idCompaniaFK) => {
+    const postHttp = async (documento) => {
         try {
-                const formData = new FormData();
-                formData.append("estadoDocumento", true);
-                formData.append("archivoDocumento", archivoDocumento);
-                formData.append("idCompaniaFK", idCompaniaFK);
-
-            const response = await axios.post(apiURL, formData, { headers });
+            const dataRequest = {
+                "archivoDocumento": documento.document,
+                "estadoDocumento": documento.estadoDocumento,
+                "idCompaniaFK": documento.numCompaniaDoc
+            };
+            const response = await axios.post(apiURL, dataRequest, { headers });
 
             if (response.status !== 200) {
                 throw new Error(`Request failed with status: ${response.status}`);
             }
             fetchDataDocument();
-            return response;
         } catch (error) {
             console.error('Request failed:', error.message);
             throw error;
@@ -63,7 +62,7 @@ const useDataServiceDocument = () => {
         fetchDataDocument();
     }, []);
  
-    return { documento, fetchDataDocument, postHttpDocumento, updateState };
+    return { documento, fetchDataDocument, postHttp, updateState };
  };
  
 
