@@ -14,6 +14,7 @@ import GetAllClients from "../../../components-services/cliente/layout/GetAllCli
 import CargaDeDocumentos from "../../../components-services/cargaDeDocumentos/CargaDeDocumentos";
 import CompaniaPage from "../../../components-services/compañia/layout/CompaniaPage";
 import TareasPage from "../../../components-services/tarea/layout/TareaPage";
+import MostrarDocumento from "../../../components-services/mostrarDocumentos/MostrarDocumento";
 
 
 
@@ -29,6 +30,7 @@ const SuperAdministradorPage = () => {
 
     const {responseState } =  AuthData();
     const [componenteData, setComponenteData] = useState("");
+    const [idCompania1, setIdCompania1]=useState(null);
 
     const handleLogOut = () => {
         Cookies.remove('authToken');
@@ -54,6 +56,9 @@ const SuperAdministradorPage = () => {
         return () => clearInterval(intervalId);
     }, []);
 
+    const idCompania = (idCompania)=>{
+        setIdCompania1(idCompania);
+    }
 
     const dataNav = [
         { item: "Usuario", path: "getalluser" },
@@ -69,9 +74,10 @@ const SuperAdministradorPage = () => {
         "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
         "getallclientes": <GetAllClients handleRedirect={handleRedirect}/>,
-        "companias": <CompaniaPage handleRedirect={handleRedirect}/>,
+        "companias": <CompaniaPage handleRedirect={handleRedirect} idCompania1={idCompania}/>,
         "tareas": <TareasPage handleRedirect={handleRedirect}/>,
         "documentos":<CargaDeDocumentos/>,
+        "mostrarDocumento":<MostrarDocumento idCompania={idCompania1}/>,
         "default": <Default1 className="default" />,
     };
 

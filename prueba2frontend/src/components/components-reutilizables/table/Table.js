@@ -5,7 +5,7 @@ import {faEdit} from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Animacion from '../animacionCarga/animation'
 
-const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleEdit,handleFetchDataByID }) => {
+const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleRedirect,handleFetchDataByID,idCompania }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(7);
@@ -120,13 +120,19 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                         <td>
                             <div className={"edit-container"}>
                                 <FontAwesomeIcon icon={faEdit} className={"img-edit"}
-                                                 onClick={() => handleFetchDataByID(item[nameColumnsK[0]])}/>
+                                                 onClick={() => handleFetchDataByID(item[nameColumnsK[0]]
+                                                 )}/>
                             </div>
                         </td>
                         {showStatusButton?(
                             <td>
                                 <div className={"edit-container"}>
-                                    <FontAwesomeIcon icon={faSearch} className={"img-edit"}/>
+                                    <FontAwesomeIcon icon={faSearch} className={"img-edit"}
+                                        onClick={()=> {
+                                            handleRedirect("mostrarDocumento");
+                                            idCompania(item[nameColumnsK[0]]);
+                                        }}
+                                    />
                                 </div>
                             </td>
                         ):null}
