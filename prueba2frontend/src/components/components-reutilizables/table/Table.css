@@ -228,7 +228,9 @@ button-registrar-notfound{
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.69);
 }
 
-
+.th-mostrar-documentos{
+    max-width: 50px;
+}
 
 .contenedor-tabla table td {
     max-width: 60px;

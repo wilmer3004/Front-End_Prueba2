@@ -2,12 +2,14 @@ import React, {useEffect, useState} from "react";
 import "./Table.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-regular-svg-icons";
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Animacion from '../animacionCarga/animation'
 
 const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleEdit,handleFetchDataByID }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(7);
+    const [showStatusButton, setShowStatusButton] = useState(false)
     useEffect(() => {
         // Simula la espera de los datos
         setTimeout(() => {
@@ -20,6 +22,9 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
         const endIndex = startIndex + itemsPerPage;
         // Aquí puedes actualizar tus datos para mostrar solo los elementos entre startIndex y endIndex
     }, [currentPage, itemsPerPage]);
+    useEffect(()=>{
+        setShowStatusButton(title === "Compañias");
+    })
 
     if (isLoading) {
         return <div className={"data-notfound-messaje"}>
@@ -90,6 +95,9 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                     ))}
                     <th id={"button-td-state"}>Estado</th>
                     <th>Editar</th>
+                    {showStatusButton?(
+                        <th className={"th-mostrar-documentos"}>Mostrar Documentos</th>
+                    ):null}
                 </tr>
                 </thead>
                 <tbody>
@@ -115,6 +123,13 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                                                  onClick={() => handleFetchDataByID(item[nameColumnsK[0]])}/>
                             </div>
                         </td>
+                        {showStatusButton?(
+                            <td>
+                                <div className={"edit-container"}>
+                                    <FontAwesomeIcon icon={faSearch} className={"img-edit"}/>
+                                </div>
+                            </td>
+                        ):null}
 
                     </tr>
 

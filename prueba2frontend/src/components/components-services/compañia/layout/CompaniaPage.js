@@ -96,7 +96,7 @@ const CompaniaPage = ({handleRedirect})=>{
 
     return(
         <div>
-            <Table title={"Companias"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={compania} handleState={handleState} handleFetchDataByID={handleFetchDataByID} abrirForm={abrirForm} titleForm={"Registrar Compania"}/>
+            <Table title={"Compañias"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={compania} handleState={handleState} handleFetchDataByID={handleFetchDataByID} abrirForm={abrirForm} titleForm={"Registrar Compania"}/>
 
             {titlee==="Registrar Compania" ? (
                 <>
