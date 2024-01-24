@@ -14,6 +14,7 @@ import GetAllClients from "../../../components-services/cliente/layout/GetAllCli
 import CargaDeDocumentos from "../../../components-services/cargaDeDocumentos/CargaDeDocumentos";
 import CompaniaPage from "../../../components-services/compañia/layout/CompaniaPage";
 import TareasPage from "../../../components-services/tarea/layout/TareaPage";
+import Modal from "../../../components-reutilizables/modal/modal";
 
 
 
@@ -91,6 +92,8 @@ const SuperAdministradorPage = () => {
             <div>
                 <Footer className="sa"/>
             </div>
+
+                <Modal title={"Registrar Compania"}/>
 
         </div>
     );
