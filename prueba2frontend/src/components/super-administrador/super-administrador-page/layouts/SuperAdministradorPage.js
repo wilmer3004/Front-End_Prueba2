@@ -61,6 +61,7 @@ const SuperAdministradorPage = () => {
         { item: "Clientes", path: "getallclientes" },
         { item: "Compañias", path: "companias" },
         { item: "Tareas", path: "tareas" },
+        { item: "Documentos", path: "documentos" },
         { item: "LogOut", path: "" },
     ];
 
@@ -70,6 +71,7 @@ const SuperAdministradorPage = () => {
         "getallclientes": <GetAllClients handleRedirect={handleRedirect}/>,
         "companias": <CompaniaPage handleRedirect={handleRedirect}/>,
         "tareas": <TareasPage handleRedirect={handleRedirect}/>,
+        "documentos":<CargaDeDocumentos/>,
         "default": <Default1 className="default" />,
     };
 
@@ -89,9 +91,6 @@ const SuperAdministradorPage = () => {
             <div>
                 <Footer className="sa"/>
             </div>
-
-
-            <CargaDeDocumentos/>
 
         </div>
     );
