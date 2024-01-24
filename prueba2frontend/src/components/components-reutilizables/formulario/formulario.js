@@ -18,6 +18,7 @@ import useDataServiceCiudad from '../../components-services/ciudad/DataCiudadSer
 import useServicioDataService from '../../components-services/servicios/DataServicio';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { IoIosAddCircle, IoIosCloseCircle } from "react-icons/io";
+import useDataServiceDocument from "../../components-services/documento/DataDocumenService";
 
 
 // -------------------------------------------------------------------------------------------------------
@@ -93,6 +94,13 @@ const schemaCompañia= yup.object().shape({
     NIT: yup.string().min(9,'El NIT debe de ser al menos de 9 caracteres').required('El NIT es requerido'),
     nombreRepre: yup.string().min(14, 'El nombre completo debe tener al menos 14 caracteres').required('Este campo es requerido'),
     estadoComp: yup.number(),
+    documentosSeleccionados: yup.array().of(
+        yup.mixed().test(
+            'is-file',
+            'Selecciona un archivo PDF',
+            value => value == null || (value instanceof File && value.type === 'application/pdf')
+        )
+    )
 });
 
 const schemaProcCli= yup.object().shape({
@@ -131,7 +139,12 @@ const schemaServicio = yup.object().shape({
 
 const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
 
-    
+    const {documento,postHttp}=useDataServiceDocument();
+
+    const [estadoDocumento, setEstadoDocumento] = useState(true);
+    const [archivoDocumento, setArchivoDocumento] = useState(null);
+    const [dataBaseEncode, setDataBaseEncode] = useState("");
+
     const [valuesD,setValuesD]=useState(valuesDataR);
 
 
@@ -154,6 +167,15 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
         }
 
     }, []);
+
+    const handleFileChange = (e) => {
+        const files = e.target.files;
+        const newFiles = Array.from(files).map(file => file ? URL.createObjectURL(file) : null);
+        setValuesD(prevValues => ({
+            ...prevValues,
+            documentosSeleccionados: newFiles
+        }));
+    };
 
 
     const [schema ,setSchema]=useState();
@@ -181,12 +203,14 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
         defaultValues:valuesD
     });
 
+    const [nameControl,setNameControl]=useState("companiasSeleccionadas")
     
         //array para las compañias al momento de crear los servicios
     const { fields, append, remove } = useFieldArray({
         control,
-        name: 'companiasSeleccionadas', // Nombre del campo del array
+        name: nameControl, // Nombre del campo del array
     });
+
 
 
     // ----------------------------------------------------------------------
@@ -237,6 +261,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
         } else if(title === "Registrar DetalleTarea"){
             setSchema(schemaDetalleTar);
         } else if(title === "Registrar Compania"){
+            setNameControl("documentosSeleccionados");
             setSchema(schemaCompañia);
         } else if(title === "Registrar Proceso Cliente"){
             setSchema(schemaProcCli);
@@ -616,43 +641,72 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
 
                         {title === "Registrar Compania"? (
                             <>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <label className="1">
-                                    Nombre de la compañia:
-                                <input type='text' placeholder='Escribe el nombre de la compañia' {...register("nombreComp")}/>
-                                {errors.nombreComp && <span className={"text-error-label"}>{errors.nombreComp.message}</span>}
+                                <form onSubmit={handleSubmit(onSubmit)}>
+                                    <label className="1">
+                                        Nombre de la compañia:
+                                        <input type='text'
+                                               placeholder='Escribe el nombre de la compañia' {...register("nombreComp")}/>
+                                        {errors.nombreComp &&
+                                            <span className={"text-error-label"}>{errors.nombreComp.message}</span>}
 
-                                </label>
-                                <label className="2">
-                                    NIT de la compañia:
-                            <input type='number' placeholder='Digita el nit de la compañia' {...register("NIT")}/>
-                                {errors.NIT && <span className={"text-error-label"}>{errors.NIT.message}</span>}
+                                    </label>
+                                    <label className="2">
+                                        NIT de la compañia:
+                                        <input type='number'
+                                               placeholder='Digita el nit de la compañia' {...register("NIT")}/>
+                                        {errors.NIT && <span className={"text-error-label"}>{errors.NIT.message}</span>}
 
-                                </label>
-                                <label className="1">
-                                    Representante legar:
-                                <input type='text' placeholder='Escribe el nombre completo del representante legal de la empresa' {...register("nombreRepre")}/>
-                                {errors.nombreRepre && <span className={"text-error-label"}>{errors.nombreRepre.message}</span>}
+                                    </label>
+                                    <label className="1">
+                                        Representante legar:
+                                        <input type='text'
+                                               placeholder='Escribe el nombre completo del representante legal de la empresa' {...register("nombreRepre")}/>
+                                        {errors.nombreRepre &&
+                                            <span className={"text-error-label"}>{errors.nombreRepre.message}</span>}
 
-                                </label>
-                                <label className="2">
-                                    Estado Compañia:
-                                    <select {...register("estadoComp")} value={watch("estadoComp")}>
-                                        <option value="1" key={"1"}>Activo</option>
-                                        <option value="0" key={"0"}>Inactivo</option>
-                                    </select>
-                                </label>
-                                <div className={"botones"}>
-                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                                    <button type="submit" className="btn btn-registrar" >{null !== watch("idCompania")?"Actualizar Compañia ":title}</button>
-                                </div>
-                            </form>
+                                    </label>
+                                    <label className="2">
+                                        Estado Compañia:
+                                        <select {...register("estadoComp")} value={watch("estadoComp")}>
+                                            <option value="1" key={"1"}>Activo</option>
+                                            <option value="0" key={"0"}>Inactivo</option>
+                                        </select>
+                                    </label>
+
+                                    documentos:
+                                    {fields.map((field, index) => (
+
+                                        <div key={field.id} className='documentoCont'>
+                                            <div className={"contenedor-cargadocumentos"}>
+                                                <input {...register(`documentosSeleccionados.${index}`, {required: 'Selecciona un documento'})}
+                                                       type={"file"} name={"file"} onChange={handleFileChange}/>
+
+
+                                                {/*{dataBaseEncode ? (*/}
+                                                {/*    <iframe src={`data:application/pdf;base64,${dataBaseEncode}`}*/}
+                                                {/*            width="100%" height="500px"/>*/}
+                                                {/*) : null}*/}
+
+                                            </div>
+                                            <IoIosCloseCircle type="button" id='eliminarDocumento'
+                                                              onClick={() => remove(index)}/>
+                                        </div>
+                                    ))}
+                                    <button className='botonAgregarCompania'>
+                                    <IoIosAddCircle id='agregarDocumento' type="button" onClick={() => append({})}/>
+                                    </button>
+                                    <div className={"botones"}>
+                                        <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                        <button type="submit"
+                                                className="btn btn-registrar">{null !== watch("idCompania") ? "Actualizar Compañia " : title}</button>
+                                    </div>
+                                </form>
                             </>
                         ) : null}
 
-                        {title === "Registrar Proceso Cliente"? (
+                        {title === "Registrar Proceso Cliente" ? (
                             <>
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <form onSubmit={handleSubmit(onSubmit)}>
                                 <label className="1">
                                     Descripcion del proceso:
                                 <input type='text' placeholder='Escribe una breve descripcion del proceso' {...register("descripPro")}/>
@@ -778,7 +832,6 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                                 ))}
                                             </select>
                                             <IoIosCloseCircle type="button" id='eliminarCompania' onClick={() => remove(index)}/>
-                                            {console.log(index)}
                                         </div>
                                     ))}
                                     <button className='botonAgregarCompania'>

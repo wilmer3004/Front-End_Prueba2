@@ -11,7 +11,6 @@ import ServiciosPage from "../../../components-services/servicios/layout/Servici
 import Footer from "../../../components-reutilizables/footer/Footer";
 import Default1 from '../../../components-reutilizables/default/default';
 import GetAllClients from "../../../components-services/cliente/layout/GetAllClients";
-import CargaDeDocumentos from "../../../components-services/cargaDeDocumentos/CargaDeDocumentos";
 import CompaniaPage from "../../../components-services/compañia/layout/CompaniaPage";
 import TareasPage from "../../../components-services/tarea/layout/TareaPage";
 
@@ -90,8 +89,6 @@ const SuperAdministradorPage = () => {
                 <Footer className="sa"/>
             </div>
 
-
-            <CargaDeDocumentos/>
 
         </div>
     );

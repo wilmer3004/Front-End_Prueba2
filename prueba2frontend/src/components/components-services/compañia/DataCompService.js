@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
+import useDataServiceDocument from "../documento/DataDocumenService";
 
 const apiURL = '/api/compania';
 
@@ -40,7 +41,7 @@ const useDataServiceCompania = () => {
             throw error;
         }
     };
- 
+
     const updateState = async (id) => {
         try {
 
@@ -55,6 +56,8 @@ const useDataServiceCompania = () => {
             throw error;
         }
     };
+
+    const {documento,postHttpDocumento}=useDataServiceDocument();
     const postHttp = async (compania) => {
         try {
             const dataRequest = {
@@ -66,10 +69,26 @@ const useDataServiceCompania = () => {
             };
             const response = await axios.post(apiURL, dataRequest, { headers });
 
+            fetchDataCompania();
+
+            var datosCompania = compania;
+            console.log(datosCompania);
+            var compania = datosCompania[datosCompania.length -1];
+            console.log(compania,datosCompania);
+            const documentoIds = compania.documentosSeleccionados.map(id => parseInt(id));
+            console.log(documentoIds);
+            documentoIds.map(async documentoCompania => (
+                await postHttpDocumento(documentoCompania, compania.idCompania)
+            ))
+
+
             if (response.status !== 200) {
                 throw new Error(`Request failed with status: ${response.status}`);
             }
+
             fetchDataCompania();
+            return;
+
         } catch (error) {
             console.error('Request failed:', error.message);
             throw error;
