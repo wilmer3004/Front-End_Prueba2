@@ -3,13 +3,24 @@ import "./Table.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import {useSelector, useDispatch} from "react-redux";
+import {changeNumCompani} from "../../../redux/documetoSlice";
 import Animacion from '../animacionCarga/animation'
 
-const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleEdit,handleFetchDataByID }) => {
+const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleRedirect,handleFetchDataByID }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(7);
-    const [showStatusButton, setShowStatusButton] = useState(false)
+    const [showStatusButton, setShowStatusButton] = useState(false);
+    const [dataRedirect, setDataRedirect]=useState("default");
+
+// redux
+    const numeroCompania = useSelector((state)=>state.documento.numeroCompania);
+    const dispatch = useDispatch();
+    const handleChange = (numCompani)=>{
+        dispatch(changeNumCompani(numCompani));
+    };
+
     useEffect(() => {
         // Simula la espera de los datos
         setTimeout(() => {
@@ -24,6 +35,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
     }, [currentPage, itemsPerPage]);
     useEffect(()=>{
         setShowStatusButton(title === "Compañias");
+        setDataRedirect(title === "Compañias"?"mostrarDocumentos":"default");
     })
 
     if (isLoading) {
@@ -126,7 +138,10 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                         {showStatusButton?(
                             <td>
                                 <div className={"edit-container"}>
-                                    <FontAwesomeIcon icon={faSearch} className={"img-edit"}/>
+                                    <FontAwesomeIcon icon={faSearch} className={"img-edit"} onClick={()=> {
+                                        handleChange(item[nameColumnsK[0]])
+                                        handleRedirect(dataRedirect);
+                                    }}/>
                                 </div>
                             </td>
                         ):null}

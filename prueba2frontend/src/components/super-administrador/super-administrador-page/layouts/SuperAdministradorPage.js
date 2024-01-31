@@ -14,6 +14,7 @@ import GetAllClients from "../../../components-services/cliente/layout/GetAllCli
 import CargaDeDocumentos from "../../../components-services/cargaDeDocumentos/CargaDeDocumentos";
 import CompaniaPage from "../../../components-services/compañia/layout/CompaniaPage";
 import TareasPage from "../../../components-services/tarea/layout/TareaPage";
+import MostrarDocumentos from "../../../components-services/mostrarDocumentos/MostrarDocumentos";
 
 
 
@@ -71,7 +72,8 @@ const SuperAdministradorPage = () => {
         "getallclientes": <GetAllClients handleRedirect={handleRedirect}/>,
         "companias": <CompaniaPage handleRedirect={handleRedirect}/>,
         "tareas": <TareasPage handleRedirect={handleRedirect}/>,
-        "documentos":<CargaDeDocumentos/>,
+        "documentos":<CargaDeDocumentos handleRedirect={handleRedirect}/>,
+        "mostrarDocumentos":<MostrarDocumentos handleRedirect={handleRedirect}/>,
         "default": <Default1 className="default" />,
     };
 

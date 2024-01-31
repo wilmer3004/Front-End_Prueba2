@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import useDataServiceCompania from "../compañia/DataCompService";
 
-const CargaDeDocumentos = ()=>{
+const CargaDeDocumentos = ({handleRedirect})=>{
 
     const apiUrl = "api/documento";
     const authToken = Cookies.get('authToken');
@@ -55,7 +55,8 @@ const CargaDeDocumentos = ()=>{
             const response = await axios.post(apiUrl, formData, {headers});
             console.log(response.data);
             setDataBaseEncode(response.data.archivoDocumento)
-        }
+        };
+        handleRedirect("companias");
     };
 
 
