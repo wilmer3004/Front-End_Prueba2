@@ -3,6 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import useDataServiceCompania from "../compañia/DataCompService";
 import "./CargaDeDocumentos.css";
+import {verifyToken} from "../../../api/TokenDecode";
+import AuthData from "../../../api/Auth";
 
 const CargaDeDocumentos = ({handleRedirect})=>{
 
@@ -20,6 +22,39 @@ const CargaDeDocumentos = ({handleRedirect})=>{
     const [numInputs, setNumInputs] = useState(1);
     const[errorData,setErrorData]=useState("");
 
+
+    // Seguridad
+    let rol;
+    if (authToken) {
+        const decodedToken = verifyToken(authToken);
+        if (decodedToken && decodedToken.roles) {
+            rol = decodedToken.roles[0];
+        }
+    }
+
+    const { responseState } = AuthData();
+
+
+    const checkRoleAndToken = () => {
+        if(rol !=="Super Administrador" && rol !=="Administrador"){
+            Cookies.remove('authToken');
+            window.location.href = '/'
+        }
+        if (!Cookies.get('authToken')) {
+            window.location.href = '/'
+            Cookies.remove('authToken');
+        }
+        if (responseState.status === 403) {
+            Cookies.remove('authToken');
+            window.location.href = '/'
+        }
+    };
+
+    useEffect(() => {
+        checkRoleAndToken();
+        const intervalId = setInterval(checkRoleAndToken, 1000);
+        return () => clearInterval(intervalId);
+    }, []);
 
 
     useEffect(() => {
@@ -56,12 +91,14 @@ const CargaDeDocumentos = ({handleRedirect})=>{
                 return;
             }
         }
-
-        // Validar que no haya archivos duplicados
-        if (archivosDocumentos.length !== [...new Set(archivosDocumentos.map(file => file.name))].length) {
-            setErrorData('Has añadido un archivo que ya ha sido añadido.');
-            return;
+        for (let i = 0; i < archivosDocumentos.length; i++) {
+            // Validar que no haya archivos duplicados
+            if (archivosDocumentos.length !== [...new Set(archivosDocumentos.map(file => file.name))].length) {
+                setErrorData('Has añadido un archivo que ya ha sido añadido.');
+                return;
+            }
         }
+
 
         for (let i = 0; i < archivosDocumentos.length; i++) {
             const formData = new FormData();
@@ -70,7 +107,6 @@ const CargaDeDocumentos = ({handleRedirect})=>{
             formData.append("idCompaniaFK", idCompaniaFK);
 
             const response = await axios.post(apiUrl, formData, {headers});
-            console.log(response.data);
             setDataBaseEncode(response.data.archivoDocumento)
         };
         handleRedirect("companias");
@@ -82,56 +118,67 @@ const CargaDeDocumentos = ({handleRedirect})=>{
 
 
     return(
-        <div>
+        <div className={"container-upload-files"}>
             <form onSubmit={handleSubmit}>
-                {Array.from({length: numInputs}).map((_, index) => (
-                    <div key={index}>
-                        <input type={"file"} name={"file"} accept=".pdf" onChange={(e) => handleFileChange(e, index)}/>
+                <h1>Subir Archivos</h1>
+                <div className={"scrollable"}>
+                    {Array.from({length: numInputs}).map((_, index) => (
+                        <div key={index} className={"data-file "}>
+                            <input type={"file"} name={"file"} accept=".pdf" onChange={(e) => handleFileChange(e, index)}/>
 
-                        <button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                if (numInputs > 1) {
-                                    const newFiles = [...archivosDocumentos];
-                                    newFiles.splice(index, 1);
-                                    setArchivosDocumentos(newFiles);
-                                    setNumInputs(numInputs - 1);
-                                    setErrorData("");
-                                } else {
-                                    setErrorData("¡No puedes borrar archivos si no hay!");
-                                }
-                            }}>X
-                        </button>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    if (numInputs > 1) {
+                                        const newFiles = [...archivosDocumentos];
+                                        newFiles.splice(index, 1);
+                                        setArchivosDocumentos(newFiles);
+                                        setNumInputs(numInputs - 1);
+                                        setErrorData("");
+                                    } else {
+                                        const newFiles = [...archivosDocumentos];
+                                        newFiles.splice(index, 1);
+                                        setArchivosDocumentos(newFiles);
+                                        setNumInputs(numInputs - 1);
+                                        setErrorData("");
+                                        setErrorData("¡No puedes borrar archivos si no hay!");
+                                    }
+                                }}>X
+                            </button>
 
-                    </div>
-                ))}
+                        </div>
+                    ))}
+
+                    <button onClick={(e) => {
+                        e.preventDefault();
+                        setNumInputs(numInputs + 1);
+                        setErrorData("");
+                    }}
+                    className={"button-add"}
+                    >Añadir más documentos
+                    </button>
+                </div>
+                <label>
+                    Compañia:
+                    <select value={idCompaniaFK} onChange={(e) => setIdCompaniaFK(e.target.value)}>
+                        {compania.map(comp => (
+                            comp.estadoCompania === true ? (
+                                <option value={comp.idCompania} key={comp.idCompania}>
+                                    {comp.nombreCompania}
+                                </option>
+                            ) : null
+                        ))}
+                    </select>
+
+                </label>
+
+                <button type="submit" className={"button-upload"}>Cargar</button>
                 {errorData !== "" ? (
-                    <div>
+                    <div className={"data-error"}>
                         <p>{errorData}</p>
                     </div>
                 ) : null
                 }
-
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    setNumInputs(numInputs + 1);
-                    setErrorData("");
-                }}>Añadir más documentos
-                </button>
-
-
-                <select value={idCompaniaFK} onChange={(e) => setIdCompaniaFK(e.target.value)}>
-                    {compania.map(comp => (
-                        comp.estadoCompania === true ? (
-                            <option value={comp.idCompania} key={comp.idCompania}>
-                                {comp.nombreCompania}
-                            </option>
-                        ) : null
-                    ))}
-                </select>
-
-                <button type="submit">Cargar</button>
-
             </form>
             <br/>
 

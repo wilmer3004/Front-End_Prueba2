@@ -4,6 +4,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./MostrarDocumentos.css";
 import {changeDocument} from "../../../redux/documetoSlice";
+import {verifyToken} from "../../../api/TokenDecode";
+import AuthData from "../../../api/Auth";
 
 const MostrarDocumentos = () => {
   const apiUrl = "api/documento/documentoByIDCompany";
@@ -16,9 +18,40 @@ const MostrarDocumentos = () => {
   const idCompania = parseInt(documento.numeroCompania);
   const dispatch = useDispatch();
 
-
   const [documentos, setDocumentos] = useState([]);
   const [loading, setLoading] = useState(false); // Estado para el indicador de carga
+
+  let rol;
+  if (authToken) {
+    const decodedToken = verifyToken(authToken);
+    if (decodedToken && decodedToken.roles) {
+      rol = decodedToken.roles[0];
+    }
+  }
+
+  const { responseState } = AuthData();
+
+
+    const checkRoleAndToken = () => {
+      if(rol !=="Super Administrador"){
+        Cookies.remove('authToken');
+        window.location.href = '/'
+      }
+      if (!Cookies.get('authToken')) {
+        window.location.href = '/'
+        Cookies.remove('authToken');
+      }
+      if (responseState.status === 403) {
+        Cookies.remove('authToken');
+        window.location.href = '/'
+      }
+    };
+
+  useEffect(() => {
+    checkRoleAndToken();
+    const intervalId = setInterval(checkRoleAndToken, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     setLoading(true); // Inicia la carga
