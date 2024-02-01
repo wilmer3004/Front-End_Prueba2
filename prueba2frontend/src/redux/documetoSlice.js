@@ -11,11 +11,15 @@ export const documentoSlice = createSlice({
     reducers:{
         changeNumCompani:(state,action)=>{
             state.numeroCompania = action.payload;
-        }
+        },
+
+        changeDocument:(state,action)=>{
+          state.documento = action.payload;
+        },
     }
 });
 
-export const {changeNumCompani} = documentoSlice.actions;
+export const {changeNumCompani,changeDocument} = documentoSlice.actions;
 export default documentoSlice.reducer;
 
 

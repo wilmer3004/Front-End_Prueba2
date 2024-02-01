@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import useDataServiceCompania from "../compañia/DataCompService";
+import "./CargaDeDocumentos.css";
 
 const CargaDeDocumentos = ({handleRedirect})=>{
 
@@ -27,29 +28,45 @@ const CargaDeDocumentos = ({handleRedirect})=>{
 
     const handleFileChange = (e, index) => {
         const file = e.target.files[0];
-        const fileName = file.name;
-        const fileExtension = fileName.split('.').pop().toLowerCase();
-
-        if (fileExtension !== 'pdf') {
-            alert('Por favor, sube un archivo PDF.');
-            return;
-        }
-
-        const newFiles = {...archivosDocumentos};
-        newFiles[index] = file;
-        setArchivosDocumentos(newFiles);
+        setArchivosDocumentos([...archivosDocumentos, file]);
     };
+
+
 
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const keys = Object.keys(archivosDocumentos);
-        for (let i = 0; i < keys.length; i++) {
+
+        if (archivosDocumentos.length < 1) {
+            setErrorData('Debes seleccionar al menos un archivo.');
+            return;
+        }
+        if (!idCompaniaFK || idCompaniaFK <= 0) {
+            setErrorData('Debes seleccionar un ID de compañía.');
+            return;
+        }
+
+        // Validar que todos los archivos sean PDF
+        for (let i = 0; i < archivosDocumentos.length; i++) {
+            const fileExtension = archivosDocumentos[i].name.split('.').pop().toLowerCase();
+            if (fileExtension !== 'pdf') {
+                setErrorData('Por favor, sube un archivo PDF.');
+                return;
+            }
+        }
+
+        // Validar que no haya archivos duplicados
+        if (archivosDocumentos.length !== [...new Set(archivosDocumentos.map(file => file.name))].length) {
+            setErrorData('Has añadido un archivo que ya ha sido añadido.');
+            return;
+        }
+
+        for (let i = 0; i < archivosDocumentos.length; i++) {
             const formData = new FormData();
             formData.append("estadoDocumento", estadoDocumento);
-            formData.append("archivoDocumento", archivosDocumentos[keys[i]]);
+            formData.append("archivoDocumento", archivosDocumentos[i]);
             formData.append("idCompaniaFK", idCompaniaFK);
 
             const response = await axios.post(apiUrl, formData, {headers});
@@ -58,6 +75,8 @@ const CargaDeDocumentos = ({handleRedirect})=>{
         };
         handleRedirect("companias");
     };
+
+
 
 
 
@@ -72,9 +91,18 @@ const CargaDeDocumentos = ({handleRedirect})=>{
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
-                                numInputs >= 1 ? setNumInputs(numInputs - 1) : setErrorData("¡No puedes borrar archivos si no hay!");
+                                if (numInputs > 1) {
+                                    const newFiles = [...archivosDocumentos];
+                                    newFiles.splice(index, 1);
+                                    setArchivosDocumentos(newFiles);
+                                    setNumInputs(numInputs - 1);
+                                    setErrorData("");
+                                } else {
+                                    setErrorData("¡No puedes borrar archivos si no hay!");
+                                }
                             }}>X
                         </button>
+
                     </div>
                 ))}
                 {errorData !== "" ? (
@@ -106,11 +134,7 @@ const CargaDeDocumentos = ({handleRedirect})=>{
 
             </form>
             <br/>
-            {/*        {*/}
-            {/*            dataBaseEncode ? (*/}
-            {/*                <iframe src={`data:application/pdf;base64,${dataBaseEncode}`} width="100%" height="500px"/>*/}
-    {/*            ) : null*/}
-    {/*}*/}
+
     <br/>
 
 </div>

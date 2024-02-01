@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import Cookies from "js-cookie";
+import "./MostrarDocumentos.css";
+import {changeDocument} from "../../../redux/documetoSlice";
 
 const MostrarDocumentos = () => {
   const apiUrl = "api/documento/documentoByIDCompany";
@@ -12,6 +14,8 @@ const MostrarDocumentos = () => {
 
   const documento = useSelector(state => state.documento);
   const idCompania = parseInt(documento.numeroCompania);
+  const dispatch = useDispatch();
+
 
   const [documentos, setDocumentos] = useState([]);
   const [loading, setLoading] = useState(false); // Estado para el indicador de carga
@@ -36,14 +40,33 @@ const MostrarDocumentos = () => {
     return <div>Cargando documentos...</div>; // Muestra este mensaje mientras los documentos se están cargando
   }
 
+  const handleChangeDocumento=(dataDocumento)=>{
+    dispatch(changeDocument(dataDocumento))
+  };
+
+
   return (
-      <div>
-        <h1>Id de compañía: {idCompania}</h1>
-        {documentos.map((documento, index) => (
-            <div key={index}>
-              <h1>{documento.idDocumento}</h1>
-            </div>
-        ))}
+      <div className={"showfiles"}>
+        <div className={"files"}>
+          <h1>Id de compañía: {idCompania}</h1>
+          {documentos.map((documentoA, index) => (
+              <div key={index}>
+                <button onClick={()=>{
+                  handleChangeDocumento(documentoA.archivoDocumentoBase64);
+                }}>
+                  <h1>Archivo {index+1}</h1>
+                </button>
+              </div>
+          ))}
+        </div>
+        <div className={"file"}>
+          { documento.documento !== '' ? (
+                       <iframe src={`data:application/pdf;base64,${documento.documento}`} width="100%" height="500px"/>
+                      ) : null
+          }
+
+        </div>
+
       </div>
   );
 };
