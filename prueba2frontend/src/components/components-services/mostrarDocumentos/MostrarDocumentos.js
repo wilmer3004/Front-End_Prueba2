@@ -6,6 +6,7 @@ import "./MostrarDocumentos.css";
 import {changeDocument} from "../../../redux/documetoSlice";
 import {verifyToken} from "../../../api/TokenDecode";
 import AuthData from "../../../api/Auth";
+import Animacion from "../../components-reutilizables/animacionCarga/animation";
 
 const MostrarDocumentos = () => {
   const apiUrl = "api/documento/documentoByIDCompany";
@@ -21,6 +22,7 @@ const MostrarDocumentos = () => {
   const [documentos, setDocumentos] = useState([]);
   const [loading, setLoading] = useState(false); // Estado para el indicador de carga
 
+  // Seguridad
   let rol;
   if (authToken) {
     const decodedToken = verifyToken(authToken);
@@ -32,26 +34,27 @@ const MostrarDocumentos = () => {
   const { responseState } = AuthData();
 
 
-    const checkRoleAndToken = () => {
-      if(rol !=="Super Administrador"){
-        Cookies.remove('authToken');
-        window.location.href = '/'
-      }
-      if (!Cookies.get('authToken')) {
-        window.location.href = '/'
-        Cookies.remove('authToken');
-      }
-      if (responseState.status === 403) {
-        Cookies.remove('authToken');
-        window.location.href = '/'
-      }
-    };
+  const checkRoleAndToken = () => {
+    if(rol !=="Super Administrador" && rol !=="Administrador"){
+      Cookies.remove('authToken');
+      window.location.href = '/'
+    }
+    if (!Cookies.get('authToken')) {
+      window.location.href = '/'
+      Cookies.remove('authToken');
+    }
+    if (responseState.status === 403) {
+      Cookies.remove('authToken');
+      window.location.href = '/'
+    }
+  };
 
   useEffect(() => {
     checkRoleAndToken();
     const intervalId = setInterval(checkRoleAndToken, 1000);
     return () => clearInterval(intervalId);
   }, []);
+
 
   useEffect(() => {
     setLoading(true); // Inicia la carga
@@ -70,7 +73,12 @@ const MostrarDocumentos = () => {
 
 
   if (loading) {
-    return <div>Cargando documentos...</div>; // Muestra este mensaje mientras los documentos se están cargando
+      return <div className={"data-notfound-messaje"}>
+      <h1>
+        Cargando documentos...
+      </h1>
+      <Animacion />
+    </div>;// Muestra este mensaje mientras los documentos se están cargando
   }
 
   const handleChangeDocumento=(dataDocumento)=>{
@@ -92,13 +100,13 @@ const MostrarDocumentos = () => {
               </div>
           ))}
         </div>
-        <div className={"file"}>
-          { documento.documento !== '' ? (
-                       <iframe src={`data:application/pdf;base64,${documento.documento}`} width="100%" height="500px"/>
-                      ) : null
-          }
+          <div className={"file"}>
+            { documento.documento !== '' ? (
+                         <iframe src={`data:application/pdf;base64,${documento.documento}`}/>
+                        ) : null
+            }
 
-        </div>
+          </div>
 
       </div>
   );

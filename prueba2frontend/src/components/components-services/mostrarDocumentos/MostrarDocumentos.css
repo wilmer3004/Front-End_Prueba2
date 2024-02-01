@@ -3,5 +3,49 @@
     gap: 20px;
     width: 100%;
     height: 100%;
-    padding: 20px;
+    justify-content: space-around;
+    margin-bottom: 90px;
+
 }
+.files{
+    margin-top: 30px;
+    width: 17%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 800px;
+    overflow-y: auto; /* Habilita la barra de desplazamiento vertical */
+}
+.files button{
+    width: 80%;
+    height: 48px;
+    background: linear-gradient(#000015, #01012f, #010138, #010154) ;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Instrument Serif", serif;
+    border-radius: 6px;
+}
+.files button:hover{
+    cursor: pointer;
+    background: linear-gradient(#00003a, #01015b, #020273, #03038d) ;
+    transition: transform 0.5s ease-in-out;
+}
+.file{
+    margin-top: 30px;
+
+    width: 75%;
+    min-height: 1200px;
+    max-height: 1300px;
+}
+
+.file iframe{
+    width:100%;
+    min-height: 95%;
+}
+
+
+
+
+
