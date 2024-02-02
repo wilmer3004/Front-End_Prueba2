@@ -85,8 +85,8 @@ const TareasPage= ({handleRedirect})=>{
         const dataTar= await fetchDataByIDTar(id);
         await setDataEdit({
             idTarea: dataTar.idTarea,
-            descripcionTarea: dataTar.nombreTarea, 
-            nombreTarea: dataTar.descripcionTarea,
+            descripcionTarea: dataTar.descripcionTarea, 
+            nombreTarea: dataTar.nombreTarea,
             estadoTarea: dataTar.estadoTarea ? "1":"0"
         })
 

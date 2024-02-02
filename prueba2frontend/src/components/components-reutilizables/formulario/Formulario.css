@@ -24,7 +24,7 @@
     to {
       transform: translateY(0vh);
     }
-   }
+}
 
 .contenido{
     animation: slideUp 0.7s ease-out forwards;
@@ -40,7 +40,6 @@
     font-family: "Instrument Serif", serif;
     font-weight: 500;
     font-style: normal;
-    
 }
 
 .contenido h1{

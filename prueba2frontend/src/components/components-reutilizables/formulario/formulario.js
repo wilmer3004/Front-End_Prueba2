@@ -201,7 +201,6 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
             console.log(companyIds);
             await handlePost(data)
 
-
         } catch(error) {
             console.error('Request failed:', error.message);
             throw error;
@@ -643,8 +642,10 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     </select>
                                 </label>
                                 <div className={"botones"}>
-                                    <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                                    <button type="submit" className="btn btn-registrar" >{null !== watch("idCompania")?"Actualizar Compañia ":title}</button>
+                                    {1>=watch("idCompania")?(
+                                        <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
+                                    ): null}
+                                    <button type="submit" className="btn btn-registrar" >{1 >= watch("idCompania")?"Actualizar Compañia ":title}</button>
                                 </div>
                             </form>
                             </>

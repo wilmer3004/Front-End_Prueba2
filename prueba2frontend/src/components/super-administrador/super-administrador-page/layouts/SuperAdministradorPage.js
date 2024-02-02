@@ -100,7 +100,7 @@ const SuperAdministradorPage = () => {
                 <Footer className="sa"/>
             </div>
 
-                <Modal title={"Registrar Compania"}/>
+                
 
         </div>
     );

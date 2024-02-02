@@ -4,6 +4,49 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: "Instrument Serif", serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.modal .atras{
+    z-index: 100;
+    margin-left: -25%;
+    width: 5%;
+    height: 3vh;
+    position: fixed;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #000000;
+    background-color: #9d8b8b;
+    color: rgb(0, 0, 0);
+}
+
+.modal .atras:hover{
+    background-color: #ababb1;
+}
+
+.modal .cancelar{
+    z-index: 100;
+    margin-top: -20%;
+    margin-left: -2%;
+    width: 5%;
+    height: 3vh;
+    position: fixed;
+    border-radius: 7px;
+    font-size: 16px;
+    background-color: transparent;
+    border: 2px solid #9d8b8b;
+    color: #9d8b8b;
+    box-shadow: 2px 3px 18px rgba(255, 255, 255, 0.37);
+    font-size: 100%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal .cancelar:hover{
+    background-color: #4b4e6b;
 }
 
 .modal .pipelin{
@@ -11,51 +54,34 @@
     width: 20%;
     height: 10vh;
     position: fixed;
-    margin-top: -190vh;
+    margin-top: -195vh;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.modal .pipelin .pelotica1, .pelotica2, .pelotica3{
-    width: 13%;
-    height: 50%;
+.modal .pipelin .pelotica1, .pelotica2{
+    width: 10%;
+    height: 40%;
     border-radius: 100px;
     background-color: #010154;
-    border: 1px solid rgb(224, 221, 221);
+    border: 2px solid rgb(210, 202, 202);
     box-shadow: 0px 1px 25px #ababb1;
-}
-
-.modal .pipelin .barra, .barra2{
-    position: fixed;
-    background-color: #010154;
-    border: 1px solid rgb(206, 204, 204);
-    width: 4.3%;
-    height: 2vh;
-    border-left: none;
-    border-right: none;
-}
-
-.modal .pipelin .barra{
-    margin-right: 6.7%;
-}
-
-
-.modal .pipelin .barra2{
-    margin-left: 6.7%;
 }
 
 .modal .pipelin .pel1 {
     z-index: 11;
+    transition: background-color 1s ease-in-out;
     background-color: aliceblue;
+    
 }
 
 .modal .pipelin .pel2{
     z-index: 11;
+    transition: background-color 1s ease-in-out;
     background-color: aliceblue;
+    
 }
 
-.modal .pipelin .pel3{
-    z-index: 11;
-    background-color: aliceblue;
-}
+
+

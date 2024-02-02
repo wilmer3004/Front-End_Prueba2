@@ -6,9 +6,10 @@ import Cookies from "js-cookie";
 import {verifyToken} from "../../../../api/TokenDecode";
 import Formulario from "../../../components-reutilizables/formulario/formulario";
 import AuthData from "../../../../api/Auth";
+import Modal from "../../../components-reutilizables/modal/modal";
 
 
-const CompaniaPage = ({handleRedirect,idCompania1})=>{
+const CompaniaPage = ({handleRedirect})=>{
     const { compania, fetchDataByIDComp, postHttp, updateState  } = useDataServiceCompania();
     const [ titlee, setTitlee ]= useState();
     const [ dataEdit, setDataEdit ]= useState();
@@ -61,17 +62,9 @@ const CompaniaPage = ({handleRedirect,idCompania1})=>{
 
     const handlePost= async(data)=>{
         await postHttp(data);
-        Swal.fire({
-            title: "Se registro correctamente",
-            text: "Se registro correctamente la compañia en la base de datos :D",
-            icon: "success"
-        });
-
-        handleRedirect("companias");
+        setTitlee("AsignarDocumentos")
     }
-    const idCompania=()=>{
 
-    };
 
     const abrirForm=(titlee)=>{
         setDataEdit({
@@ -93,7 +86,7 @@ const CompaniaPage = ({handleRedirect,idCompania1})=>{
             estadoComp: dataC.estadoCompania
         })
 
-        setTitlee("Registrar Compania")
+        setTitlee("Actualizar Companiaa")
     }
 
 
@@ -103,10 +96,17 @@ const CompaniaPage = ({handleRedirect,idCompania1})=>{
 
 
             {titlee==="Registrar Compania" ? (
-                <>
-                    <Formulario title={titlee} setTitle={setTitlee} handlePost={handlePost} valuesDataR={dataEdit}/>
-                </>
-            ): null}
+                <Modal title={titlee} handlePost={handlePost}/>
+            ):null}
+            
+            {titlee==="AsignarDocumentos" ? (
+                <Modal title={titlee} handlePost={handlePost}/>
+            ):null}
+            {titlee==="Actualizar Companiaa"? (
+                <Formulario title={"Registrar Compania"} setTitle={setTitlee} valuesDataR={dataEdit}/>
+
+            ):null}
+            
         </div>
     )
 

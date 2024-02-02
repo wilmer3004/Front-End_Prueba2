@@ -53,10 +53,19 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
             <h1>
                 No hay datos de la tabla {title} disponibles para mostrar.
             </h1>
-            <div className={"button-registrar-notfound"}>
-                <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+            {
+                title === "Compañias"?(
+                    <div className={"button-registrar-notfound"}>
+                        <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+                    </div>
 
-            </div>
+                ):(
+                    <div className={"button-registrar-notfound"}>
+                        <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+                    </div>
+                )
+            }
+            
 
         </div>;
     }
@@ -97,7 +106,15 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
             </div>
 
             <div className={"button-registrar"}>
+                {
+                    title === "Compañias"?(
+
                 <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+
+                    ):(
+                        <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
+                    )
+                }
 
             </div>
             <table>

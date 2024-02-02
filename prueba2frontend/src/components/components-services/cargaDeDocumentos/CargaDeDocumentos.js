@@ -5,6 +5,8 @@ import useDataServiceCompania from "../compañia/DataCompService";
 import "./CargaDeDocumentos.css";
 import {verifyToken} from "../../../api/TokenDecode";
 import AuthData from "../../../api/Auth";
+import Swal from "sweetalert2";
+
 
 const CargaDeDocumentos = ({handleRedirect})=>{
 
@@ -109,6 +111,11 @@ const CargaDeDocumentos = ({handleRedirect})=>{
             const response = await axios.post(apiUrl, formData, {headers});
             setDataBaseEncode(response.data.archivoDocumento)
         };
+        Swal.fire({
+            title: "Se registro correctamente",
+            text: "Se registro correctamte la tarea en la base de datos :D",
+            icon: "success"
+        });
         handleRedirect("companias");
     };
 
