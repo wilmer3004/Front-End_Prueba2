@@ -8,6 +8,7 @@ import {changeNumCompani} from "../../../redux/documetoSlice";
 import Animacion from '../animacionCarga/animation'
 
 const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleRedirect,handleFetchDataByID }) => {
+
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(7);
@@ -132,16 +133,19 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                         <td>
                             <div className={"edit-container"}>
                                 <FontAwesomeIcon icon={faEdit} className={"img-edit"}
-                                                 onClick={() => handleFetchDataByID(item[nameColumnsK[0]])}/>
+                                                 onClick={() => handleFetchDataByID(item[nameColumnsK[0]]
+                                                 )}/>
                             </div>
                         </td>
                         {showStatusButton?(
                             <td>
                                 <div className={"edit-container"}>
+
                                     <FontAwesomeIcon icon={faSearch} className={"img-edit"} onClick={()=> {
                                         handleChange(item[nameColumnsK[0]])
                                         handleRedirect(dataRedirect);
                                     }}/>
+
                                 </div>
                             </td>
                         ):null}

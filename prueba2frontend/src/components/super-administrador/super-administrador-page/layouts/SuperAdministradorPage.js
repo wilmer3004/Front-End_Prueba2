@@ -18,6 +18,7 @@ import MostrarDocumentos from "../../../components-services/mostrarDocumentos/Mo
 
 
 
+
 const SuperAdministradorPage = () => {
     const authToken = Cookies.get('authToken');
     let rol;
@@ -30,6 +31,7 @@ const SuperAdministradorPage = () => {
 
     const {responseState } =  AuthData();
     const [componenteData, setComponenteData] = useState("");
+    const [idCompania1, setIdCompania1]=useState(null);
 
     const handleLogOut = () => {
         Cookies.remove('authToken');
@@ -55,6 +57,9 @@ const SuperAdministradorPage = () => {
         return () => clearInterval(intervalId);
     }, []);
 
+    const idCompania = (idCompania)=>{
+        setIdCompania1(idCompania);
+    }
 
     const dataNav = [
         { item: "Usuario", path: "getalluser" },
@@ -70,7 +75,7 @@ const SuperAdministradorPage = () => {
         "getalluser": <GetAll handleRedirect={handleRedirect}/>,
         "servicios": <ServiciosPage handleRedirect={handleRedirect}/>,
         "getallclientes": <GetAllClients handleRedirect={handleRedirect}/>,
-        "companias": <CompaniaPage handleRedirect={handleRedirect}/>,
+        "companias": <CompaniaPage handleRedirect={handleRedirect} idCompania1={idCompania}/>,
         "tareas": <TareasPage handleRedirect={handleRedirect}/>,
         "documentos":<CargaDeDocumentos handleRedirect={handleRedirect}/>,
         "mostrarDocumentos":<MostrarDocumentos handleRedirect={handleRedirect}/>,

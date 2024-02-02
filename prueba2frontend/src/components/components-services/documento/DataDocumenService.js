@@ -10,6 +10,8 @@ const useDataServiceDocument = () => {
     const headers = {
         'Authorization': `Bearer ${authToken}`
     };
+    const [documentosByID,setDocumentosByID] = useState([]);
+
 
     const fetchDataDocument = async () => { 
         try {
@@ -57,12 +59,27 @@ const useDataServiceDocument = () => {
             throw error;
         }
     };
+    const fetchDataByIDDoc = async (id) => {
+        try {
+            const response = await axios.get(`${apiURL}/${id}`, { headers });
+
+            if (response.status !== 200) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+
+            setDocumentosByID(response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Request failed:', error.message);
+            throw error;
+        }
+    };
  
     useEffect(() => {
         fetchDataDocument();
     }, []);
  
-    return { documento, fetchDataDocument, postHttp, updateState };
+    return { documento, fetchDataDocument, postHttp, updateState,fetchDataByIDDoc,documentosByID };
  };
  
 

@@ -8,7 +8,7 @@ import Formulario from "../../../components-reutilizables/formulario/formulario"
 import AuthData from "../../../../api/Auth";
 
 
-const CompaniaPage = ({handleRedirect})=>{
+const CompaniaPage = ({handleRedirect,idCompania1})=>{
     const { compania, fetchDataByIDComp, postHttp, updateState  } = useDataServiceCompania();
     const [ titlee, setTitlee ]= useState();
     const [ dataEdit, setDataEdit ]= useState();
@@ -69,6 +69,9 @@ const CompaniaPage = ({handleRedirect})=>{
 
         handleRedirect("companias");
     }
+    const idCompania=()=>{
+
+    };
 
     const abrirForm=(titlee)=>{
         setDataEdit({
@@ -97,6 +100,7 @@ const CompaniaPage = ({handleRedirect})=>{
     return(
         <div>
             <Table title={"Compañias"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={compania} handleState={handleState} handleFetchDataByID={handleFetchDataByID} abrirForm={abrirForm} titleForm={"Registrar Compania"} handleRedirect={handleRedirect}/>
+
 
             {titlee==="Registrar Compania" ? (
                 <>
