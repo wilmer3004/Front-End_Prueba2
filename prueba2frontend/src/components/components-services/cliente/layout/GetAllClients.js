@@ -9,6 +9,10 @@ import {verifyToken} from "../../../../api/TokenDecode";
 
 import Formulario from '../../../components-reutilizables/formulario/formulario';
 import useDataServiceCliente from '../DataClientService';
+import CargaMasiva from '../../cargaMasivaClientes/CargaMasivaClientes';
+import {useDispatch, useSelector} from "react-redux";
+import { changeEstado } from '../../../../redux/cargaMasiva';
+
 
 
 const GetAllClients = ({handleRedirect}) => {
@@ -24,6 +28,9 @@ const GetAllClients = ({handleRedirect}) => {
         }
     }
 
+
+    const estadoCargaMasiva = useSelector(state => state.cargaMasiva);
+    const dispatch = useDispatch();
 
 
     const { responseState } = AuthData();
@@ -86,6 +93,9 @@ const GetAllClients = ({handleRedirect}) => {
             TipoDocCli: "",
         })
         settitlee(titlee);
+        
+        
+        dispatch(changeEstado(titlee))
     };
 
     const handleFetchDataByID = async (id) => {
@@ -123,6 +133,11 @@ const GetAllClients = ({handleRedirect}) => {
         {titlee === "Registrar Cliente" ? (
           <>
               <Formulario title={titlee} setTitle={settitlee} handlePost={handlePost} valuesDataR={dataEdit}/>
+          </>
+        ): null}
+        {estadoCargaMasiva.estado === "Carga Masiva" ? (
+          <>
+              <CargaMasiva title={titlee}/>
           </>
         ): null}
 

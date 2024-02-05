@@ -105,17 +105,16 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                     {title}: {items.length}
                 </h1>
             </div>
-
+                    
             <div className={"button-registrar"}>
-                {
-                    title === "Compañias"?(
-
+                
                 <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
 
-                    ):(
-                        <button onClick={() => abrirForm(titleForm)}>{titleForm}</button>
-                    )
-                }
+                {titleForm==="Registrar Cliente"? (
+                    <button onClick={() => abrirForm("Carga Masiva")}>Carga Masiva</button>
+                ): null}
+
+                
 
             </div>
             <table>

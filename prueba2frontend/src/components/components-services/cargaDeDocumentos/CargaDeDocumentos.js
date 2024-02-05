@@ -27,7 +27,6 @@ const CargaDeDocumentos = ({handleRedirect})=>{
     const [numInputs, setNumInputs] = useState(1);
     const[errorData,setErrorData]=useState("");
 
-    const modal = useSelector(state => state.modal);
     const dispatch = useDispatch();
 
 
