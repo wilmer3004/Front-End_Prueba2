@@ -90,15 +90,22 @@ const MostrarDocumentos = () => {
       <div className={"showfiles"}>
         <div className={"files"}>
           <h1>Id de compañía: {idCompania}</h1>
-          {documentos.map((documentoA, index) => (
-              <div key={index}>
-                <button onClick={()=>{
-                  handleChangeDocumento(documentoA.archivoDocumentoBase64);
-                }}>
-                  <h1>Archivo {index+1}</h1>
-                </button>
-              </div>
-          ))}
+          {console.log(documentos)}
+          {documentos.length>=1?(
+            <>
+            {documentos.map((documentoA, index) => (
+                <div key={index}>
+                  <button onClick={()=>{
+                    handleChangeDocumento(documentoA.archivoDocumentoBase64);
+                  }}>
+                    <h1>Archivo {index+1}</h1>
+                  </button>
+                </div>
+            ))}
+            </>
+          ):(
+            <h1 className="error">No hay documento registrados para esta compañia</h1>
+          )}
         </div>
           <div className={"file"}>
             { documento.documento !== '' ? (

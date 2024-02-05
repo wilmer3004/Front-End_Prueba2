@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import {useSelector, useDispatch} from "react-redux";
-import {changeNumCompani} from "../../../redux/documetoSlice";
+import {changeDocument, changeNumCompani} from "../../../redux/documetoSlice";
 import Animacion from '../animacionCarga/animation'
 
 const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,titleForm,handleRedirect,handleFetchDataByID }) => {
@@ -20,6 +20,7 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
     const dispatch = useDispatch();
     const handleChange = (numCompani)=>{
         dispatch(changeNumCompani(numCompani));
+        dispatch(changeDocument(""));
     };
 
     useEffect(() => {

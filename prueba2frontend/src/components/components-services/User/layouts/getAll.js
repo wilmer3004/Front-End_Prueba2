@@ -55,7 +55,7 @@ const GetAll = ({handleRedirect}) => {
         const intervalId = setInterval(checkRoleAndToken, 1000);
         return () => clearInterval(intervalId);
     }, []);
-
+ 
 
     const handleState=(id)=>{
         updateState(id);

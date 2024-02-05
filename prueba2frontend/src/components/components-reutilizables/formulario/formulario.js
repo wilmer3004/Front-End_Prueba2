@@ -642,10 +642,7 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
                                     </select>
                                 </label>
                                 <div className={"botones"}>
-                                    {1>=watch("idCompania")?(
-                                        <button className="btn btn-cancelar" onClick={cancelar}>Cancelar</button>
-                                    ): null}
-                                    <button type="submit" className="btn btn-registrar" >{1 >= watch("idCompania")?"Actualizar Compañia ":title}</button>
+                                    <button type="submit" className="btn btn-registrar" >{1 <= watch("idCompania")?"Actualizar Compañia ":title}</button>
                                 </div>
                             </form>
                             </>

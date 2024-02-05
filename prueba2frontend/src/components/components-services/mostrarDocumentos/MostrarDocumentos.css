@@ -45,6 +45,14 @@
     min-height: 95%;
 }
 
+.files .error{
+    width: 97%;
+    position: absolute  ;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 8%;
+}
+
 
 
 

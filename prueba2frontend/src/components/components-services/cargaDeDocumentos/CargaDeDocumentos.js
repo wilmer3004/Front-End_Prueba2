@@ -6,6 +6,9 @@ import "./CargaDeDocumentos.css";
 import {verifyToken} from "../../../api/TokenDecode";
 import AuthData from "../../../api/Auth";
 import Swal from "sweetalert2";
+import {changeModal, changeEstadoModal} from "../../../redux/modalSlice";
+import {useDispatch, useSelector} from "react-redux";
+
 
 
 const CargaDeDocumentos = ({handleRedirect})=>{
@@ -23,6 +26,9 @@ const CargaDeDocumentos = ({handleRedirect})=>{
     const [dataBaseEncode, setDataBaseEncode] = useState("");
     const [numInputs, setNumInputs] = useState(1);
     const[errorData,setErrorData]=useState("");
+
+    const modal = useSelector(state => state.modal);
+    const dispatch = useDispatch();
 
 
     // Seguridad
@@ -116,7 +122,8 @@ const CargaDeDocumentos = ({handleRedirect})=>{
             text: "Se registro correctamte la tarea en la base de datos :D",
             icon: "success"
         });
-        handleRedirect("companias");
+
+        dispatch(changeEstadoModal(""))
     };
 
 
