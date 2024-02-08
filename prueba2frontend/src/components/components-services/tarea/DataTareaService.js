@@ -37,6 +37,9 @@ const useDataServiceTarea = () => {
                 throw new Error(`Request failed with status: ${response.status}`);
             }
             fetchDataTarea();
+
+            
+
         } catch (error) {
             console.error('Request failed:', error.message);
             throw error;

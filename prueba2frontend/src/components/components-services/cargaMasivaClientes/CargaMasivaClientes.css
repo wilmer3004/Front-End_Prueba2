@@ -1,4 +1,4 @@
-.container-upload-files{
+.container-upload-files_massive{
     padding: 0;
     margin: 0;
     height: 122vh;
@@ -7,18 +7,20 @@
     justify-content: center;
     align-items: center;
     position: fixed;
+    font-family: "Instrument Serif", serif;
     background-color: rgba(47, 46, 46, 0.5);
-    margin-top: -40%;
+    margin-top: -52%;
     color: white;
 }
 
-.container-upload-files form {
+.container-upload-files_massive form {
     max-width: 30%;
     min-height: 60%;
     margin-top: 4.5%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     background: linear-gradient(#010142, #01012f, #010138, #010154);
     padding: 35px 60px;
     border-radius: 1rem;
@@ -35,14 +37,14 @@
     }
    }
 
-.container-upload-files form .data-error{
+.container-upload-files_massive form .data-error{
     text-align: center;
     font-size: 26px;
     color: #ffffff;
     margin-bottom: -100px;
 }
 
-.container-upload-files form input[type="file"]{
+.container-upload-files_massive form input[type="file"]{
     color: #9d8b8b;
     height: 40%;
     font-size: 20px;
@@ -56,22 +58,35 @@
 
 }
 
-.button-upload:hover{
-    background-color: #4b4e6b;
-}
-
-.container-upload-files h1{
+.container-upload-files_massive h1{
     color: #ffffff;
     text-align: center;
     font-size: 38px;
 }
 
-.container-upload-files .otros{
+.container-upload-files_massive .otros{
     display: flex;
     list-style: none;
 }
 
-.container-upload-files .otros .tip, .ciu{
+.container-upload-files_massive .otros .tip, .ciu{
     padding: 0% 5%;
+}
+
+.container-upload-files_massive .cancelar, .button-upload-modal{
+    width: 50%;
+    margin-top: 20px;
+    padding: 1.5% 3%;
+    border-radius: 8px;
+    border: 2px solid #9d8b8b;
+    background-color: #010154;
+    color: #9d8b8b;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.container-upload-files_massive .cancelar:hover, .button-upload-modal:hover{
+    background-color: #1f225b;
 }
 

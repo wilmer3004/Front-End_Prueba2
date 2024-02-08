@@ -146,3 +146,13 @@ const GetAll = ({handleRedirect}) => {
 };
 
 export default GetAll;
+
+
+
+
+
+
+
+
+
+

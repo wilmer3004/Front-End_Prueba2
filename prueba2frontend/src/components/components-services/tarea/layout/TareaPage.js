@@ -6,10 +6,12 @@ import AuthData from "../../../../api/Auth";
 import React, {useState, useEffect} from "react";
 import {verifyToken} from "../../../../api/TokenDecode";
 import Formulario from "../../../components-reutilizables/formulario/formulario";
+import useDataServiceDetUsuTar from "../../detalleUsuTarea/DataDetUsuTarService";
 
 
 const TareasPage= ({handleRedirect})=>{
     const {tareas, postHttp, updateState, fetchDataByIDTar }= useDataServiceTarea();
+    const { detalleUsuTar, fetchDataDetUsuTar, postHttpDetalleTarea, fetchDataByID } = useDataServiceDetUsuTar();
     const [titlee, setTitlee] = useState('');
     const [dataEdit, setDataEdit] = useState({});
     const authToken = Cookies.get('authToken');
@@ -69,6 +71,17 @@ const TareasPage= ({handleRedirect})=>{
         });
         handleRedirect("tareas");
     }
+    const handlePost2=(data)=>{
+        postHttpDetalleTarea(data)
+        setTitlee('')
+        Swal.fire({
+            title: "Se registro correctamente",
+            text: "Se registro correctamte la tarea en la base de datos :D",
+            icon: "success"
+        });
+        handleRedirect("tareas");
+    }
+
 
     const abrirForm= (titlee)=>{
         setDataEdit({
@@ -76,6 +89,17 @@ const TareasPage= ({handleRedirect})=>{
             descripcionTarea:"", 
             nombreTarea: "",
             estadoTarea: ""
+        });
+        setTitlee(titlee);
+    }
+    const abrirForm2= (titlee)=>{
+        setDataEdit({
+            idDetalleTar: null,
+            fechaAsigTarea:"", 
+            fechaFinTarea: "",
+            estadoDetalleUsuTarea: null,
+            idUsuEmpleadoFK: null, 
+            idTareaFK: null
         });
         setTitlee(titlee);
     }
@@ -96,13 +120,18 @@ const TareasPage= ({handleRedirect})=>{
 
     return(
         <div>
-            <Table title={"Tareas"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={tareas} handleState={handleState} handleFetchDataByID={handleFetchDataByID} abrirForm={abrirForm} titleForm={"Registrar Tarea"}/>
+            <Table title={"Tareas"} nameColumnsD={nameColumnsDisplay} nameColumnsK={nameColumnsKeys} items={tareas} handleState={handleState} handleFetchDataByID={handleFetchDataByID} abrirForm={abrirForm} abrirForm2={abrirForm2} titleForm={"Registrar Tarea"}/>
         
             {titlee=== "Registrar Tarea" ? (
                 <>
                     <Formulario title={titlee} setTitle={setTitlee} handlePost={handlePost} valuesDataR={dataEdit}/>
                 </>
             ): null}
+            {titlee === "Registrar DetalleTarea" ? (
+          <>
+              <Formulario title={titlee} setTitle={setTitlee} handlePost2={handlePost2} valuesDataR={dataEdit}/>
+          </>
+        ): null}
         
         </div>
     )

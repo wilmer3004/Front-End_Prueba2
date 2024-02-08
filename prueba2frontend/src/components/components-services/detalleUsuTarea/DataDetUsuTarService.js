@@ -57,7 +57,7 @@ const useDataServiceDetUsuTar = () => {
         }
     };
 
-    const postHttp = async (detalleUsuTar) => {
+    const postHttpDetalleTarea = async (detalleUsuTar) => {
         try {
             const dataRequest = {
                 "idDetalleTar": detalleUsuTar.idDetalleTar,
@@ -83,7 +83,7 @@ const useDataServiceDetUsuTar = () => {
         fetchDataDetUsuTar();
     }, []);
  
-    return { detalleUsuTar, fetchDataDetUsuTar, postHttp, updateState, fetchDataByID };
+    return { detalleUsuTar, fetchDataDetUsuTar, postHttpDetalleTarea, updateState, fetchDataByID };
  };
  
 

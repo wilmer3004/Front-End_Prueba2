@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import useDataServiceCompania from "../compañia/DataCompService";
 import "./CargaMasivaClientes.css";
 import {verifyToken} from "../../../api/TokenDecode";
 import AuthData from "../../../api/Auth";
@@ -111,7 +110,7 @@ const CargaMasiva= () =>{
         return(
             <div>
             {estadoCargaMasiva.estado==="Carga Masiva"?(
-                <div className={"container-upload-files"}>
+                <div className={"container-upload-files_massive"}>
 
                         <>
                         <form onSubmit={handleSubmit}>
@@ -143,7 +142,7 @@ const CargaMasiva= () =>{
                                     setArchivo([...archivo, file1]);
 
                                     }}></input>
-                            <button type="submit" className={"button-upload"}>Cargar</button>
+                            <button type="submit" className={"button-upload-modal"}>Cargar</button>
                             {errorData !== "" ? (
                                 <div className={"data-error"}>
                                     <p>{errorData}</p>

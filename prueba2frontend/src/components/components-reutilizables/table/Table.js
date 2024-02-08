@@ -114,6 +114,10 @@ const Table = ({ title,nameColumnsK,nameColumnsD, items, handleState,abrirForm,t
                     <button onClick={() => abrirForm("Carga Masiva")}>Carga Masiva</button>
                 ): null}
 
+                {titleForm==="Registrar Tarea"? (
+                    <button onClick={() => abrirForm("Registrar DetalleTarea")}>Asignar Tarea</button>
+                ): null}
+
                 
 
             </div>

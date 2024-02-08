@@ -129,7 +129,7 @@ const schemaServicio = yup.object().shape({
 });
 
 
-const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
+const Formulario = ({ title,setTitle, handlePost,valuesDataR, handlePost2 }) => {
 
     
     const [valuesD,setValuesD]=useState(valuesDataR);
@@ -199,7 +199,14 @@ const Formulario = ({ title,setTitle, handlePost,valuesDataR }) => {
         try{
             const companyIds = data.companiasSeleccionadas.map(id => parseInt(id));
             console.log(companyIds);
-            await handlePost(data)
+
+            if(title==="Registrar DetalleTarea"){
+                console.log(data)
+                await handlePost2(data);
+            } else {
+                await handlePost(data)
+            }
+
 
         } catch(error) {
             console.error('Request failed:', error.message);
